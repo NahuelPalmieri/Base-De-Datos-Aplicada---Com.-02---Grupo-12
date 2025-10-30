@@ -2,51 +2,24 @@ CREATE DATABASE AltosDeSaintJust
 
 USE AltosDeSaintJust
 
-CREATE TABLE dbo.Persona
+CREATE TABLE administrativoGeneral.Persona
 (
 	DNI int primary key CHECK(DNI > 9999999 AND DNI < 100000000),
-	Nombres varchar(30),
-	Apellidos varchar(30),
+	Nombres varchar(30) not null,
+	Apellidos varchar(30) not null,
 	Email varchar(50),
-	NumeroDeTelefono varchar(15),
-	CVU_CBU char(22)
+	NumeroDeTelefono char(10) CHECK(NumeroDeTelefono like '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]') not null,
+	CVU_CBU char(22) UNIQUE not null
 )
 
-CREATE TABLE dbo.Propietario
+CREATE TABLE administrativoGeneral.Propietario
 (
 	IDPropietario int identity(1,1) primary key,
 	DNI int UNIQUE,
-
-	CONSTRAINT FK_DNI (DNI) REFERENCES dbo.Persona (DNI)
+	CONSTRAINT FK_Dni FOREIGN KEY (DNI) REFERENCES administrativoGeneral.Persona (DNI)
 )
 
-CREATE TABLE dbo.Inquilino
-(
-	IDInquilino int identity(1,1) primary key,
-	NroDeConsorcio int,
-	NroDeUnidad int,
-	DNI int,
-
-	CONSTRAINT FK_Persona (DNI) REFERENCES dbo.Persona (DNI),
-	CONSTRAINT FK_UnidadFuncional (NroDeConsorcio, NroDeUnidad) REFERENCES dbo.UnidadFuncional (IDConsorcio, NumeroDeUnidad)
-)
-
-CREATE TABLE dbo.UnidadFuncional
-(
-	IDConsorcio int,
-	NumeroDeUnidad int,
-	IDPropietario int,
-	Piso int,
-	Departamento char(1),
-	m2Unidad decimal(5,2) CHECK(m2Unidad > 0),
-	CVU_CBU char(22),
-
-	CONSTRAINT FK_Consorcio (IDConsorcio) REFERENCES dbo.Consorcio (IDConsorcio),
-	CONSTRAINT FK_Persona (IDPropietario) REFERENCES dbo.Propietario (IDPropietario),
-	CONSTRAINT PK_UnidadFuncional primary key clustered (IDConsorcio,NumeroDeUnidad)
-)
-
-CREATE TABLE dbo.Consorcio
+CREATE TABLE administrativoGeneral.Consorcio
 (
 	IdConsorcio int identity(1,1) primary key,
 	NombreDeConsorcio varchar(20),
@@ -55,24 +28,50 @@ CREATE TABLE dbo.Consorcio
 	M2Totales int CHECK(M2Totales > 0)
 )
 
-CREATE TABLE dbo.Baulera
+CREATE TABLE administrativoGeneral.UnidadFuncional
 (
-	IDBaulera int identity(1,1) primary key,
-	IDConsorcio int,
-	NumeroUnidad int,
-	metrosCuadrados int CHECK(metrosCuadrados > 0),
+	IdConsorcio int,
+	NumeroDeUnidad int,
+	IdPropietario int,
+	Piso int NOT NULL,
+	Departamento char(1) NOT NULL,
+	M2Unidad int CHECK(m2Unidad > 0) NOT NULL,
+	CVU_CBU char(22),
 
-	CONSTRAINT FK_Baulera (IDConsorcio, NumeroUnidad) REFERENCES dbo.UnidadFuncional (IDConsorcio, NumeroDeUnidad)
+	CONSTRAINT PK_UnidadFuncional PRIMARY KEY CLUSTERED (IdConsorcio,NumeroDeUnidad),
+	CONSTRAINT FK_UnidadFuncional_Consorcio FOREIGN KEY (IdConsorcio) REFERENCES administrativoGeneral.Consorcio (IdConsorcio),
+	CONSTRAINT FK_UnidadFuncional_Persona FOREIGN KEY (IdPropietario) REFERENCES administrativoGeneral.Propietario (IdPropietario)
 )
 
-CREATE TABLE dbo.Cochera
+CREATE TABLE administrativoGeneral.Inquilino
 (
-	IDBCochera int identity(1,1) primary key,
-	IDConsorcio int,
-	NumeroUnidad int,
-	metrosCuadrados int CHECK(metrosCuadrados > 0),
+	IdInquilino int identity(1,1) primary key,
+	NroDeConsorcio int,
+	NroDeUnidad int,
+	DNI int,
 
-	CONSTRAINT FK_Cochera (IDConsorcio, NumeroUnidad) REFERENCES dbo.UnidadFuncional (IDConsorcio, NumeroDeUnidad)
+	CONSTRAINT FK_Inquilino_Persona FOREIGN KEY (DNI) REFERENCES administrativoGeneral.Persona (DNI),
+	CONSTRAINT FK_Inquilino_UnidadFuncional FOREIGN KEY (NroDeConsorcio, NroDeUnidad) REFERENCES administrativoGeneral.UnidadFuncional (IdConsorcio, NumeroDeUnidad)
+)
+
+CREATE TABLE administrativoGeneral.Baulera
+(
+	IdBaulera int identity(1,1) primary key,
+	IdConsorcio int,
+	NumeroUnidad int,
+	M2Baulera int CHECK(M2Baulera > 0),
+
+	CONSTRAINT FK_Baulera FOREIGN KEY (IdConsorcio, NumeroUnidad) REFERENCES administrativoGeneral.UnidadFuncional (IdConsorcio, NumeroDeUnidad)
+)
+
+CREATE TABLE administrativoGeneral.Cochera
+(
+	IdCochera int identity(1,1) primary key,
+	IdConsorcio int,
+	NumeroUnidad int,
+	M2Cochera int CHECK(M2Cochera > 0),
+
+	CONSTRAINT FK_Cochera FOREIGN KEY (IdConsorcio, NumeroUnidad) REFERENCES administrativoGeneral.UnidadFuncional (IdConsorcio, NumeroDeUnidad)
 )
 
 CREATE TABLE dbo.GastoExtraordinario
