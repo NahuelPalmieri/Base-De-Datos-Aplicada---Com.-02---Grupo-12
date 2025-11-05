@@ -2,21 +2,10 @@ CREATE DATABASE AltosDeSaintJust
 
 USE AltosDeSaintJust
 
-CREATE TABLE administrativoGeneral.Persona
-(
-	DNI int primary key CHECK(DNI > 9999999 AND DNI < 100000000),
-	Nombres varchar(30) not null,
-	Apellidos varchar(30) not null,
-	Email varchar(50),
-	NumeroDeTelefono char(10) CHECK(NumeroDeTelefono like '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]') not null,
-	CVU_CBU char(22) UNIQUE not null
-)
-
 CREATE TABLE administrativoGeneral.Propietario
 (
-	IDPropietario int identity(1,1) primary key,
-	DNI int UNIQUE,
-	CONSTRAINT FK_Dni FOREIGN KEY (DNI) REFERENCES administrativoGeneral.Persona (DNI)
+	DNI int primary key,
+	CONSTRAINT FK_Propietario FOREIGN KEY (DNI) REFERENCES administrativoGeneral.Persona (DNI)
 )
 
 CREATE TABLE administrativoGeneral.Consorcio
@@ -32,7 +21,7 @@ CREATE TABLE administrativoGeneral.UnidadFuncional
 (
 	IdConsorcio int,
 	NumeroDeUnidad int,
-	IdPropietario int,
+	DNIPropietario int,
 	Piso int NOT NULL,
 	Departamento char(1) NOT NULL,
 	M2Unidad int CHECK(m2Unidad > 0) NOT NULL,
@@ -40,15 +29,14 @@ CREATE TABLE administrativoGeneral.UnidadFuncional
 
 	CONSTRAINT PK_UnidadFuncional PRIMARY KEY CLUSTERED (IdConsorcio,NumeroDeUnidad),
 	CONSTRAINT FK_UnidadFuncional_Consorcio FOREIGN KEY (IdConsorcio) REFERENCES administrativoGeneral.Consorcio (IdConsorcio),
-	CONSTRAINT FK_UnidadFuncional_Persona FOREIGN KEY (IdPropietario) REFERENCES administrativoGeneral.Propietario (IdPropietario)
+	CONSTRAINT FK_UnidadFuncional_Persona FOREIGN KEY (DNIPropietario) REFERENCES administrativoGeneral.Propietario (DNI)
 )
 
 CREATE TABLE administrativoGeneral.Inquilino
 (
-	IdInquilino int identity(1,1) primary key,
+	DNI int primary key,
 	NroDeConsorcio int,
 	NroDeUnidad int,
-	DNI int,
 
 	CONSTRAINT FK_Inquilino_Persona FOREIGN KEY (DNI) REFERENCES administrativoGeneral.Persona (DNI),
 	CONSTRAINT FK_Inquilino_UnidadFuncional FOREIGN KEY (NroDeConsorcio, NroDeUnidad) REFERENCES administrativoGeneral.UnidadFuncional (IdConsorcio, NumeroDeUnidad)
@@ -73,6 +61,7 @@ CREATE TABLE administrativoGeneral.Cochera
 
 	CONSTRAINT FK_Cochera FOREIGN KEY (IdConsorcio, NumeroUnidad) REFERENCES administrativoGeneral.UnidadFuncional (IdConsorcio, NumeroDeUnidad)
 )
+
 
 CREATE TABLE dbo.GastoExtraordinario
 (
