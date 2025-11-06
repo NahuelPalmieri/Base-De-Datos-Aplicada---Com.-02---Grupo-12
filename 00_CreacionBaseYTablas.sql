@@ -74,7 +74,7 @@ CREATE TABLE administrativoGeneral.UnidadFuncional
 	IdPropietario int,
 	Piso int NOT NULL,
 	Departamento char(1) NOT NULL,
-	M2Unidad int CHECK(m2Unidad > 0) NOT NULL,
+	M2Unidad int CHECK(m2Unidad > 0) NOT NULL,  --es M2Unidad NO m2Unidad
 	CVU_CBU char(22),
 
 	CONSTRAINT PK_UnidadFuncional PRIMARY KEY CLUSTERED (IDConsorcio,NumeroDeUnidad),
@@ -144,7 +144,7 @@ BEGIN
 CREATE TABLE dbo.GastoExtraordinario
 (
 	IDGastoExtraordinario int identity(1,1) primary key,
-	IDConsorcio int, --cambie el IDConsorcio  por el correcto --> IdConsorcio
+	IDConsorcio int, 
 	Detalle varchar(80),
 	Importe decimal(10,2),
 
@@ -180,7 +180,7 @@ BEGIN
 CREATE TABLE dbo.GastoOrdinario
 (
 	IDGastoOrdinario int identity(1,1) primary key,
-	IDConsorcio int, --coreccion no es IDConsorcio es IdConsorcio
+	IDConsorcio int, 
 	Mes int CHECK(Mes > 0 AND Mes <= 12),
 	Año int CHECK(Año > 1999 AND Año < year(getdate())),
 	Importe decimal(10,2),
@@ -232,7 +232,7 @@ BEGIN
 CREATE TABLE dbo.PagoAConsorcio
 (
 	IDPAGO int identity(1,1) primary key,
-	IDConsorcio int,--correccion de FK de IDConsorcio por IdConsorcio
+	IDConsorcio int,
 	NumeroDeUnidad int,
 	Fecha smalldatetime,
 	CVU_CBU char(22),
@@ -250,7 +250,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.Estad
 BEGIN
 CREATE TABLE dbo.EstadoDeCuenta
 (
-	IDConsorcio int, --cambie IDConsorcio para respetar el nombre de la PK usada
+	IDConsorcio int, --cambie por IDConsorcio para respetar el nombre de la PK usada
 	NumeroDeUnidad int,
 	IDEstadoDeCuenta int identity(1,1),
 	PorcentajeMetrosCuadrados decimal(4,2) CHECK(PorcentajeMetrosCuadrados > 0),
