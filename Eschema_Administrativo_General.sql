@@ -31,7 +31,7 @@ CREATE TABLE administrativoGeneral.UnidadFuncional
 	IdConsorcio int,
 	NumeroDeUnidad int,
 	IdPropietario int,
-	Piso int NOT NULL,
+	Piso char(2) NOT NULL,
 	Departamento char(1) NOT NULL,
 	M2Unidad int CHECK(m2Unidad > 0) NOT NULL,
 	CVU_CBU char(22),

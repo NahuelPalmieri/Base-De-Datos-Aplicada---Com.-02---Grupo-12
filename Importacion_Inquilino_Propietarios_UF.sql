@@ -1,9 +1,9 @@
 USE AltosDeSaintJust;
 GO
 
-CREATE PROCEDURE Importar_Inquilino_Propietarios_UF
+CREATE OR ALTER PROCEDURE Importar_Inquilino_Propietarios_UF
 
-		@ruta_archivo varchar(150)
+		@ruta_archivo varchar(MAX)
 AS 
 BEGIN 
 		--1.Creo una tabla temporal 
@@ -31,10 +31,10 @@ BEGIN
 
 		EXEC sp_executesql @cadena;
 
-		--3.Actualizo la tabla Unidad Funcional cargando los CVU_CBU y los Id de propietarios correspondientes.
+		--3.Actualizo la tabla Unidad Funcional cargando los CVU_CBU y los Id de propietarios.
 		UPDATE UF
 		SET	
-			UF.CVU_CBU = T.CVU_CBU,
+			UF.CVU_CBU		 = T.CVU_CBU,
 			UF.IdPropietario = P.IdPropietario
 		FROM administrativoGeneral.UnidadFuncional AS UF
 		INNER JOIN administrativoGeneral.Consorcio AS C
@@ -49,8 +49,20 @@ BEGIN
 		INNER JOIN administrativoGeneral.Propietario AS P
 			ON P.DNI = Pe.DNI;									
 
-
-		--4. Elimino la tabla temporal
+		--4. Actualizo la tabla Inquilino cargando el Nro de Consorcio y el Nro de Unidad.
+		UPDATE IQ
+		SET
+			IQ.NroDeConsorcio = C.IdConsorcio,
+			IQ.NroDeUnidad	  = T.NumeroDeUnidad
+		FROM administrativoGeneral.Inquilino AS IQ
+		INNER JOIN administrativoGeneral.Persona AS PE
+			ON IQ.DNI = PE.DNI							
+		INNER JOIN #TempInqPropUF as T					
+			ON PE.CVU_CBU = T.CVU_CBU
+		INNER JOIN administrativoGeneral.Consorcio AS C
+			ON T.NombreDeConsorcio = C.NombreDeConsorcio
+ 
+		--5. Elimino la tabla temporal
 		DROP TABLE #TempInqPropUF;
 
 END;
