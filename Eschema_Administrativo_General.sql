@@ -71,3 +71,17 @@ CREATE TABLE administrativoGeneral.Cochera
 
 	CONSTRAINT FK_Cochera FOREIGN KEY (IdConsorcio, NumeroUnidad) REFERENCES administrativoGeneral.UnidadFuncional (IdConsorcio, NumeroDeUnidad)
 )
+
+CREATE TABLE dbo.Gasto_Servicio
+(
+	IDGasto int identity(1,1) primary key,
+	IDConsorcio int,
+	IDProveedor int,
+	Importe decimal(10,2) CHECK(Importe > 0),
+	Mes int CHECK(Mes > 0 AND Mes <= 12),
+	Año int CHECK(Año > 1999 AND Año < year(getdate())),
+	NroFactura int UNIQUE,
+
+	CONSTRAINT FK_Consorcio (IDConsorcio) REFERENCES dbo.Consorcio (IDConsorcio),
+	CONSTRAINT FK_Proveedor (IDProveedor) REFERENCES dbo.Proveedor (IDProveedor)
+)
