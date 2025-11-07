@@ -43,7 +43,7 @@ END;
 GO
 
 --PARA EJECUTAR EL STORED PROCEDURE:
-EXEC administrativoGeneral.ImportarConsorciosDesdeExcel 'C:\MIEL\datos varios.xlsx';
+EXEC administrativoGeneral.ImportarConsorciosDesdeExcel 'C:\Users\CIRCO STUDIO\Desktop\consorcios\datos varios.xlsx';
 GO
 
 --PARA PODER VER LO QUE EFECTIVAMENTE SE CARGO:
@@ -97,7 +97,7 @@ END;
 GO
 
 --PARA EJECUTAR EL STORED PROCEDURE:
-EXEC dbo.ImportarProveedoresDesdeExcel 'C:\MIEL\datos varios.xlsx';
+EXEC dbo.ImportarProveedoresDesdeExcel 'C:\Users\CIRCO STUDIO\Desktop\consorcios\datos varios.xlsx';
 GO
 
 --PARA PODER VER LO QUE EFECTIVAMENTE SE CARGO:
