@@ -13,12 +13,29 @@
 
 *********************************************************************************/
 
+-- PARA QUE EL SQL SERVER MANAGEMENT STUDIO PUEDA REALIZAR CON EXITO,
+-- SEGUIR LOS SIGUIENTES PASOS:
+    -- Dirigirse a la carpeta donde se encuentran los archivos .xlsx
+    -- Presionar boton derecho y seleccionar propiedades
+    -- Dirigirse a seguridad, y presionar el boton editar
+    -- Añadir a la lista el usuario que controla el SSMS
+    -- Darle permisos de lectura
+    -- Aplicar los cambios y guardar
+    -- Seguir los pasos que figuran debajo
+
+--ESTABLECER CONFIGURACION PARA USAR Ad Hoc Distributed Queries:
+EXEC sp_configure 'show advanced options', 1;
+RECONFIGURE;
+EXEC sp_configure 'Ad Hoc Distributed Queries', 1;
+RECONFIGURE;
+
 
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: datos varios.xlsx
 --===============================================================================
                 -- IMPORTACION DE CONSORCIOS
 --===============================================================================
+
 
 --PARA CREAR EL STORED PROCEDURE:
 CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarConsorciosDesdeExcel -- DE ACA
@@ -71,12 +88,6 @@ GO
 --PARA PODER VER LO QUE EFECTIVAMENTE SE CARGO:
 SELECT * FROM actualizacionDeDatosUF.Consorcio;
 GO
-
---ESTABLECER CONFIGURACION PARA USAR Ad Hoc Distributed Queries:
-EXEC sp_configure 'show advanced options', 1;
-RECONFIGURE;
-EXEC sp_configure 'Ad Hoc Distributed Queries', 1;
-RECONFIGURE;
 
 
 --===============================================================================
@@ -391,6 +402,11 @@ END --HASTA ACA
 
 EXEC actualizacionDeDatosUF.Importar_UFxConsorcio 
 @ruta_archivo='C:\consorcios\UF por consorcio.txt'
+
+-- PARA PODER VER LO QUE SE HIZO RECIEN
+SELECT *
+FROM actualizacionDeDatosUF.UnidadFuncional;
+GO
 
 select * from actualizacionDeDatosUF.Baulera
 select * from actualizacionDeDatosUF.Cochera
