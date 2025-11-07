@@ -319,7 +319,8 @@ begin
 	and not exists(select 1 from actualizacionDeDatosUF.Inquilino inq where inq.DNI = per.DNI)
 end
 
-exec actualizacionDeDatosUF.importarDatosPersonas @ubicacion='C:\consorcios\Inquilino-propietarios-datos.csv'
+exec actualizacionDeDatosUF.importarDatosPersonas 
+@ubicacion='C:\consorcios\Inquilino-propietarios-datos.csv'
 
 /*
 select * from actualizacionDeDatosUF.Persona
@@ -333,8 +334,8 @@ select * from actualizacionDeDatosUF.PersonasConError
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: UF por consorcio.txt
 --===============================================================================
- 
-CREATE PROCEDURE actualizacionDeDatosUF.Importar_UFxConsorcio 
+ GO
+CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.Importar_UFxConsorcio 
     @ruta_archivo varchar(100)
 AS BEGIN
     CREATE TABLE #UFxConsorcioTemp (
@@ -372,14 +373,14 @@ AS BEGIN
         inner join actualizacionDeDatosUF.Consorcio con ON UF.NombreDeConsorcio = con.NombreDeConsorcio;
 
     --Insertando datos en Baulera
-    INSERT INTO actualizacionDeDatosUF.Baulera (IDConsorcio, NumeroUnidad, metrosCuadrados)
+    INSERT INTO actualizacionDeDatosUF.Baulera (IDConsorcio, NumeroUnidad, M2Baulera)
     SELECT con.idConsorcio, UF.NumeroDeUnidad, UF.metrosCuadradosBaulera 
     FROM #UFxConsorcioTemp UF
         inner join actualizacionDeDatosUF.Consorcio con ON UF.NombreDeConsorcio = con.NombreDeConsorcio
     WHERE UF.tieneBauleras = 'SI';
 
     --Insertando datos en Cochera
-    INSERT INTO actualizacionDeDatosUF.Cochera (IDConsorcio, NumeroUnidad, metrosCuadrados)
+    INSERT INTO actualizacionDeDatosUF.Cochera (IDConsorcio, NumeroUnidad, M2Cochera)
     SELECT con.idConsorcio, UF.NumeroDeUnidad, UF.metrosCuadradosCochera 
     FROM #UFxConsorcioTemp UF
         inner join actualizacionDeDatosUF.Consorcio con ON UF.NombreDeConsorcio = con.NombreDeConsorcio
@@ -388,11 +389,13 @@ AS BEGIN
     DROP TABLE #UFxConsorcioTemp;
 END
 
+EXEC actualizacionDeDatosUF.Importar_UFxConsorcio 
+@ruta_archivo='C:\consorcios\Inquilino-propietarios-datos.csv'
 
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: Inquilino-propietarios-UF.csv
 --===============================================================================
- 
+ GO
 CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF
 
 		@ruta_archivo varchar(MAX)
@@ -423,8 +426,8 @@ BEGIN
 
 		EXEC sp_executesql @cadena;
 
-
-	    UPDATE UF       --3. Actualizo la tabla Unidad Funcional cargando los CVU_CBU y DNI de propietarios.
+	    UPDATE UF       --3. Actualizo la tabla Unidad Funcional 
+        --cargando los CVU_CBU y DNI de propietarios.
 		SET	
 			UF.CVU_CBU		  = T.CVU_CBU,
 			UF.DNIPropietario = P.DNI
@@ -457,14 +460,15 @@ BEGIN
 		DROP TABLE #TempInqPropUF; --5. Elimino la tabla temporal
 END;
 
-exec actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF @ruta_archivo ='C:\consorcios\Inquilino-propietarios-UF.csv'
+exec actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF @ruta_archivo 
+='C:\consorcios\Inquilino-propietarios-UF.csv'
 
 
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: Servicios.Servcios.json
 --===============================================================================
-
-create or alter procedure actualizacionDeDatosUF.ImportarServiciosServicios
+GO
+CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarServiciosServicios
     @RutaArchivo nvarchar(200)
 as
 BEGIN
@@ -509,7 +513,7 @@ BEGIN
     Servicios_Publicos_Agua NVARCHAR(100) ''$."SERVICIOS PUBLICOS-Agua"'',
     Servicios_Publicos_Luz NVARCHAR(100) ''$."SERVICIOS PUBLICOS-Luz"''
     )'
-	exec @ImportarDinamico
+	exec (@ImportarDinamico)
     SELECT * 
     FROM #tempServicios
 
@@ -517,22 +521,3 @@ END
 GO
 
 exec actualizacionDeDatosUF.ImportarServiciosServicios 'C:\consorcios\Servicios.Servicios.json'
-
--- Ejecuta este código para verificar o configurar
-EXEC sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0', N'AllowInProcess', 1
-GO
-EXEC sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0', N'DynamicParameters', 1
-GO
-
--- 1. Habilitar 'Ad Hoc Distributed Queries' (si no lo está)
-exec sp_configure 'show advanced options', 1;
-RECONFIGURE;
-exec sp_configure 'Ad Hoc Distributed Queries', 1;
-RECONFIGURE;
-GO
-
--- 2. Asegurar que el proveedor ACE.OLEDB.12.0 esté configurado para funcionar
---    (Generalmente esto se hace para resolver problemas de 32/64 bits)
-EXEC sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0', N'AllowInProcess', 1
-EXEC sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0', N'DynamicParameters', 1
-GO
