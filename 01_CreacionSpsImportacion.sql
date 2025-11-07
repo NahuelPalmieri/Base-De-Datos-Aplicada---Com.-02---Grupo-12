@@ -21,7 +21,7 @@
 --===============================================================================
 
 --PARA CREAR EL STORED PROCEDURE:
-CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarConsorciosDesdeExcel
+CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarConsorciosDesdeExcel -- DE ACA
     @RutaArchivo NVARCHAR(500)
 AS
 BEGIN
@@ -62,7 +62,7 @@ BEGIN
 
     DROP TABLE #TempConsorcio; --NO ES 100% NECESARIO PERO ME PARECE QUE ESTA BUENO TENERLO POR LAS DUDAS
 END;
-GO
+GO --HASTA ACA
 
 --PARA EJECUTAR EL STORED PROCEDURE:
 EXEC actualizacionDeDatosUF.ImportarConsorciosDesdeExcel 'C:\consorcios\datos varios.xlsx';
@@ -86,7 +86,7 @@ RECONFIGURE;
 --===============================================================================
 
 --PARA CREAR EL STORED PROCEDURE:
-CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarProveedoresDesdeExcel
+CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarProveedoresDesdeExcel --DE ACA
     @RutaArchivo NVARCHAR(500)
 AS
 BEGIN
@@ -116,7 +116,7 @@ BEGIN
 
     DROP TABLE #TempProveedores; --NO ES 100% NECESARIO PERO ME PARECE QUE ESTA BUENO TENERLO POR LAS DUDAS
 END;
-GO
+GO --HASTA ACA
 
 --PARA EJECUTAR EL STORED PROCEDURE:
 EXEC actualizacionDeDatosUF.ImportarProveedoresDesdeExcel 'C:\consorcios\datos varios.xlsx';
@@ -132,7 +132,7 @@ GO
  
 
 --SPs de Importacion
-CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarPagosConsorcio
+CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarPagosConsorcio --DE ACA
     @RutaArchivo NVARCHAR(MAX)
 AS
 BEGIN
@@ -212,7 +212,7 @@ BEGIN
     -- Limpio tabla temporal
     DROP TABLE #PagoTemp;
 END;
-GO
+GO --HASTA ACA
 
 --Ejecucion del SP
 EXECUTE actualizacionDeDatosUF.ImportarPagosConsorcio 
@@ -224,7 +224,7 @@ GO
 --===============================================================================
 
 
-create or alter trigger actualizacionDeDatosUF.InsercionPersona
+create or alter trigger actualizacionDeDatosUF.InsercionPersona --DE ACA
 on actualizacionDeDatosUF.Persona
 instead of insert
 as
@@ -317,7 +317,8 @@ begin
 	select DNI from actualizacionDeDatosUF.Persona per
 	where Inquilino = 1
 	and not exists(select 1 from actualizacionDeDatosUF.Inquilino inq where inq.DNI = per.DNI)
-end
+
+end --HASTA ACA
 
 exec actualizacionDeDatosUF.importarDatosPersonas 
 @ubicacion='C:\consorcios\Inquilino-propietarios-datos.csv'
@@ -334,8 +335,8 @@ select * from actualizacionDeDatosUF.PersonasConError
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: UF por consorcio.txt
 --===============================================================================
- GO
-CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.Importar_UFxConsorcio 
+GO
+CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.Importar_UFxConsorcio --DE ACA
     @ruta_archivo varchar(100)
 AS BEGIN
     CREATE TABLE #UFxConsorcioTemp (
@@ -387,7 +388,7 @@ AS BEGIN
     WHERE UF.tieneCocheras = 'SI';
 
     DROP TABLE #UFxConsorcioTemp;
-END
+END --HASTA ACA
 
 EXEC actualizacionDeDatosUF.Importar_UFxConsorcio 
 @ruta_archivo='C:\consorcios\UF por consorcio.txt'
