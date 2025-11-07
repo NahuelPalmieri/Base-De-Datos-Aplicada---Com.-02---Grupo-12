@@ -1,4 +1,5 @@
 --Creacion de la base de datos 
+--drop database Com5600G12
 IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'Com5600G12')
 BEGIN
     CREATE DATABASE Com5600G12;
@@ -26,7 +27,8 @@ CREATE TABLE actualizacionDeDatosUF.Persona
 	Apellidos varchar(30) not null,
 	Email varchar(50),
 	NumeroDeTelefono char(10) CHECK(NumeroDeTelefono like '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]') not null,
-	CVU_CBU char(22) UNIQUE not null
+	CVU_CBU char(22) UNIQUE not null,
+	Inquilino bit NOT NULL
 );
 END
 GO
@@ -38,8 +40,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualiza
 BEGIN
 CREATE TABLE actualizacionDeDatosUF.Propietario
 (
-	IDPropietario int identity(1,1) primary key,
-	DNI int UNIQUE,
+	DNI int primary key,
 	CONSTRAINT FK_Dni FOREIGN KEY (DNI) REFERENCES actualizacionDeDatosUF.Persona (DNI)
 );
 END
@@ -70,15 +71,15 @@ CREATE TABLE actualizacionDeDatosUF.UnidadFuncional
 (
 	IDConsorcio int,
 	NumeroDeUnidad int,
-	IdPropietario int,
-	Piso int NOT NULL,
+	DNIPropietario int,
+	Piso char(2) NOT NULL,
 	Departamento char(1) NOT NULL,
 	M2Unidad int CHECK(m2Unidad > 0) NOT NULL,  --es M2Unidad NO m2Unidad
 	CVU_CBU char(22),
 
 	CONSTRAINT PK_UnidadFuncional PRIMARY KEY CLUSTERED (IDConsorcio,NumeroDeUnidad),
 	CONSTRAINT FK_UnidadFuncional_Consorcio FOREIGN KEY (IDConsorcio) REFERENCES actualizacionDeDatosUF.Consorcio (IDConsorcio),
-	CONSTRAINT FK_UnidadFuncional_Persona FOREIGN KEY (IdPropietario) REFERENCES actualizacionDeDatosUF.Propietario (IdPropietario)
+	CONSTRAINT FK_UnidadFuncional_Persona FOREIGN KEY (DNIPropietario) REFERENCES actualizacionDeDatosUF.Propietario (DNI)
 );
 END 
 GO
@@ -90,10 +91,9 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualiza
 BEGIN
 CREATE TABLE actualizacionDeDatosUF.Inquilino
 (
-	IdInquilino int identity(1,1) primary key,
+	DNI int primary key,
 	NroDeConsorcio int,
 	NroDeUnidad int,
-	DNI int,
 
 	CONSTRAINT FK_Inquilino_Persona FOREIGN KEY (DNI) REFERENCES actualizacionDeDatosUF.Persona (DNI),
 	CONSTRAINT FK_Inquilino_UnidadFuncional FOREIGN KEY (NroDeConsorcio, NroDeUnidad) REFERENCES actualizacionDeDatosUF.UnidadFuncional (IdConsorcio, NumeroDeUnidad)
@@ -152,8 +152,7 @@ CREATE TABLE dbo.GastoExtraordinario
 END
 GO
 
-/*
-FALTA VER COMO ARREGLAR EL CHECK DE NumeroDeCuota
+
 --================================
 --Tabla CuotasGastoExtraordinario
 --================================
@@ -163,20 +162,18 @@ CREATE TABLE dbo.CuotasGastoExtraordinario
 (
 	IDGastoExtraordinario int identity(1,1) primary key,  --no se esta usando el PK de la tabla GastoExtraordinario, 
 	TotalDeCuotas int CHECK(TotalDeCuotas >= 0),		  --si es PK+FK como se muestra deberia ser IDGastoExtraordinario y NO IdGastoExtraordinario
-	NumeroDeCuota int CHECK(NumeroDeCuota >= 1 AND NumeroDeCuota <= TotalDeCuotas),  --ESTE CHECK NO FUNCIONA, NO SE PUEDE USAR ENTRE 2 COLUMNAS DE LA MJSMA TABLA
-
+	NumeroDeCuota int
 	CONSTRAINT FK_CuotasGastoExtraordinario FOREIGN KEY (IDGastoExtraordinario) REFERENCES dbo.GastoExtraordinario (IDGastoExtraordinario)
 ); --Le agrege el FOREIGN KEY porque no se le coloco
 END 
 GO
-*/
 
 --====================
 --Tabla GastoOrdinario
 --====================
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.GastoOrdinario') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.GastoOrdinario') AND type in (N'U'))
 BEGIN
-CREATE TABLE dbo.GastoOrdinario
+CREATE TABLE actualizacionDeDatosUF.GastoOrdinario
 (
 	IDGastoOrdinario int identity(1,1) primary key,
 	IDConsorcio int, 
@@ -194,7 +191,7 @@ GO
 --===============
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.Proveedor') AND type in (N'U'))
 BEGIN
-CREATE TABLE dbo.Proveedor
+CREATE TABLE actualizacionDeDatosUF.Proveedor
 (
 	IDProveedor int identity(1,1) primary key,
 	TipoDeServicio varchar(50)
@@ -207,7 +204,7 @@ GO
 --====================
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.Gasto_Servicio') AND type in (N'U'))
 BEGIN
-CREATE TABLE dbo.GastoServicio --Quite del nombre de la tabla el "_" 
+CREATE TABLE actualizacionDeDatosUF.GastoServicio --Quite del nombre de la tabla el "_" 
 (
 	IDGasto int identity(1,1) primary key,
 	IDConsorcio int,
@@ -218,7 +215,7 @@ CREATE TABLE dbo.GastoServicio --Quite del nombre de la tabla el "_"
 	NroFactura int UNIQUE,
 
 	CONSTRAINT FK_Consorcio3 FOREIGN KEY (IDConsorcio) REFERENCES actualizacionDeDatosUF.Consorcio (IDConsorcio),
-	CONSTRAINT FK_Proveedor FOREIGN KEY (IDProveedor) REFERENCES dbo.Proveedor (IDProveedor)
+	CONSTRAINT FK_Proveedor FOREIGN KEY (IDProveedor) REFERENCES actualizacionDeDatosUF.Proveedor (IDProveedor)
 ); --Le agrege el FOREIGN KEY porque no se le coloco
 END --Le agrege el FOREIGN KEY porque no se le coloco, le cambio nombre del FK ya que existe el
 GO --nombre FK_Consorcio en la tabla dbo.GastoExtraordinario
