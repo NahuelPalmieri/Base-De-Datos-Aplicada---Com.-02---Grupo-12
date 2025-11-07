@@ -487,7 +487,7 @@ BEGIN
    );
 
    DECLARE @ImportarDinamico nvarchar(MAX);
-
+   --
    SET @ImportarDinamico ='INSERT INTO #tempServicios (NombreConsorcio,
     Mes ,
     Bancarios,
@@ -514,8 +514,72 @@ BEGIN
     Servicios_Publicos_Luz NVARCHAR(100) ''$."SERVICIOS PUBLICOS-Luz"''
     )'
 	exec (@ImportarDinamico)
-    SELECT * 
-    FROM #tempServicios
+    --SELECT * 
+    --FROM #tempServicios
+
+    --creo tabla temporal limpia
+    CREATE TABLE #tempServicios_Limpia
+    (
+        NombreConsorcio NVARCHAR(200),
+        Mes NVARCHAR(50),
+        Bancarios DECIMAL(18, 2),
+        Limpieza DECIMAL(18, 2),
+        Administracion DECIMAL(18, 2),
+        Seguros DECIMAL(18, 2),
+        Gastos_Generales DECIMAL(18, 2),
+        Servicios_Publicos_Agua DECIMAL(18, 2),
+        Servicios_Publicos_Luz DECIMAL(18, 2)
+    );
+
+    -- proceso ETL
+    -- Limpiamos y convertimos los datos
+    INSERT INTO #tempServicios_Limpia (
+        NombreConsorcio, Mes, Bancarios, Limpieza, Administracion,
+        Seguros, Gastos_Generales, Servicios_Publicos_Agua, Servicios_Publicos_Luz
+    )
+    --como los decimales vienen algunos con "." y otros con ","
+    SELECT                          
+        NombreConsorcio,
+        Mes,
+        COALESCE(                       
+            TRY_CONVERT(DECIMAL(18, 2), REPLACE(Bancarios, ',', '')), -- Intento Formato Americano: "1,234.56"
+            TRY_CONVERT(DECIMAL(18, 2), REPLACE(REPLACE(Bancarios, '.', ''), ',', '.')) -- Intento Formato Europeo: "1.234,56"
+        ) AS Bancarios,
+        
+        COALESCE(
+            TRY_CONVERT(DECIMAL(18, 2), REPLACE(Limpieza, ',', '')),
+            TRY_CONVERT(DECIMAL(18, 2), REPLACE(REPLACE(Limpieza, '.', ''), ',', '.'))
+        ) AS Limpieza,
+        
+        COALESCE(
+            TRY_CONVERT(DECIMAL(18, 2), REPLACE(Administracion, ',', '')),
+            TRY_CONVERT(DECIMAL(18, 2), REPLACE(REPLACE(Administracion, '.', ''), ',', '.'))
+        ) AS Administracion,
+        
+        COALESCE(
+            TRY_CONVERT(DECIMAL(18, 2), REPLACE(Seguros, ',', '')),
+            TRY_CONVERT(DECIMAL(18, 2), REPLACE(REPLACE(Seguros, '.', ''), ',', '.'))
+        ) AS Seguros,
+        
+        COALESCE(
+            TRY_CONVERT(DECIMAL(18, 2), REPLACE(Gastos_Generales, ',', '')),
+            TRY_CONVERT(DECIMAL(18, 2), REPLACE(REPLACE(Gastos_Generales, '.', ''), ',', '.'))
+        ) AS Gastos_Generales,
+        
+        COALESCE(
+            TRY_CONVERT(DECIMAL(18, 2), REPLACE(Servicios_Publicos_Agua, ',', '')),
+            TRY_CONVERT(DECIMAL(18, 2), REPLACE(REPLACE(Servicios_Publicos_Agua, '.', ''), ',', '.'))
+        ) AS Servicios_Publicos_Agua,
+        
+        COALESCE(
+            TRY_CONVERT(DECIMAL(18, 2), REPLACE(Servicios_Publicos_Luz, ',', '')),
+            TRY_CONVERT(DECIMAL(18, 2), REPLACE(REPLACE(Servicios_Publicos_Luz, '.', ''), ',', '.'))
+        ) AS Servicios_Publicos_Luz
+        
+    FROM #tempServicios;
+
+    --Devolver el resultado limpio
+    SELECT * FROM #tempServicios_Limpia;
 
 END
 GO
