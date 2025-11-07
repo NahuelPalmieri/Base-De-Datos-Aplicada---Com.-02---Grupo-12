@@ -1,5 +1,5 @@
 --PARA CREAR EL STORED PROCEDURE:
-CREATE OR ALTER PROCEDURE administrativoGeneral.ImportarConsorciosDesdeExcel
+CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarConsorciosDesdeExcel
     @RutaArchivo NVARCHAR(500)
 AS
 BEGIN
@@ -30,11 +30,11 @@ BEGIN
 
     DELETE FROM #TempConsorcio WHERE CantUnidadesFuncionales <= 0 OR M2Totales <= 0;
 
-    INSERT INTO administrativoGeneral.Consorcio (NombreDeConsorcio, Domicilio, CantUnidadesFuncionales, M2Totales)
+    INSERT INTO actualizacionDeDatosUF.Consorcio (NombreDeConsorcio, Domicilio, CantUnidadesFuncionales, M2Totales)
     SELECT tc.NombreDeConsorcio, tc.Domicilio, tc.CantUnidadesFuncionales, tc.M2Totales
     FROM #TempConsorcio tc
     WHERE NOT EXISTS (
-        SELECT 1 FROM administrativoGeneral.Consorcio c
+        SELECT 1 FROM actualizacionDeDatosUF.Consorcio c
         WHERE c.NombreDeConsorcio = tc.NombreDeConsorcio AND c.Domicilio = tc.Domicilio
     );
 
@@ -43,11 +43,11 @@ END;
 GO
 
 --PARA EJECUTAR EL STORED PROCEDURE:
-EXEC administrativoGeneral.ImportarConsorciosDesdeExcel 'C:\Users\CIRCO STUDIO\Desktop\consorcios\datos varios.xlsx';
+EXEC actualizacionDeDatosUF.ImportarConsorciosDesdeExcel 'C:\consorcios\datos varios.xlsx';
 GO
 
 --PARA PODER VER LO QUE EFECTIVAMENTE SE CARGO:
-SELECT * FROM administrativoGeneral.Consorcio;
+SELECT * FROM actualizacionDeDatosUF.Consorcio;
 GO
 
 --ESTABLECER CONFIGURACION PARA USAR Ad Hoc Distributed Queries:
@@ -64,7 +64,7 @@ EXEC sp_configure 'Ad Hoc Distributed Queries', 1;
 RECONFIGURE;
 
 --PARA CREAR EL STORED PROCEDURE:
-CREATE OR ALTER PROCEDURE dbo.ImportarProveedoresDesdeExcel
+CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarProveedoresDesdeExcel
     @RutaArchivo NVARCHAR(500)
 AS
 BEGIN
@@ -88,7 +88,7 @@ BEGIN
 
     EXEC sp_executesql @SQL;
 
-    INSERT INTO dbo.Proveedor (TipoDeServicio)
+    INSERT INTO actualizacionDeDatosUF.Proveedor (TipoDeServicio)
     SELECT DISTINCT tP.TipoDeServicio
     FROM #TempProveedores tP;
 
@@ -97,16 +97,16 @@ END;
 GO
 
 --PARA EJECUTAR EL STORED PROCEDURE:
-EXEC dbo.ImportarProveedoresDesdeExcel 'C:\Users\CIRCO STUDIO\Desktop\consorcios\datos varios.xlsx';
+EXEC actualizacionDeDatosUF.ImportarProveedoresDesdeExcel 'C:\consorcios\datos varios.xlsx';
 GO
 
 --PARA PODER VER LO QUE EFECTIVAMENTE SE CARGO:
-SELECT * FROM dbo.Proveedor;
+SELECT * FROM actualizacionDeDatosUF.Proveedor;
 GO
 
 
 --SPs de Importacion
-CREATE OR ALTER PROCEDURE administrativoGeneral.ImportarPagosConsorcio
+CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarPagosConsorcio
     @RutaArchivo NVARCHAR(MAX)
 AS
 BEGIN
@@ -167,7 +167,7 @@ BEGIN
         pt.CVU_CBU,
         TRY_CAST(pt.Importe AS DECIMAL(10,2))
     FROM #PagoTemp AS pt
-    INNER JOIN administrativoGeneral.UnidadFuncional AS uf
+    INNER JOIN actualizacionDeDatosUF.UnidadFuncional AS uf
         ON pt.CVU_CBU = uf.CVU_CBU
     WHERE TRY_CAST(pt.Importe AS DECIMAL(10,2)) > 0
       AND NOT EXISTS (
@@ -189,17 +189,17 @@ END;
 GO
 
 --Ejecucion del SP
-EXECUTE administrativoGeneral.ImportarPagosConsorcio 
-    @RutaArchivo = N'C:\Users\Usuario\OneDrive\Desktop\datos TP DBA\pagos_consorcios.csv';
+EXECUTE actualizacionDeDatosUF.ImportarPagosConsorcio 
+    @RutaArchivo = N'C:\consorcios\pagos_consorcios.csv';
 GO
 
 
-create or alter trigger InsercionPersona
-on administrativoGeneral.Persona
+create or alter trigger actualizacionDeDatosUF.InsercionPersona
+on actualizacionDeDatosUF.Persona
 instead of insert
 as
 begin
-	merge into administrativoGeneral.Persona destino
+	merge into actualizacionDeDatosUF.Persona destino
 	using inserted origen
 	on destino.DNI = origen.DNI
 	when MATCHED THEN
@@ -213,7 +213,7 @@ begin
 end
 
 go
-create or alter procedure administrativoGeneral.importarDatosPersonas
+create or alter procedure actualizacionDeDatosUF.importarDatosPersonas
 	@ubicacion varchar(MAX)
 as
 begin
@@ -258,7 +258,7 @@ begin
 		select DNI, count(DNI) over(partition by DNI) as apariciones
 		from #personasCrudoTemp
 	)
-	insert into administrativoGeneral.PersonasConError (DNI, Nombres, Apellidos, Email, NumeroDeTelefono, CVU_CBU, Inquilino)
+	insert into actualizacionDeDatosUF.PersonasConError (DNI, Nombres, Apellidos, Email, NumeroDeTelefono, CVU_CBU, Inquilino)
 	select DNI, Nombres, Apellidos, Email, NumeroDeTelefono, CVU_CBU, Inquilino
 	from #personasCrudoTemp p
 	where exists(select 1 from Duplicados d  where p.DNI = d.DNI and d.Apariciones>1)
@@ -273,34 +273,34 @@ begin
 	where exists(select 1 from Duplicados d where #personasCrudoTemp.DNI = d.DNI and d.Apariciones>1) --SI HAY DUPLICADOS LOS ELIMINO
 	or Patindex('%[^A-Za-z ]%', #personasCrudoTemp.Nombres)>0 or Patindex('%[^A-Za-z ]%', #personasCrudoTemp.Apellidos)>0 --SI HAY ALGUN NOMBRE O APELLIDO INVALIDO TAMBIEN
 
-	insert into administrativoGeneral.Persona
+	insert into actualizacionDeDatosUF.Persona
 	select cast(DNI as int), Nombres, Apellidos, Email, NumeroDeTelefono, CVU_CBU, cast(Inquilino as bit) from #personasCrudoTemp
 	where DNI IS NOT NULL or Nombres is not null or Apellidos is not null or NumeroDeTelefono is not null or CVU_CBU is not null or Inquilino is not null --INSERTO MIENTRAS TENGAN LOS CAMPOS NOT NULL DE LA TABLA
 	
 
-	insert into administrativoGeneral.Propietario ---Las personas con inquilino = 0 van a la tabla propietarios
-	select DNI from administrativoGeneral.Persona per
+	insert into actualizacionDeDatosUF.Propietario ---Las personas con inquilino = 0 van a la tabla propietarios
+	select DNI from actualizacionDeDatosUF.Persona per
 	where Inquilino = 0
-	and not exists(select 1 from administrativoGeneral.Propietario pro where pro.DNI = per.DNI)
+	and not exists(select 1 from actualizacionDeDatosUF.Propietario pro where pro.DNI = per.DNI)
 
-	insert into administrativoGeneral.Inquilino (DNI) ---Las personas con inquilino = 1 van a la tabla inquilino
-	select DNI from administrativoGeneral.Persona per
+	insert into actualizacionDeDatosUF.Inquilino (DNI) ---Las personas con inquilino = 1 van a la tabla inquilino
+	select DNI from actualizacionDeDatosUF.Persona per
 	where Inquilino = 1
-	and not exists(select 1 from administrativoGeneral.Inquilino inq where inq.DNI = per.DNI)
+	and not exists(select 1 from actualizacionDeDatosUF.Inquilino inq where inq.DNI = per.DNI)
 end
 
-exec administrativoGeneral.importarDatosPersonas @ubicacion='C:\Users\CIRCO STUDIO\Desktop\consorcios\Inquilino-propietarios-datos.csv'
+exec actualizacionDeDatosUF.importarDatosPersonas @ubicacion='C:\consorcios\Inquilino-propietarios-datos.csv'
 
 /*
-select * from administrativoGeneral.Persona
-select * from administrativoGeneral.Propietario
-select * from administrativoGeneral.Inquilino
+select * from actualizacionDeDatosUF.Persona
+select * from actualizacionDeDatosUF.Propietario
+select * from actualizacionDeDatosUF.Inquilino
 
-select * from administrativoGeneral.PersonasConError
+select * from actualizacionDeDatosUF.PersonasConError
 */
 
 
-CREATE PROCEDURE Importar_UFxConsorcio 
+CREATE PROCEDURE actualizacionDeDatosUF.Importar_UFxConsorcio 
     @ruta_archivo varchar(100)
 AS BEGIN
     CREATE TABLE #UFxConsorcioTemp (
@@ -332,30 +332,30 @@ AS BEGIN
     EXEC sp_executesql @ImportarDinamico;
 
     --Insertando datos en UnidadFuncional
-    INSERT INTO dbo.UnidadFuncional (IDConsorcio, NumeroDeUnidad, Piso, Departamento, m2Unidad)
+    INSERT INTO actualizacionDeDatosUF.UnidadFuncional (IDConsorcio, NumeroDeUnidad, Piso, Departamento, m2Unidad)
     SELECT con.idConsorcio, UF.NumeroDeUnidad, UF.Piso, UF.Departamento, UF.m2Unidad
     FROM #UFxConsorcioTemp UF
-        inner join dbo.Consorcio con ON UF.NombreDeConsorcio = con.NombreDeConsorcio;
+        inner join actualizacionDeDatosUF.Consorcio con ON UF.NombreDeConsorcio = con.NombreDeConsorcio;
 
     --Insertando datos en Baulera
-    INSERT INTO dbo.Baulera (IDConsorcio, NumeroUnidad, metrosCuadrados)
+    INSERT INTO actualizacionDeDatosUF.Baulera (IDConsorcio, NumeroUnidad, metrosCuadrados)
     SELECT con.idConsorcio, UF.NumeroDeUnidad, UF.metrosCuadradosBaulera 
     FROM #UFxConsorcioTemp UF
-        inner join dbo.Consorcio con ON UF.NombreDeConsorcio = con.NombreDeConsorcio
+        inner join actualizacionDeDatosUF.Consorcio con ON UF.NombreDeConsorcio = con.NombreDeConsorcio
     WHERE UF.tieneBauleras = 'SI';
 
     --Insertando datos en Cochera
-    INSERT INTO dbo.Cochera (IDConsorcio, NumeroUnidad, metrosCuadrados)
+    INSERT INTO actualizacionDeDatosUF.Cochera (IDConsorcio, NumeroUnidad, metrosCuadrados)
     SELECT con.idConsorcio, UF.NumeroDeUnidad, UF.metrosCuadradosCochera 
     FROM #UFxConsorcioTemp UF
-        inner join dbo.Consorcio con ON UF.NombreDeConsorcio = con.NombreDeConsorcio
+        inner join actualizacionDeDatosUF.Consorcio con ON UF.NombreDeConsorcio = con.NombreDeConsorcio
     WHERE UF.tieneCocheras = 'SI';
 
     DROP TABLE #UFxConsorcioTemp;
 END
 
     
-CREATE OR ALTER PROCEDURE Importar_Inquilino_Propietarios_UF
+CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF
 
 		@ruta_archivo varchar(MAX)
 AS 
@@ -391,30 +391,30 @@ BEGIN
 		SET	
 			UF.CVU_CBU		  = T.CVU_CBU,
 			UF.DNIPropietario = P.DNI
-		FROM administrativoGeneral.UnidadFuncional AS UF
-		INNER JOIN administrativoGeneral.Consorcio AS C
+		FROM actualizacionDeDatosUF.UnidadFuncional AS UF
+		INNER JOIN actualizacionDeDatosUF.Consorcio AS C
 			ON C.IdConsorcio = UF.IdConsorcio
 		INNER JOIN #TempInqPropUF AS T
 			ON C.NombreDeConsorcio  = T.NombreDeConsorcio
 			AND UF.NumeroDeUnidad   = T.NumeroDeUnidad
 			AND UF.Piso				= T.Piso
 			AND UF.Departamento		= T.Departamento 
-		INNER JOIN administrativoGeneral.Persona AS Pe
+		INNER JOIN actualizacionDeDatosUF.Persona AS Pe
 			ON Pe.CVU_CBU = T.CVU_CBU
-		INNER JOIN administrativoGeneral.Propietario AS P
-			ON P.DNI = Pe.DNI;*/
+		INNER JOIN actualizacionDeDatosUF.Propietario AS P
+			ON P.DNI = Pe.DNI;
 
 		--4. Actualizo la tabla Inquilino cargando el Nro de Consorcio y el Nro de Unidad.
 		UPDATE IQ
 		SET
 			IQ.NroDeConsorcio = C.IdConsorcio,
 			IQ.NroDeUnidad	  = T.NumeroDeUnidad
-		FROM administrativoGeneral.Inquilino AS IQ
-		INNER JOIN administrativoGeneral.Persona AS PE
+		FROM actualizacionDeDatosUF.Inquilino AS IQ
+		INNER JOIN actualizacionDeDatosUF.Persona AS PE
 			ON IQ.DNI = PE.DNI							
 		INNER JOIN #TempInqPropUF as T					
 			ON PE.CVU_CBU = T.CVU_CBU
-		INNER JOIN administrativoGeneral.Consorcio AS C
+		INNER JOIN actualizacionDeDatosUF.Consorcio AS C
 			ON T.NombreDeConsorcio = C.NombreDeConsorcio;
  
 		DROP TABLE #TempInqPropUF;
@@ -422,7 +422,8 @@ BEGIN
 END;
 
 
-create or alter procedure administrativoGeneral.ImportarServiciosServicios
+create or alter procedure actualizacionDeDatosUF.ImportarServiciosServicios
+    @RutaArchivo nvarchar(200)
 as
 BEGIN
 		
@@ -438,7 +439,10 @@ BEGIN
     Servicios_Publicos_Agua NVARCHAR(100),
     Servicios_Publicos_Luz NVARCHAR(100)
    );
-    INSERT INTO #tempServicios (NombreConsorcio,
+
+   DECLARE @ImportarDinamico nvarchar(MAX);
+
+   SET @ImportarDinamico ='INSERT INTO #tempServicios (NombreConsorcio,
     Mes ,
     Bancarios,
     Limpieza ,
@@ -449,21 +453,44 @@ BEGIN
     Servicios_Publicos_Luz)
     SELECT NombreConsorcio, Mes, Bancarios, Limpieza, Administracion, Seguros, Gastos_Generales, 
     Servicios_Publicos_Agua, Servicios_Publicos_Luz
-    FROM OPENROWSET (BULK 'C:\Users\CIRCO STUDIO\Desktop\consorcios\Servicios.Servicios.json', 
+    FROM OPENROWSET (BULK '''+ @RutaArchivo + ''', 
     SINGLE_CLOB) as jsonFile
     CROSS APPLY OPENJSON(BulkColumn)
     WITH (
-    NombreConsorcio NVARCHAR(200) '$."Nombre del consorcio"',
-    Mes NVARCHAR(50) '$.Mes',
-    Bancarios NVARCHAR(100) '$.BANCARIOS',
-    Limpieza NVARCHAR(100) '$.LIMPIEZA',
-    Administracion nVARCHAR(100) '$.ADMINISTRACION',
-    Seguros NVARCHAR(100) '$.SEGUROS',
-    Gastos_Generales NVARCHAR(100) '$."GASTOS GENERALES"',
-    Servicios_Publicos_Agua NVARCHAR(100) '$."SERVICIOS PUBLICOS-Agua"',
-    Servicios_Publicos_Luz NVARCHAR(100) '$."SERVICIOS PUBLICOS-Luz"'
-    )
-	SELECT *
+    NombreConsorcio NVARCHAR(200) ''$."Nombre del consorcio"'',
+    Mes NVARCHAR(50) ''$.Mes'',
+    Bancarios NVARCHAR(100) ''$.BANCARIOS'',
+    Limpieza NVARCHAR(100) ''$.LIMPIEZA'',
+    Administracion nVARCHAR(100) ''$.ADMINISTRACION'',
+    Seguros NVARCHAR(100) ''$.SEGUROS'',
+    Gastos_Generales NVARCHAR(100) ''$."GASTOS GENERALES"'',
+    Servicios_Publicos_Agua NVARCHAR(100) ''$."SERVICIOS PUBLICOS-Agua"'',
+    Servicios_Publicos_Luz NVARCHAR(100) ''$."SERVICIOS PUBLICOS-Luz"''
+    )'
+	exec @ImportarDinamico
+    SELECT * 
     FROM #tempServicios
+
 END
+GO
+
+exec actualizacionDeDatosUF.ImportarServiciosServicios 'C:\consorcios\Servicios.Servicios.json'
+
+-- Ejecuta este código para verificar o configurar
+EXEC sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0', N'AllowInProcess', 1
+GO
+EXEC sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0', N'DynamicParameters', 1
+GO
+
+-- 1. Habilitar 'Ad Hoc Distributed Queries' (si no lo está)
+exec sp_configure 'show advanced options', 1;
+RECONFIGURE;
+exec sp_configure 'Ad Hoc Distributed Queries', 1;
+RECONFIGURE;
+GO
+
+-- 2. Asegurar que el proveedor ACE.OLEDB.12.0 esté configurado para funcionar
+--    (Generalmente esto se hace para resolver problemas de 32/64 bits)
+EXEC sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0', N'AllowInProcess', 1
+EXEC sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0', N'DynamicParameters', 1
 GO
