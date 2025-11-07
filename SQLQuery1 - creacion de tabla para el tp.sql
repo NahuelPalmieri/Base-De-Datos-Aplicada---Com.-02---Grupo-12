@@ -161,3 +161,4 @@ CREATE TABLE dbo.EstadoDeCuenta
 	CONSTRAINT FK_UnidadFuncional (IDConsorcio, NumeroDeUnidad) REFERENCES dbo.UnidadFuncional (IDConsorcio, NumeroDeUnidad),
 	CONSTRAINT PK_EstadoDeCuenta primary key clustered (IDConsorcio, NumeroDeUnidad, IDEstadoDeCuenta)
 )
+
