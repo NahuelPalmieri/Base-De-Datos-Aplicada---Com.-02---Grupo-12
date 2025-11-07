@@ -1,3 +1,110 @@
+--PARA CREAR EL STORED PROCEDURE:
+CREATE OR ALTER PROCEDURE administrativoGeneral.ImportarConsorciosDesdeExcel
+    @RutaArchivo NVARCHAR(500)
+AS
+BEGIN
+
+    CREATE TABLE #TempConsorcio (
+        NombreDeConsorcio VARCHAR(20),
+        Domicilio VARCHAR(30),
+        CantUnidadesFuncionales INT,
+        M2Totales INT
+    );
+
+    DECLARE @SQL NVARCHAR(MAX);
+
+    SET @SQL = '
+    INSERT INTO #TempConsorcio (NombreDeConsorcio, Domicilio, CantUnidadesFuncionales, M2Totales)
+    SELECT 
+        [Nombre del consorcio], 
+        [Domicilio], 
+        [Cant unidades funcionales], 
+        [m2 totales]
+    FROM OPENROWSET(
+        ''Microsoft.ACE.OLEDB.12.0'',
+        ''Excel 12.0;Database=' + @RutaArchivo + ';HDR=YES'',
+        ''SELECT * FROM [Consorcios$]''
+    );';
+
+    EXEC sp_executesql @SQL;
+
+    DELETE FROM #TempConsorcio WHERE CantUnidadesFuncionales <= 0 OR M2Totales <= 0;
+
+    INSERT INTO administrativoGeneral.Consorcio (NombreDeConsorcio, Domicilio, CantUnidadesFuncionales, M2Totales)
+    SELECT tc.NombreDeConsorcio, tc.Domicilio, tc.CantUnidadesFuncionales, tc.M2Totales
+    FROM #TempConsorcio tc
+    WHERE NOT EXISTS (
+        SELECT 1 FROM administrativoGeneral.Consorcio c
+        WHERE c.NombreDeConsorcio = tc.NombreDeConsorcio AND c.Domicilio = tc.Domicilio
+    );
+
+    DROP TABLE #TempConsorcio; --NO ES 100% NECESARIO PERO ME PARECE QUE ESTA BUENO TENERLO POR LAS DUDAS
+END;
+GO
+
+--PARA EJECUTAR EL STORED PROCEDURE:
+EXEC administrativoGeneral.ImportarConsorciosDesdeExcel 'C:\MIEL\datos varios.xlsx';
+GO
+
+--PARA PODER VER LO QUE EFECTIVAMENTE SE CARGO:
+SELECT * FROM administrativoGeneral.Consorcio;
+GO
+
+--ESTABLECER CONFIGURACION PARA USAR Ad Hoc Distributed Queries:
+EXEC sp_configure 'show advanced options', 1;
+RECONFIGURE;
+EXEC sp_configure 'Ad Hoc Distributed Queries', 1;
+RECONFIGURE;
+
+
+--ESTABLECER CONFIGURACION PARA USAR Ad Hoc Distributed Queries:
+EXEC sp_configure 'show advanced options', 1;
+RECONFIGURE;
+EXEC sp_configure 'Ad Hoc Distributed Queries', 1;
+RECONFIGURE;
+
+--PARA CREAR EL STORED PROCEDURE:
+CREATE OR ALTER PROCEDURE dbo.ImportarProveedoresDesdeExcel
+    @RutaArchivo NVARCHAR(500)
+AS
+BEGIN
+
+    CREATE TABLE #TempProveedores (
+        TipoDeServicio NVARCHAR(50)
+    );
+
+    DECLARE @SQL NVARCHAR(MAX);
+
+    SET @SQL = '
+    INSERT INTO #TempProveedores (TipoDeServicio)
+    SELECT 
+        F1
+    FROM OPENROWSET(
+        ''Microsoft.ACE.OLEDB.12.0'',
+        ''Excel 12.0;Database=' + @RutaArchivo + ';HDR=NO'',
+        ''SELECT * FROM [Proveedores$]''
+    )
+	WHERE F1 IS NOT NULL AND LEN(F1) <= 50;';
+
+    EXEC sp_executesql @SQL;
+
+    INSERT INTO dbo.Proveedor (TipoDeServicio)
+    SELECT DISTINCT tP.TipoDeServicio
+    FROM #TempProveedores tP;
+
+    DROP TABLE #TempProveedores; --NO ES 100% NECESARIO PERO ME PARECE QUE ESTA BUENO TENERLO POR LAS DUDAS
+END;
+GO
+
+--PARA EJECUTAR EL STORED PROCEDURE:
+EXEC dbo.ImportarProveedoresDesdeExcel 'C:\MIEL\datos varios.xlsx';
+GO
+
+--PARA PODER VER LO QUE EFECTIVAMENTE SE CARGO:
+SELECT * FROM dbo.Proveedor;
+GO
+
+
 --SPs de Importacion
 CREATE OR ALTER PROCEDURE administrativoGeneral.ImportarPagosConsorcio
     @RutaArchivo NVARCHAR(MAX)
