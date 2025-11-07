@@ -289,6 +289,16 @@ begin
 	and not exists(select 1 from administrativoGeneral.Inquilino inq where inq.DNI = per.DNI)
 end
 
+exec administrativoGeneral.importarDatosPersonas @ubicacion='C:\Users\CIRCO STUDIO\Desktop\consorcios\Inquilino-propietarios-datos.csv'
+
+/*
+select * from administrativoGeneral.Persona
+select * from administrativoGeneral.Propietario
+select * from administrativoGeneral.Inquilino
+
+select * from administrativoGeneral.PersonasConError
+*/
+
 
 CREATE PROCEDURE Importar_UFxConsorcio 
     @ruta_archivo varchar(100)
