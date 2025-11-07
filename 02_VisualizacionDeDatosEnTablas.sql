@@ -1,3 +1,19 @@
+/********************************************************************************
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
+	Visualizacion de los datos que tienen las tablas de la base de datos
+	mediante el uso de consultas SELECT
+	Comision: 5600
+	Grupo: 12
+	Integrantes:
+		- Nahuel Palmieri		(DNI: 45074926)
+		- Ivan Morales			(DNI: 39772619)
+		- Tobias Argain			(DNI: 42998669)
+		- Tomas Daniel Yagueddu (DNI: 44100611)
+		- Fernando Pereyra		(DNI: 45738989)
+		- Gian Luca Di Salvio   (DNI: 45236135)
+
+*********************************************************************************/
+
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'BAULERA'
 SELECT IdBaulera, IDConsorcio, NumeroUnidad, M2Baulera
 FROM actualizacionDeDatosUF.Baulera
