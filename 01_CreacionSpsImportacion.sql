@@ -85,3 +85,99 @@ GO
 EXECUTE administrativoGeneral.ImportarPagosConsorcio 
     @RutaArchivo = N'C:\Users\Usuario\OneDrive\Desktop\datos TP DBA\pagos_consorcios.csv';
 GO
+
+
+create or alter trigger InsercionPersona
+on administrativoGeneral.Persona
+instead of insert
+as
+begin
+	merge into administrativoGeneral.Persona destino
+	using inserted origen
+	on destino.DNI = origen.DNI
+	when MATCHED THEN
+		UPDATE SET
+			destino.Email = origen.Email,
+			destino.NumeroDeTelefono = origen.NumeroDeTelefono,
+			destino.CVU_CBU = origen.CVU_CBU
+	WHEN NOT MATCHED THEN
+		INSERT (DNI, Nombres, Apellidos, Email, NumeroDeTelefono, CVU_CBU, Inquilino)
+		VALUES (origen.DNI, origen.Nombres, origen.Apellidos, origen.Email, origen.NumeroDeTelefono, origen.CVU_CBU, origen.Inquilino);
+end
+
+go
+create or alter procedure administrativoGeneral.importarDatosPersonas
+	@ubicacion varchar(MAX)
+as
+begin
+
+	create table #personasCrudoTemp(
+		Nombres varchar(30),
+		Apellidos varchar(30),
+		DNI varchar(8),
+		Email varchar(50),
+		NumeroDeTelefono char(10),
+		CVU_CBU varchar(22),
+		Inquilino char(1)
+	)
+
+	declare @CadenaSQL nvarchar(MAX) --necesito que sea NVARCHAR para poder usar el sp_executesql
+
+	select @CadenaSQL = '
+
+	bulk insert #personasCrudoTemp
+	from ''' + @ubicacion + '''
+	with(
+		fieldterminator = '';'',
+		rowterminator = ''\n'',
+		codepage = ''ACP'',
+		firstrow = 2
+	)'
+
+	EXEC sp_executesql @CadenaSQL
+
+	select * from #personasCrudoTemp
+
+	update #personasCrudoTemp --LIMPIEZA DE DATOS
+	set Email = lower(replace(Email, ' ', '')),
+	Nombres = upper(ltrim(rtrim(Nombres))),
+	Apellidos = upper(ltrim(rtrim(Apellidos))),
+	DNI = ltrim(rtrim(DNI)),
+	NumeroDeTelefono = ltrim(rtrim(NumeroDeTelefono)),
+	CVU_CBU = ltrim(rtrim(CVU_CBU)),
+	Inquilino = ltrim(rtrim(Inquilino))
+
+	;with Duplicados(DNI, Apariciones) as(
+		select DNI, count(DNI) over(partition by DNI) as apariciones
+		from #personasCrudoTemp
+	)
+	insert into administrativoGeneral.PersonasConError (DNI, Nombres, Apellidos, Email, NumeroDeTelefono, CVU_CBU, Inquilino)
+	select DNI, Nombres, Apellidos, Email, NumeroDeTelefono, CVU_CBU, Inquilino
+	from #personasCrudoTemp p
+	where exists(select 1 from Duplicados d  where p.DNI = d.DNI and d.Apariciones>1)
+	or p.DNI is null or p.Nombres is null or p.Apellidos is null or p.NumeroDeTelefono is null or p.CVU_CBU is null or p.Inquilino is null
+	or Patindex('%[^A-Za-z ]%', p.Nombres)>0 or Patindex('%[^A-Za-z ]%', p.Apellidos)>0
+
+	;with Duplicados(DNI, Apariciones) as(
+		select DNI, count(DNI) over(partition by DNI) as apariciones
+		from #personasCrudoTemp
+	)
+	delete from #personasCrudoTemp 
+	where exists(select 1 from Duplicados d where #personasCrudoTemp.DNI = d.DNI and d.Apariciones>1) --SI HAY DUPLICADOS LOS ELIMINO
+	or Patindex('%[^A-Za-z ]%', #personasCrudoTemp.Nombres)>0 or Patindex('%[^A-Za-z ]%', #personasCrudoTemp.Apellidos)>0 --SI HAY ALGUN NOMBRE O APELLIDO INVALIDO TAMBIEN
+
+	insert into administrativoGeneral.Persona
+	select cast(DNI as int), Nombres, Apellidos, Email, NumeroDeTelefono, CVU_CBU, cast(Inquilino as bit) from #personasCrudoTemp
+	where DNI IS NOT NULL or Nombres is not null or Apellidos is not null or NumeroDeTelefono is not null or CVU_CBU is not null or Inquilino is not null --INSERTO MIENTRAS TENGAN LOS CAMPOS NOT NULL DE LA TABLA
+	
+
+	insert into administrativoGeneral.Propietario ---Las personas con inquilino = 0 van a la tabla propietarios
+	select DNI from administrativoGeneral.Persona per
+	where Inquilino = 0
+	and not exists(select 1 from administrativoGeneral.Propietario pro where pro.DNI = per.DNI)
+
+	insert into administrativoGeneral.Inquilino (DNI) ---Las personas con inquilino = 1 van a la tabla inquilino
+	select DNI from administrativoGeneral.Persona per
+	where Inquilino = 1
+	and not exists(select 1 from administrativoGeneral.Inquilino inq where inq.DNI = per.DNI)
+end

@@ -270,3 +270,15 @@ CREATE TABLE dbo.EstadoDeCuenta
 ); --Le agrege el FOREIGN KEY porque no se le coloco
 END
 GO
+
+CREATE TABLE administrativoGeneral.PersonasConError --Esta tabla es para no perder la informacion de los registros mal ingresados o duplicados
+(
+	Id int identity(1,1) primary key,
+	DNI varchar(8),
+	Nombres varchar(30),
+	Apellidos varchar(30),
+	Email varchar(50),
+	NumeroDeTelefono char(10),
+	CVU_CBU varchar(22),
+	Inquilino char(1)
+)
