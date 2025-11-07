@@ -216,7 +216,7 @@ GO
 
 --Ejecucion del SP
 EXECUTE actualizacionDeDatosUF.ImportarPagosConsorcio 
-    @RutaArchivo = N'C:\consorcios\pagos_consorcios.csv';
+    @RutaArchivo = 'C:\consorcios\pagos_consorcios.csv';
 GO
 
 --===============================================================================
@@ -390,7 +390,9 @@ AS BEGIN
 END
 
 EXEC actualizacionDeDatosUF.Importar_UFxConsorcio 
-@ruta_archivo='C:\consorcios\Inquilino-propietarios-datos.csv'
+@ruta_archivo='C:\consorcios\UF por consorcio.txt'
+
+EXEC xp_servicecontrol 'QUERYSTATE', 'MSSQLSERVER';
 
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: Inquilino-propietarios-UF.csv
