@@ -9,18 +9,17 @@ USE Com5600G12;
 GO
 
 --Creacion de esquemas
-IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'administrativoGeneral') EXEC('CREATE SCHEMA administrativoGeneral');
---IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'administrativoBancario') EXEC('CREATE SCHEMA administrativoBancario');
---IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'administrativoOperativo') EXEC('CREATE SCHEMA administrativoOperativo');
---IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'Sistemas') EXEC ('CREATE SCHEMA Sistemas');
+IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'actualizacionDeDatosUF') EXEC('CREATE SCHEMA actualizacionDeDatosUF');
+--IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'importacionDeInformacionBancaria') EXEC('CREATE SCHEMA importacionDeInformacionBancaria');
+--IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'ieneracionDeReportes') EXEC('CREATE SCHEMA administrativoOperativo');
 GO 
 
 --==============
 --Tabla Persona
 --==============
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'administrativoGeneral.Persona') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.Persona') AND type in (N'U'))
 BEGIN
-CREATE TABLE administrativoGeneral.Persona
+CREATE TABLE actualizacionDeDatosUF.Persona
 (
 	DNI int primary key CHECK(DNI > 9999999 AND DNI < 100000000),
 	Nombres varchar(30) not null,
@@ -35,13 +34,13 @@ GO
 --==================
 --Tabla Propietario
 --==================
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'administrativoGeneral.Propietario') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.Propietario') AND type in (N'U'))
 BEGIN
-CREATE TABLE administrativoGeneral.Propietario
+CREATE TABLE actualizacionDeDatosUF.Propietario
 (
 	IDPropietario int identity(1,1) primary key,
 	DNI int UNIQUE,
-	CONSTRAINT FK_Dni FOREIGN KEY (DNI) REFERENCES administrativoGeneral.Persona (DNI)
+	CONSTRAINT FK_Dni FOREIGN KEY (DNI) REFERENCES actualizacionDeDatosUF.Persona (DNI)
 );
 END
 GO
@@ -49,9 +48,9 @@ GO
 --===============
 --Tabla Consorcio
 --===============
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'administrativoGeneral.Consorcio') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.Consorcio') AND type in (N'U'))
 BEGIN
-CREATE TABLE administrativoGeneral.Consorcio
+CREATE TABLE actualizacionDeDatosUF.Consorcio
 (
 	IDConsorcio int identity(1,1) primary key,
 	NombreDeConsorcio varchar(20),
@@ -65,9 +64,9 @@ GO
 --=====================
 --Tabla UnidadFuncional
 --=====================
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'administrativoGeneral.UnidadFuncional') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.UnidadFuncional') AND type in (N'U'))
 BEGIN
-CREATE TABLE administrativoGeneral.UnidadFuncional
+CREATE TABLE actualizacionDeDatosUF.UnidadFuncional
 (
 	IDConsorcio int,
 	NumeroDeUnidad int,
@@ -78,8 +77,8 @@ CREATE TABLE administrativoGeneral.UnidadFuncional
 	CVU_CBU char(22),
 
 	CONSTRAINT PK_UnidadFuncional PRIMARY KEY CLUSTERED (IDConsorcio,NumeroDeUnidad),
-	CONSTRAINT FK_UnidadFuncional_Consorcio FOREIGN KEY (IDConsorcio) REFERENCES administrativoGeneral.Consorcio (IDConsorcio),
-	CONSTRAINT FK_UnidadFuncional_Persona FOREIGN KEY (IdPropietario) REFERENCES administrativoGeneral.Propietario (IdPropietario)
+	CONSTRAINT FK_UnidadFuncional_Consorcio FOREIGN KEY (IDConsorcio) REFERENCES actualizacionDeDatosUF.Consorcio (IDConsorcio),
+	CONSTRAINT FK_UnidadFuncional_Persona FOREIGN KEY (IdPropietario) REFERENCES actualizacionDeDatosUF.Propietario (IdPropietario)
 );
 END 
 GO
@@ -87,17 +86,17 @@ GO
 --===============
 --Tabla Inquilino
 --===============
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'administrativoGeneral.Inquilino') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.Inquilino') AND type in (N'U'))
 BEGIN
-CREATE TABLE administrativoGeneral.Inquilino
+CREATE TABLE actualizacionDeDatosUF.Inquilino
 (
 	IdInquilino int identity(1,1) primary key,
 	NroDeConsorcio int,
 	NroDeUnidad int,
 	DNI int,
 
-	CONSTRAINT FK_Inquilino_Persona FOREIGN KEY (DNI) REFERENCES administrativoGeneral.Persona (DNI),
-	CONSTRAINT FK_Inquilino_UnidadFuncional FOREIGN KEY (NroDeConsorcio, NroDeUnidad) REFERENCES administrativoGeneral.UnidadFuncional (IdConsorcio, NumeroDeUnidad)
+	CONSTRAINT FK_Inquilino_Persona FOREIGN KEY (DNI) REFERENCES actualizacionDeDatosUF.Persona (DNI),
+	CONSTRAINT FK_Inquilino_UnidadFuncional FOREIGN KEY (NroDeConsorcio, NroDeUnidad) REFERENCES actualizacionDeDatosUF.UnidadFuncional (IdConsorcio, NumeroDeUnidad)
 );
 END 
 GO
@@ -105,16 +104,16 @@ GO
 --==============
 --Tabla Baulera
 --==============
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'administrativoGeneral.Baulera') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.Baulera') AND type in (N'U'))
 BEGIN
-CREATE TABLE administrativoGeneral.Baulera
+CREATE TABLE actualizacionDeDatosUF.Baulera
 (
 	IdBaulera int identity(1,1) primary key,
 	IDConsorcio int,
 	NumeroUnidad int,
 	M2Baulera int CHECK(M2Baulera > 0),
 
-	CONSTRAINT FK_Baulera FOREIGN KEY (IDConsorcio, NumeroUnidad) REFERENCES administrativoGeneral.UnidadFuncional (IDConsorcio, NumeroDeUnidad)
+	CONSTRAINT FK_Baulera FOREIGN KEY (IDConsorcio, NumeroUnidad) REFERENCES actualizacionDeDatosUF.UnidadFuncional (IDConsorcio, NumeroDeUnidad)
 );
 END
 GO
@@ -122,16 +121,16 @@ GO
 --==============
 --Tabla Cochera
 --==============
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'administrativoGeneral.Cochera') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.Cochera') AND type in (N'U'))
 BEGIN
-CREATE TABLE administrativoGeneral.Cochera
+CREATE TABLE actualizacionDeDatosUF.Cochera
 (
 	IdCochera int identity(1,1) primary key,
 	IdConsorcio int,
 	NumeroUnidad int,
 	M2Cochera int CHECK(M2Cochera > 0),
 
-	CONSTRAINT FK_Cochera FOREIGN KEY (IDConsorcio, NumeroUnidad) REFERENCES administrativoGeneral.UnidadFuncional (IDConsorcio, NumeroDeUnidad)
+	CONSTRAINT FK_Cochera FOREIGN KEY (IDConsorcio, NumeroUnidad) REFERENCES actualizacionDeDatosUF.UnidadFuncional (IDConsorcio, NumeroDeUnidad)
 );
 END
 GO
@@ -148,7 +147,7 @@ CREATE TABLE dbo.GastoExtraordinario
 	Detalle varchar(80),
 	Importe decimal(10,2),
 
-	CONSTRAINT FK_Consorcio FOREIGN KEY (IDConsorcio) REFERENCES administrativoGeneral.Consorcio (IDConsorcio)
+	CONSTRAINT FK_Consorcio FOREIGN KEY (IDConsorcio) REFERENCES actualizacionDeDatosUF.Consorcio (IDConsorcio)
 ); --Le agrege el FOREIGN KEY porque no se le coloco
 END
 GO
@@ -185,7 +184,7 @@ CREATE TABLE dbo.GastoOrdinario
 	Año int CHECK(Año > 1999 AND Año < year(getdate())),
 	Importe decimal(10,2),
 
-	CONSTRAINT FK_Consorcio2 FOREIGN KEY (IDConsorcio) REFERENCES administrativoGeneral.Consorcio (IDConsorcio)
+	CONSTRAINT FK_Consorcio2 FOREIGN KEY (IDConsorcio) REFERENCES actualizacionDeDatosUF.Consorcio (IDConsorcio)
 ); --Le agrege el FOREIGN KEY porque no se le coloco, le cambio nombre del FK ya que existe el
 END --nombre FK_Consorcio en la tabla dbo.GastoExtraordinario
 GO
@@ -218,7 +217,7 @@ CREATE TABLE dbo.GastoServicio --Quite del nombre de la tabla el "_"
 	Año int CHECK(Año > 1999 AND Año < year(getdate())),
 	NroFactura int UNIQUE,
 
-	CONSTRAINT FK_Consorcio3 FOREIGN KEY (IDConsorcio) REFERENCES administrativoGeneral.Consorcio (IDConsorcio),
+	CONSTRAINT FK_Consorcio3 FOREIGN KEY (IDConsorcio) REFERENCES actualizacionDeDatosUF.Consorcio (IDConsorcio),
 	CONSTRAINT FK_Proveedor FOREIGN KEY (IDProveedor) REFERENCES dbo.Proveedor (IDProveedor)
 ); --Le agrege el FOREIGN KEY porque no se le coloco
 END --Le agrege el FOREIGN KEY porque no se le coloco, le cambio nombre del FK ya que existe el
@@ -238,7 +237,7 @@ CREATE TABLE dbo.PagoAConsorcio
 	CVU_CBU char(22),
 	Importe decimal(10,2) CHECK(Importe > 0),
 
-	CONSTRAINT FK_Unidad FOREIGN KEY (IDConsorcio, NumeroDeUnidad) REFERENCES administrativoGeneral.UnidadFuncional (IDConsorcio, NumeroDeUnidad)
+	CONSTRAINT FK_Unidad FOREIGN KEY (IDConsorcio, NumeroDeUnidad) REFERENCES actualizacionDeDatosUF.UnidadFuncional (IDConsorcio, NumeroDeUnidad)
 ); --Le agrege el FOREIGN KEY porque no se le coloco
 END 
 GO
@@ -265,13 +264,13 @@ CREATE TABLE dbo.EstadoDeCuenta
 	ExpensaOrdinaria decimal(10,2) CHECK(ExpensaOrdinaria >= 0),
 	ExpensaExtraordinaria decimal(10,2) CHECK(ExpensaExtraordinaria >= 0),
 
-	CONSTRAINT FK_UnidadFuncional FOREIGN KEY (IDConsorcio, NumeroDeUnidad) REFERENCES administrativoGeneral.UnidadFuncional (IDConsorcio, NumeroDeUnidad),
+	CONSTRAINT FK_UnidadFuncional FOREIGN KEY (IDConsorcio, NumeroDeUnidad) REFERENCES actualizacionDeDatosUF.UnidadFuncional (IDConsorcio, NumeroDeUnidad),
 	CONSTRAINT PK_EstadoDeCuenta primary key clustered (IDConsorcio, NumeroDeUnidad, IDEstadoDeCuenta)
 ); --Le agrege el FOREIGN KEY porque no se le coloco
 END
 GO
 
-CREATE TABLE administrativoGeneral.PersonasConError --Esta tabla es para no perder la informacion de los registros mal ingresados o duplicados
+CREATE TABLE actualizacionDeDatosUF.PersonasConError --Esta tabla es para no perder la informacion de los registros mal ingresados o duplicados
 (
 	Id int identity(1,1) primary key,
 	DNI varchar(8),
