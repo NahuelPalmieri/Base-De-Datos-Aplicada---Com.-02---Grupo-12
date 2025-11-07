@@ -1,5 +1,23 @@
---Creacion de la base de datos 
---drop database Com5600G12
+/********************************************************************************
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
+	Creacion de Base de Datos, Esquemas y Tablas
+	Comision: 5600
+	Grupo: 12
+	Integrantes:
+		- Nahuel Palmieri		(DNI: 45074926)
+		- Ivan Morales			(DNI: 39772619)
+		- Tobias Argain			(DNI: 42998669)
+		- Tomas Daniel Yagueddu (DNI: 44100611)
+		- Fernando Pereyra		(DNI: 45738989)
+		- Gian Luca Di Salvio   (DNI: 45236135)
+
+*********************************************************************************/
+
+-- ===============================
+-- 1. CREACION DE LA BASE DE DATOS
+-- ===============================
+
+--DROP DATABASE Com5600G12
 IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'Com5600G12')
 BEGIN
     CREATE DATABASE Com5600G12;
@@ -9,15 +27,24 @@ GO
 USE Com5600G12;
 GO
 
---Creacion de esquemas
+-- ===============================
+-- 2. CREACION DE ESQUEMAS
+-- ===============================
+
 IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'actualizacionDeDatosUF') EXEC('CREATE SCHEMA actualizacionDeDatosUF');
 --IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'importacionDeInformacionBancaria') EXEC('CREATE SCHEMA importacionDeInformacionBancaria');
 --IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'ieneracionDeReportes') EXEC('CREATE SCHEMA administrativoOperativo');
 GO 
 
---==============
---Tabla Persona
---==============
+
+/********************************************************************************
+								3. CREACION DE TABLAS
+*********************************************************************************/
+
+--==============================
+-- TABLA: Persona
+--==============================
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.Persona') AND type in (N'U'))
 BEGIN
 CREATE TABLE actualizacionDeDatosUF.Persona
@@ -33,9 +60,10 @@ CREATE TABLE actualizacionDeDatosUF.Persona
 END
 GO
 
---==================
---Tabla Propietario
---==================
+--==============================
+-- TABLA: Propietario
+--==============================
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.Propietario') AND type in (N'U'))
 BEGIN
 CREATE TABLE actualizacionDeDatosUF.Propietario
@@ -46,9 +74,10 @@ CREATE TABLE actualizacionDeDatosUF.Propietario
 END
 GO
 
---===============
---Tabla Consorcio
---===============
+--==============================
+-- TABLA: Consorcio
+--==============================
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.Consorcio') AND type in (N'U'))
 BEGIN
 CREATE TABLE actualizacionDeDatosUF.Consorcio
@@ -62,9 +91,10 @@ CREATE TABLE actualizacionDeDatosUF.Consorcio
 END
 GO
 
---=====================
---Tabla UnidadFuncional
---=====================
+--==============================
+-- TABLA: UnidadFuncional
+--==============================
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.UnidadFuncional') AND type in (N'U'))
 BEGIN
 CREATE TABLE actualizacionDeDatosUF.UnidadFuncional
@@ -84,9 +114,10 @@ CREATE TABLE actualizacionDeDatosUF.UnidadFuncional
 END 
 GO
 
---===============
---Tabla Inquilino
---===============
+--==============================
+-- TABLA: Inquilino
+--==============================
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.Inquilino') AND type in (N'U'))
 BEGIN
 CREATE TABLE actualizacionDeDatosUF.Inquilino
@@ -101,9 +132,10 @@ CREATE TABLE actualizacionDeDatosUF.Inquilino
 END 
 GO
 
---==============
---Tabla Baulera
---==============
+--==============================
+-- TABLA: Baulera
+--==============================
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.Baulera') AND type in (N'U'))
 BEGIN
 CREATE TABLE actualizacionDeDatosUF.Baulera
@@ -118,9 +150,10 @@ CREATE TABLE actualizacionDeDatosUF.Baulera
 END
 GO
 
---==============
---Tabla Cochera
---==============
+--==============================
+-- TABLA: Cochera
+--==============================
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.Cochera') AND type in (N'U'))
 BEGIN
 CREATE TABLE actualizacionDeDatosUF.Cochera
@@ -135,9 +168,10 @@ CREATE TABLE actualizacionDeDatosUF.Cochera
 END
 GO
 
---=========================
---Tabla GastoExtraordinario
---=========================
+--==============================
+-- TABLA: GastoExtraordinario
+--==============================
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.GastoExtraordinario') AND type in (N'U'))
 BEGIN
 CREATE TABLE dbo.GastoExtraordinario
@@ -153,9 +187,10 @@ END
 GO
 
 
---================================
---Tabla CuotasGastoExtraordinario
---================================
+--==================================
+-- TABLA: CuotasGastoExtraordinario
+--==================================
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.CuotasGastoExtraordinario') AND type in (N'U'))
 BEGIN
 CREATE TABLE dbo.CuotasGastoExtraordinario
@@ -168,9 +203,10 @@ CREATE TABLE dbo.CuotasGastoExtraordinario
 END 
 GO
 
---====================
---Tabla GastoOrdinario
---====================
+--==============================
+-- TABLA: GastoOrdinario
+--==============================
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.GastoOrdinario') AND type in (N'U'))
 BEGIN
 CREATE TABLE actualizacionDeDatosUF.GastoOrdinario
@@ -186,9 +222,10 @@ CREATE TABLE actualizacionDeDatosUF.GastoOrdinario
 END --nombre FK_Consorcio en la tabla dbo.GastoExtraordinario
 GO
 
---================
---Tabla Proveedor
---===============
+--==============================
+-- TABLA: Proveedor
+--==============================
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.Proveedor') AND type in (N'U'))
 BEGIN
 CREATE TABLE actualizacionDeDatosUF.Proveedor
@@ -199,9 +236,10 @@ CREATE TABLE actualizacionDeDatosUF.Proveedor
 END 
 GO
 
---====================
---Tabla GastoServicio
---====================
+--==============================
+-- TABLA: GastoServicio
+--==============================
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.Gasto_Servicio') AND type in (N'U'))
 BEGIN
 CREATE TABLE actualizacionDeDatosUF.GastoServicio --Quite del nombre de la tabla el "_" 
@@ -220,9 +258,10 @@ CREATE TABLE actualizacionDeDatosUF.GastoServicio --Quite del nombre de la tabla
 END --Le agrege el FOREIGN KEY porque no se le coloco, le cambio nombre del FK ya que existe el
 GO --nombre FK_Consorcio en la tabla dbo.GastoExtraordinario
 
---====================
---Tabla PagoAConsorcio
---====================
+--==============================
+-- TABLA: PagoAConsorcio
+--==============================
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.PagoAConsorcio') AND type in (N'U'))
 BEGIN
 CREATE TABLE dbo.PagoAConsorcio
@@ -239,9 +278,10 @@ CREATE TABLE dbo.PagoAConsorcio
 END 
 GO
 
----====================
---Tabla EstadoDeCuenta
---====================
+--==============================
+-- TABLA: EstadoDeCuenta
+--==============================
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.EstadoDeCuenta') AND type in (N'U'))
 BEGIN
 CREATE TABLE dbo.EstadoDeCuenta
@@ -266,6 +306,10 @@ CREATE TABLE dbo.EstadoDeCuenta
 ); --Le agrege el FOREIGN KEY porque no se le coloco
 END
 GO
+
+--==============================
+-- TABLA DE CONTROL DE ERRORES
+--==============================
 
 CREATE TABLE actualizacionDeDatosUF.PersonasConError --Esta tabla es para no perder la informacion de los registros mal ingresados o duplicados
 (

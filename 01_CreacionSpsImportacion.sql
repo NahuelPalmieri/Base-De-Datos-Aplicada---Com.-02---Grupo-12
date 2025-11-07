@@ -1,3 +1,25 @@
+/********************************************************************************
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
+	Importacion de Datos mediante Stored Procedures
+	Comision: 5600
+	Grupo: 12
+	Integrantes:
+		- Nahuel Palmieri		(DNI: 45074926)
+		- Ivan Morales			(DNI: 39772619)
+		- Tobias Argain			(DNI: 42998669)
+		- Tomas Daniel Yagueddu (DNI: 44100611)
+		- Fernando Pereyra		(DNI: 45738989)
+		- Gian Luca Di Salvio   (DNI: 45236135)
+
+*********************************************************************************/
+
+
+--===============================================================================
+                -- IMPORTACION DE ARCHIVO: datos varios.xlsx
+--===============================================================================
+                -- IMPORTACION DE CONSORCIOS
+--===============================================================================
+
 --PARA CREAR EL STORED PROCEDURE:
 CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarConsorciosDesdeExcel
     @RutaArchivo NVARCHAR(500)
@@ -57,11 +79,11 @@ EXEC sp_configure 'Ad Hoc Distributed Queries', 1;
 RECONFIGURE;
 
 
---ESTABLECER CONFIGURACION PARA USAR Ad Hoc Distributed Queries:
-EXEC sp_configure 'show advanced options', 1;
-RECONFIGURE;
-EXEC sp_configure 'Ad Hoc Distributed Queries', 1;
-RECONFIGURE;
+--===============================================================================
+                -- IMPORTACION DE ARCHIVO: datos varios.xlsx
+--===============================================================================
+                -- IMPORTACION DE PROVEEDORES
+--===============================================================================
 
 --PARA CREAR EL STORED PROCEDURE:
 CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarProveedoresDesdeExcel
@@ -104,6 +126,10 @@ GO
 SELECT * FROM actualizacionDeDatosUF.Proveedor;
 GO
 
+--===============================================================================
+                -- IMPORTACION DE ARCHIVO: pagos_consorcios.csv
+--===============================================================================
+ 
 
 --SPs de Importacion
 CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarPagosConsorcio
@@ -192,6 +218,10 @@ GO
 EXECUTE actualizacionDeDatosUF.ImportarPagosConsorcio 
     @RutaArchivo = N'C:\consorcios\pagos_consorcios.csv';
 GO
+
+--===============================================================================
+                -- IMPORTACION DE ARCHIVO: inquilino-propietarios-datos.csv
+--===============================================================================
 
 
 create or alter trigger actualizacionDeDatosUF.InsercionPersona
@@ -300,6 +330,10 @@ select * from actualizacionDeDatosUF.PersonasConError
 */
 
 
+--===============================================================================
+                -- IMPORTACION DE ARCHIVO: UF por consorcio.txt
+--===============================================================================
+ 
 CREATE PROCEDURE actualizacionDeDatosUF.Importar_UFxConsorcio 
     @ruta_archivo varchar(100)
 AS BEGIN
@@ -354,14 +388,18 @@ AS BEGIN
     DROP TABLE #UFxConsorcioTemp;
 END
 
-    
+
+--===============================================================================
+                -- IMPORTACION DE ARCHIVO: Inquilino-propietarios-UF.csv
+--===============================================================================
+ 
 CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF
 
 		@ruta_archivo varchar(MAX)
 AS 
 BEGIN 
-		--1.Creo una tabla temporal 
-		CREATE TABLE #TempInqPropUF 
+		
+		CREATE TABLE #TempInqPropUF --1. Creo una tabla temporal donde guardo el contenido del archivo
 		(
 			CVU_CBU char(22),
 			NombreDeConsorcio varchar(20),
@@ -370,8 +408,8 @@ BEGIN
 			Departamento char(1)
 		);
 
-		--2. Armo y ejecuto el BULK INSERT para importar el archivo en la tabla temporal
-		DECLARE @cadena nvarchar(MAX);
+		
+		DECLARE @cadena nvarchar(MAX); --2. Armo y ejecuto el BULK INSERT para importar el archivo en la tabla temporal
 
 		SET @cadena = '
 				BULK INSERT #TempInqPropUF
@@ -385,9 +423,8 @@ BEGIN
 
 		EXEC sp_executesql @cadena;
 
-		--3.Actualizo la tabla Unidad Funcional cargando los CVU_CBU y los Id de propietarios.
-							
-	    UPDATE UF
+
+	    UPDATE UF       --3. Actualizo la tabla Unidad Funcional cargando los CVU_CBU y DNI de propietarios.
 		SET	
 			UF.CVU_CBU		  = T.CVU_CBU,
 			UF.DNIPropietario = P.DNI
@@ -404,8 +441,8 @@ BEGIN
 		INNER JOIN actualizacionDeDatosUF.Propietario AS P
 			ON P.DNI = Pe.DNI;
 
-		--4. Actualizo la tabla Inquilino cargando el Nro de Consorcio y el Nro de Unidad.
-		UPDATE IQ
+
+		UPDATE IQ     --4.Actualizo la tabla Inquilino cargando el Nro de Consorcio y el Nro de Unidad.
 		SET
 			IQ.NroDeConsorcio = C.IdConsorcio,
 			IQ.NroDeUnidad	  = T.NumeroDeUnidad
@@ -417,10 +454,15 @@ BEGIN
 		INNER JOIN actualizacionDeDatosUF.Consorcio AS C
 			ON T.NombreDeConsorcio = C.NombreDeConsorcio;
  
-		DROP TABLE #TempInqPropUF;
-
+		DROP TABLE #TempInqPropUF; --5. Elimino la tabla temporal
 END;
 
+exec actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF @ruta_archivo ='C:\consorcios\Inquilino-propietarios-UF.csv'
+
+
+--===============================================================================
+                -- IMPORTACION DE ARCHIVO: Servicios.Servcios.json
+--===============================================================================
 
 create or alter procedure actualizacionDeDatosUF.ImportarServiciosServicios
     @RutaArchivo nvarchar(200)
