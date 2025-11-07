@@ -130,7 +130,6 @@ GO
                 -- IMPORTACION DE ARCHIVO: pagos_consorcios.csv
 --===============================================================================
  
-
 --SPs de Importacion
 CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarPagosConsorcio --DE ACA
     @RutaArchivo NVARCHAR(MAX)
@@ -224,7 +223,7 @@ GO
 --===============================================================================
 
 
-create or alter trigger actualizacionDeDatosUF.InsercionPersona --DE ACA
+create or alter trigger actualizacionDeDatosUF.InsercionPersona --DE ACA (TRIGGER)
 on actualizacionDeDatosUF.Persona
 instead of insert
 as
@@ -240,10 +239,10 @@ begin
 	WHEN NOT MATCHED THEN
 		INSERT (DNI, Nombres, Apellidos, Email, NumeroDeTelefono, CVU_CBU, Inquilino)
 		VALUES (origen.DNI, origen.Nombres, origen.Apellidos, origen.Email, origen.NumeroDeTelefono, origen.CVU_CBU, origen.Inquilino);
-end
+end --HASTA ACA 
 
 go
-create or alter procedure actualizacionDeDatosUF.importarDatosPersonas
+create or alter procedure actualizacionDeDatosUF.importarDatosPersonas --DE ACA
 	@ubicacion varchar(MAX)
 as
 begin
@@ -333,7 +332,7 @@ select * from actualizacionDeDatosUF.PersonasConError
 
 
 --===============================================================================
-                -- IMPORTACION DE ARCHIVO: UF por consorcio.txt
+                -- IMPORTACION DE ARCHIVO: UF por consorcio.txt                     --HAY QUE AGREGARLE UN TRIGGER
 --===============================================================================
 GO
 CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.Importar_UFxConsorcio --DE ACA
@@ -393,13 +392,17 @@ END --HASTA ACA
 EXEC actualizacionDeDatosUF.Importar_UFxConsorcio 
 @ruta_archivo='C:\consorcios\UF por consorcio.txt'
 
+select * from actualizacionDeDatosUF.Baulera
+select * from actualizacionDeDatosUF.Cochera
+select * from actualizacionDeDatosUF.UnidadFuncional
+
 EXEC xp_servicecontrol 'QUERYSTATE', 'MSSQLSERVER';
 
 --===============================================================================
-                -- IMPORTACION DE ARCHIVO: Inquilino-propietarios-UF.csv
+                -- IMPORTACION DE ARCHIVO: Inquilino-propietarios-UF.csv            --PONERLE UN TRIGGER
 --===============================================================================
  GO
-CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF
+CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF -- DE ACA
 
 		@ruta_archivo varchar(MAX)
 AS 
@@ -461,17 +464,20 @@ BEGIN
 			ON T.NombreDeConsorcio = C.NombreDeConsorcio;
  
 		DROP TABLE #TempInqPropUF; --5. Elimino la tabla temporal
-END;
+END; --HASTA ACA
 
 exec actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF @ruta_archivo 
 ='C:\consorcios\Inquilino-propietarios-UF.csv'
+
+select * from actualizacionDeDatosUF.Inquilino
+select * from actualizacionDeDatosUF.UnidadFuncional
 
 
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: Servicios.Servcios.json
 --===============================================================================
 GO
-CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarServiciosServicios
+CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarServiciosServicios --DE ACA
     @RutaArchivo nvarchar(200)
 as
 BEGIN
@@ -534,13 +540,13 @@ BEGIN
         Servicios_Publicos_Luz DECIMAL(18, 2)
     );
 
-    -- proceso ETL
+    -- proceso ETL para insertar los datos en la tabla temporal limpia
     -- Limpiamos y convertimos los datos
     INSERT INTO #tempServicios_Limpia (
         NombreConsorcio, Mes, Bancarios, Limpieza, Administracion,
         Seguros, Gastos_Generales, Servicios_Publicos_Agua, Servicios_Publicos_Luz
     )
-    --como los decimales vienen algunos con "." y otros con ","
+    --como los decimales vienen algunos con "." y otros con ",", casteo los valores como correspondan sus datos
     SELECT                          
         NombreConsorcio,
         Mes,
@@ -581,10 +587,90 @@ BEGIN
         
     FROM #tempServicios;
 
-    --Devolver el resultado limpio
-    SELECT * FROM #tempServicios_Limpia;
+    --SELECT * FROM #tempServicios_Limpia;
+
+    --carga de las tablas GastoServicio y GastosOrdinarios
+
+    --inserto en gasto servicio
+    INSERT INTO actualizacionDeDatosUF.GastoServicio (
+        IDConsorcio, IDProveedor, Importe, Mes, Año
+    )
+    SELECT
+        c.IDConsorcio,
+        p.IDProveedor,
+        unpvt.Importe,
+        CASE LOWER(tsl.Mes) --paso el mes a numero, para que respete el formaro de la tabla
+            WHEN 'enero' THEN 1 WHEN 'febrero' THEN 2 WHEN 'marzo' THEN 3
+            WHEN 'abril' THEN 4 WHEN 'mayo' THEN 5 WHEN 'junio' THEN 6
+            WHEN 'julio' THEN 7 WHEN 'agosto' THEN 8 WHEN 'septiembre' THEN 9
+            WHEN 'octubre' THEN 10 WHEN 'noviembre' THEN 11 WHEN 'diciembre' THEN 12
+            ELSE 0 
+        END AS MesNumero,
+        YEAR(GETDATE())
+    FROM #tempServicios_Limpia AS tsl
+    CROSS APPLY (
+        VALUES
+            ('BANCARIOS', tsl.Bancarios),
+            ('LIMPIEZA', tsl.Limpieza),
+            ('ADMINISTRACION', tsl.Administracion),
+            ('SEGUROS', tsl.Seguros),
+            ('GASTOS GENERALES', tsl.Gastos_Generales),
+            ('SERVICIOS PUBLICOS-Agua', tsl.Servicios_Publicos_Agua),
+            ('SERVICIOS PUBLICOS-Luz', tsl.Servicios_Publicos_Luz)
+    ) AS unpvt(TipoDeServicio, Importe)
+    JOIN actualizacionDeDatosUF.Consorcio c ON c.NombreDeConsorcio = tsl.NombreConsorcio
+    JOIN actualizacionDeDatosUF.Proveedor p ON p.TipoDeServicio = unpvt.TipoDeServicio
+    WHERE unpvt.Importe IS NOT NULL AND unpvt.Importe > 0;
+
+
+    -- inserto en gasto ordinario (Sumar)
+    INSERT INTO actualizacionDeDatosUF.GastoOrdinario (
+        IDConsorcio, Mes, Año, Importe
+    )
+    SELECT
+        c.IDConsorcio,
+        CASE LOWER(tsl.Mes) 
+            WHEN 'enero' THEN 1 WHEN 'febrero' THEN 2 WHEN 'marzo' THEN 3
+            WHEN 'abril' THEN 4 WHEN 'mayo' THEN 5 WHEN 'junio' THEN 6
+            WHEN 'julio' THEN 7 WHEN 'agosto' THEN 8 WHEN 'septiembre' THEN 9
+            WHEN 'octubre' THEN 10 WHEN 'noviembre' THEN 11 WHEN 'diciembre' THEN 12
+            ELSE 0 
+        END AS MesNumero,
+        YEAR(GETDATE()),
+        (
+            ISNULL(tsl.Bancarios, 0) + ISNULL(tsl.Limpieza, 0) + ISNULL(tsl.Administracion, 0) +
+            ISNULL(tsl.Seguros, 0) + ISNULL(tsl.Gastos_Generales, 0) + 
+            ISNULL(tsl.Servicios_Publicos_Agua, 0) + ISNULL(tsl.Servicios_Publicos_Luz, 0)
+        ) AS ImporteTotal
+    FROM #tempServicios_Limpia AS tsl
+    JOIN actualizacionDeDatosUF.Consorcio c ON c.NombreDeConsorcio = tsl.NombreConsorcio;
 
 END
-GO
+GO --HASTA ACA
 
 exec actualizacionDeDatosUF.ImportarServiciosServicios 'C:\consorcios\Servicios.Servicios.json'
+
+select * from actualizacionDeDatosUF.GastoOrdinario
+select * from actualizacionDeDatosUF.GastoServicio
+
+--modificacion de las fk
+--ALTER TABLE actualizacionDeDatosUF.GastoOrdinario
+--DROP CONSTRAINT CK__GastoOrdina__Año__5AEE82B9;
+
+--ALTER TABLE actualizacionDeDatosUF.GastoServicio
+--DROP CONSTRAINT CK__GastoServic__Año__6383C8BA;
+
+--ALTER TABLE actualizacionDeDatosUF.GastoOrdinario
+--ADD CONSTRAINT CK_GastoOrdinario_AnioValido
+--CHECK (Año > 1999 AND Año <= YEAR(GETDATE()));
+
+--ALTER TABLE actualizacionDeDatosUF.GastoServicio
+--ADD CONSTRAINT CK_GastoServicio_AnioValido
+--CHECK (Año > 1999 AND Año <= YEAR(GETDATE()));
+
+--modificacion a la table GastoServicio, no nos sirve el nroFactura
+--ALTER TABLE actualizacionDeDatosUF.GastoServicio
+--DROP CONSTRAINT UQ__GastoSer__54177A857043C527;
+
+--ALTER TABLE actualizacionDeDatosUF.GastoServicio
+--DROP COLUMN NroFactura

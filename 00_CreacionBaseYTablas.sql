@@ -215,7 +215,7 @@ CREATE TABLE actualizacionDeDatosUF.GastoOrdinario
 	IDGastoOrdinario int identity(1,1) primary key,
 	IDConsorcio int, 
 	Mes int CHECK(Mes > 0 AND Mes <= 12),
-	Año int CHECK(Año > 1999 AND Año < year(getdate())),
+	Año int CHECK(Año > 1999 AND Año <= year(getdate())),
 	Importe decimal(10,2),
 
 	CONSTRAINT FK_Consorcio2 FOREIGN KEY (IDConsorcio) REFERENCES actualizacionDeDatosUF.Consorcio (IDConsorcio)
@@ -250,8 +250,8 @@ CREATE TABLE actualizacionDeDatosUF.GastoServicio --Quite del nombre de la tabla
 	IDProveedor int,
 	Importe decimal(10,2) CHECK(Importe > 0),
 	Mes int CHECK(Mes > 0 AND Mes <= 12),
-	Año int CHECK(Año > 1999 AND Año < year(getdate())),
-	NroFactura int UNIQUE,
+	Año int CHECK(Año > 1999 AND Año <= year(getdate())),
+	--NroFactura int UNIQUE,-- la saque porque daba problemas con la importacion del JSON, en el sp mas explicado.
 
 	CONSTRAINT FK_Consorcio3 FOREIGN KEY (IDConsorcio) REFERENCES actualizacionDeDatosUF.Consorcio (IDConsorcio),
 	CONSTRAINT FK_Proveedor FOREIGN KEY (IDProveedor) REFERENCES actualizacionDeDatosUF.Proveedor (IDProveedor)
