@@ -72,16 +72,50 @@ CREATE TABLE administrativoGeneral.Cochera
 	CONSTRAINT FK_Cochera FOREIGN KEY (IdConsorcio, NumeroUnidad) REFERENCES administrativoGeneral.UnidadFuncional (IdConsorcio, NumeroDeUnidad)
 )
 
-CREATE TABLE dbo.Gasto_Servicio
+CREATE TABLE administrativoGeneral.CuotasGastoExtraordinario
+(
+	IDGastoExtraordinario int identity(1,1) primary key,
+	TotalDeCuotas int CHECK(TotalDeCuotas >= 0),
+	NumeroDeCuota int CHECK(NumeroDeCuota >= 1 AND NumeroDeCuota <= TotalDeCuotas),
+
+	CONSTRAINT FK_CuotasGastoExtraordinario (IDGastoExtraordinario) REFERENCES administrativoGeneral.GastoExtraordinario (IDGastoExtraordinario)
+)
+--------------------------------------------------------
+--------------------------------------------------------
+CREATE TABLE administrativoGeneral.GastoOrdinario
+(
+	IDGastoOrdinario int identity(1,1) primary key,
+	IdConsorcio int,
+	Mes int CHECK(Mes > 0 AND Mes <= 12),
+	Año int CHECK(Año > 1999 AND Año < year(getdate())),
+	Importe decimal(10,2),
+
+	CONSTRAINT FK_Consorcio_G FOREIGN KEY (IdConsorcio) REFERENCES administrativoGeneral.Consorcio (IdConsorcio)
+)
+
+CREATE TABLE administrativoGeneral.Propietario
+(
+	IDPropietario int identity(1,1) primary key,
+	DNI int UNIQUE,
+	CONSTRAINT FK_Dni FOREIGN KEY (DNI) REFERENCES administrativoGeneral.Persona (DNI)
+)
+
+CREATE TABLE administrativoGeneral.Proveedor
+(
+	IDProveedor int identity(1,1) primary key,
+	TipoDeServicio varchar(50)
+)
+
+CREATE TABLE administrativoGeneral.Gasto_Servicio
 (
 	IDGasto int identity(1,1) primary key,
-	IDConsorcio int,
+	IdConsorcio int,
 	IDProveedor int,
 	Importe decimal(10,2) CHECK(Importe > 0),
 	Mes int CHECK(Mes > 0 AND Mes <= 12),
 	Año int CHECK(Año > 1999 AND Año < year(getdate())),
 	NroFactura int UNIQUE,
 
-	CONSTRAINT FK_Consorcio (IDConsorcio) REFERENCES dbo.Consorcio (IDConsorcio),
-	CONSTRAINT FK_Proveedor (IDProveedor) REFERENCES dbo.Proveedor (IDProveedor)
+	CONSTRAINT FK_Consorcio FOREIGN KEY (IdConsorcio) REFERENCES administrativoGeneral.Consorcio (IdConsorcio),
+	CONSTRAINT FK_Proveedor FOREIGN KEY (IDProveedor) REFERENCES administrativoGeneral.Proveedor (IDProveedor)
 )

@@ -84,7 +84,7 @@ CREATE TABLE dbo.GastoExtraordinario
 	CONSTRAINT FK_Consorcio (IDConsorcio) REFERENCES dbo.Consorcio (IDConsorcio)
 )
 
-CREATE TABLE dbo.CuotasGastoExtraordinario
+CREATE TABLE administrativoGeneral.CuotasGastoExtraordinario
 (
 	IDGastoExtraordinario int identity(1,1) primary key,
 	TotalDeCuotas int CHECK(TotalDeCuotas >= 0),
@@ -92,19 +92,21 @@ CREATE TABLE dbo.CuotasGastoExtraordinario
 
 	CONSTRAINT FK_CuotasGastoExtraordinario (IDGastoExtraordinario) REFERENCES dbo.GastoExtraordinario (IDGastoExtraordinario)
 )
+----------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
 
-CREATE TABLE dbo.GastoOrdinario
+CREATE TABLE administrativoGeneral.GastoOrdinario
 (
 	IDGastoOrdinario int identity(1,1) primary key,
-	IDConsorcio int,
+	IdConsorcio int,
 	Mes int CHECK(Mes > 0 AND Mes <= 12),
 	Año int CHECK(Año > 1999 AND Año < year(getdate())),
 	Importe decimal(10,2),
 
-	CONSTRAINT FK_Consorcio (IDConsorcio) REFERENCES dbo.Consorcio (IDConsorcio)
+	CONSTRAINT FK_Consorcio (IdConsorcio) REFERENCES administrativoGeneral.Consorcio (IdConsorcio)
 )
 
-CREATE TABLE dbo.Gasto_Servicio
+CREATE TABLE administrativoGeneral.Gasto_Servicio
 (
 	IDGasto int identity(1,1) primary key,
 	IDConsorcio int,
@@ -114,15 +116,18 @@ CREATE TABLE dbo.Gasto_Servicio
 	Año int CHECK(Año > 1999 AND Año < year(getdate())),
 	NroFactura int UNIQUE,
 
-	CONSTRAINT FK_Consorcio (IDConsorcio) REFERENCES dbo.Consorcio (IDConsorcio),
-	CONSTRAINT FK_Proveedor (IDProveedor) REFERENCES dbo.Proveedor (IDProveedor)
+	CONSTRAINT FK_Consorcio (IDConsorcio) REFERENCES dbo.Consorcio (IdConsorcio),
+	CONSTRAINT FK_Proveedor (IDProveedor) REFERENCES dbo.Proveedor (IdProveedor)
 )
 
-CREATE TABLE dbo.Proveedor
+CREATE TABLE administrativoGeneral.Proveedor
 (
 	IDProveedor int identity(1,1) primary key,
 	TipoDeServicio varchar(50)
 )
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 CREATE TABLE dbo.PagoAConsorcio
 (
