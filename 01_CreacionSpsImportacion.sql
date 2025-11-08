@@ -26,8 +26,11 @@
 --ESTABLECER CONFIGURACION PARA USAR Ad Hoc Distributed Queries:
 EXEC sp_configure 'show advanced options', 1;
 RECONFIGURE;
+GO
+
 EXEC sp_configure 'Ad Hoc Distributed Queries', 1;
 RECONFIGURE;
+GO
 
 
 --===============================================================================
@@ -86,9 +89,11 @@ EXEC actualizacionDeDatosUF.ImportarConsorciosDesdeExcel 'C:\consorcios\datos va
 GO
 
 --PARA PODER VER LO QUE EFECTIVAMENTE SE CARGO:
-SELECT * FROM actualizacionDeDatosUF.Consorcio;
-GO
-
+--SELECT * FROM actualizacionDeDatosUF.Consorcio;
+--GO
+--ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
+--LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
+--DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
 
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: datos varios.xlsx
@@ -134,8 +139,12 @@ EXEC actualizacionDeDatosUF.ImportarProveedoresDesdeExcel 'C:\consorcios\datos v
 GO
 
 --PARA PODER VER LO QUE EFECTIVAMENTE SE CARGO:
-SELECT * FROM actualizacionDeDatosUF.Proveedor;
-GO
+--SELECT * FROM actualizacionDeDatosUF.Proveedor;
+--GO
+--ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
+--LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
+--DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
+
 
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: pagos_consorcios.csv
@@ -214,10 +223,14 @@ BEGIN
       );
 
     -- Mensaje de confirmaci�n
-    PRINT 'Importaci�n finalizada correctamente';
+    PRINT 'Importacion finalizada correctamente';
 
     --Verifico que los datos del Csv se cargaron en la tabla temporal
     SELECT * FROM #PagoTemp;
+    --ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
+    --LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
+    --DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
+
 
     -- Limpio tabla temporal
     DROP TABLE #PagoTemp;
@@ -251,8 +264,8 @@ begin
 		INSERT (DNI, Nombres, Apellidos, Email, NumeroDeTelefono, CVU_CBU, Inquilino)
 		VALUES (origen.DNI, origen.Nombres, origen.Apellidos, origen.Email, origen.NumeroDeTelefono, origen.CVU_CBU, origen.Inquilino);
 end --HASTA ACA 
-
 go
+
 create or alter procedure actualizacionDeDatosUF.importarDatosPersonas --DE ACA
 	@ubicacion varchar(MAX)
 as
@@ -283,7 +296,11 @@ begin
 
 	EXEC sp_executesql @CadenaSQL
 
-	select * from #personasCrudoTemp
+	--select * from #personasCrudoTemp
+    --ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
+    --LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
+    --DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
+
 
 	update #personasCrudoTemp --LIMPIEZA DE DATOS
 	set Email = lower(replace(Email, ' ', '')),
@@ -329,9 +346,11 @@ begin
 	and not exists(select 1 from actualizacionDeDatosUF.Inquilino inq where inq.DNI = per.DNI)
 
 end --HASTA ACA
+GO
 
 exec actualizacionDeDatosUF.importarDatosPersonas 
 @ubicacion='C:\consorcios\Inquilino-propietarios-datos.csv'
+GO
 
 /*
 select * from actualizacionDeDatosUF.Persona
@@ -399,25 +418,32 @@ AS BEGIN
 
     DROP TABLE #UFxConsorcioTemp;
 END --HASTA ACA
+GO
 
 EXEC actualizacionDeDatosUF.Importar_UFxConsorcio 
 @ruta_archivo='C:\consorcios\UF por consorcio.txt'
-
--- PARA PODER VER LO QUE SE HIZO RECIEN
-SELECT *
-FROM actualizacionDeDatosUF.UnidadFuncional;
 GO
 
-select * from actualizacionDeDatosUF.Baulera
-select * from actualizacionDeDatosUF.Cochera
-select * from actualizacionDeDatosUF.UnidadFuncional
+-- PARA PODER VER LO QUE SE HIZO RECIEN
+--SELECT *
+--FROM actualizacionDeDatosUF.UnidadFuncional;
+--GO
+--ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
+--LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
+--DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
+
+--select * from actualizacionDeDatosUF.Baulera
+--select * from actualizacionDeDatosUF.Cochera
+--select * from actualizacionDeDatosUF.UnidadFuncional
+--ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
+--LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
+--DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
 
 EXEC xp_servicecontrol 'QUERYSTATE', 'MSSQLSERVER';
-
+GO
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: Inquilino-propietarios-UF.csv            --PONERLE UN TRIGGER
 --===============================================================================
- GO
 CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF -- DE ACA
 
 		@ruta_archivo varchar(MAX)
@@ -481,18 +507,22 @@ BEGIN
  
 		DROP TABLE #TempInqPropUF; --5. Elimino la tabla temporal
 END; --HASTA ACA
+GO
 
 exec actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF @ruta_archivo 
 ='C:\consorcios\Inquilino-propietarios-UF.csv'
+GO
 
-select * from actualizacionDeDatosUF.Inquilino
-select * from actualizacionDeDatosUF.UnidadFuncional
+--select * from actualizacionDeDatosUF.Inquilino
+--select * from actualizacionDeDatosUF.UnidadFuncional
+--ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
+--LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
+--DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
 
 
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: Servicios.Servcios.json
 --===============================================================================
-GO
 CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarServiciosServicios --DE ACA
     @RutaArchivo nvarchar(200)
 as
@@ -665,9 +695,14 @@ END
 GO --HASTA ACA
 
 exec actualizacionDeDatosUF.ImportarServiciosServicios 'C:\consorcios\Servicios.Servicios.json'
+GO
 
-select * from actualizacionDeDatosUF.GastoOrdinario
-select * from actualizacionDeDatosUF.GastoServicio
+--select * from actualizacionDeDatosUF.GastoOrdinario
+--select * from actualizacionDeDatosUF.GastoServicio
+--ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
+--LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
+--DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
+
 
 --modificacion de las fk
 --ALTER TABLE actualizacionDeDatosUF.GastoOrdinario
