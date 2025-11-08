@@ -13,6 +13,35 @@
 
 *********************************************************************************/
 
+
+--===============================================================================
+          -- DECLARACION Y SETTEO DE VARIABLES PARA LOS PATH:
+          -- (Ruta, ArchDatosVarios)
+--===============================================================================
+
+-- PARA HACER USO DE LAS VARIABLES QUE VAMOS A DECLARAR, HACER LOS SIG. PASOS:
+-- 1. Dirigirse al apartado consulta.
+-- 2. Presionar el boton "Modo SQLCMD"
+
+:SETVAR Ruta "C:\consorcios"
+GO
+:SETVAR ArchDatosVarios "datos varios.xlsx"
+GO
+:SETVAR ArchPagosConsorcio "pagos_consorcios.csv"
+GO
+:SETVAR ArchInquilinoPropietariosDatos "Inquilino-propietarios-datos.csv"
+GO
+:SETVAR ArchUFPorConsorcio "UF por consorcio.txt"
+GO
+:SETVAR ArchInquilinoPropietariosUF "Inquilino-propietarios-UF.csv"
+GO
+:SETVAR ArchServiciosServicios "Servicios.Servicios.json"
+GO
+
+--===============================================================================
+    -- CONFIGURACION INICIAL PARA TRABAJAR CON ARCHIVOS DE EXTENSION xlsx
+--===============================================================================
+
 -- PARA QUE EL SQL SERVER MANAGEMENT STUDIO PUEDA REALIZAR CON EXITO,
 -- SEGUIR LOS SIGUIENTES PASOS:
     -- Dirigirse a la carpeta donde se encuentran los archivos .xlsx
@@ -85,7 +114,11 @@ END;
 GO --HASTA ACA
 
 --PARA EJECUTAR EL STORED PROCEDURE:
-EXEC actualizacionDeDatosUF.ImportarConsorciosDesdeExcel 'C:\consorcios\datos varios.xlsx';
+--EXEC actualizacionDeDatosUF.ImportarConsorciosDesdeExcel 'C:\consorcios\datos varios.xlsx';
+--GO
+
+
+EXEC actualizacionDeDatosUF.ImportarConsorciosDesdeExcel '$(Ruta)/$(ArchDatosVarios)'
 GO
 
 --PARA PODER VER LO QUE EFECTIVAMENTE SE CARGO:
@@ -135,7 +168,10 @@ END;
 GO --HASTA ACA
 
 --PARA EJECUTAR EL STORED PROCEDURE:
-EXEC actualizacionDeDatosUF.ImportarProveedoresDesdeExcel 'C:\consorcios\datos varios.xlsx';
+--EXEC actualizacionDeDatosUF.ImportarProveedoresDesdeExcel 'C:\consorcios\datos varios.xlsx';
+--GO
+
+EXEC actualizacionDeDatosUF.ImportarProveedoresDesdeExcel '$(Ruta)/$(ArchDatosVarios)'
 GO
 
 --PARA PODER VER LO QUE EFECTIVAMENTE SE CARGO:
@@ -238,8 +274,11 @@ END;
 GO --HASTA ACA
 
 --Ejecucion del SP
-EXECUTE actualizacionDeDatosUF.ImportarPagosConsorcio 
-    @RutaArchivo = 'C:\consorcios\pagos_consorcios.csv';
+--EXECUTE actualizacionDeDatosUF.ImportarPagosConsorcio 
+--    @RutaArchivo = 'C:\consorcios\pagos_consorcios.csv';
+--GO
+
+EXEC actualizacionDeDatosUF.ImportarPagosConsorcio '$(Ruta)/$(ArchPagosConsorcio)'
 GO
 
 --===============================================================================
@@ -348,8 +387,11 @@ begin
 end --HASTA ACA
 GO
 
-exec actualizacionDeDatosUF.importarDatosPersonas 
-@ubicacion='C:\consorcios\Inquilino-propietarios-datos.csv'
+--exec actualizacionDeDatosUF.importarDatosPersonas 
+--@ubicacion='C:\consorcios\Inquilino-propietarios-datos.csv'
+--GO
+
+EXEC actualizacionDeDatosUF.importarDatosPersonas '$(Ruta)/$(ArchInquilinoPropietariosDatos)'
 GO
 
 /*
@@ -420,8 +462,11 @@ AS BEGIN
 END --HASTA ACA
 GO
 
-EXEC actualizacionDeDatosUF.Importar_UFxConsorcio 
-@ruta_archivo='C:\consorcios\UF por consorcio.txt'
+--EXEC actualizacionDeDatosUF.Importar_UFxConsorcio 
+--@ruta_archivo='C:\consorcios\UF por consorcio.txt'
+--GO
+
+EXEC actualizacionDeDatosUF.Importar_UFxConsorcio '$(Ruta)/$(ArchUFPorConsorcio)'
 GO
 
 -- PARA PODER VER LO QUE SE HIZO RECIEN
@@ -444,6 +489,7 @@ GO
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: Inquilino-propietarios-UF.csv            --PONERLE UN TRIGGER
 --===============================================================================
+
 CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF -- DE ACA
 
 		@ruta_archivo varchar(MAX)
@@ -509,8 +555,11 @@ BEGIN
 END; --HASTA ACA
 GO
 
-exec actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF @ruta_archivo 
-='C:\consorcios\Inquilino-propietarios-UF.csv'
+--exec actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF @ruta_archivo 
+--='C:\consorcios\Inquilino-propietarios-UF.csv'
+--GO
+
+EXEC actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF '$(Ruta)/$(ArchInquilinoPropietariosUF)'
 GO
 
 --select * from actualizacionDeDatosUF.Inquilino
@@ -523,6 +572,7 @@ GO
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: Servicios.Servcios.json
 --===============================================================================
+
 CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarServiciosServicios --DE ACA
     @RutaArchivo nvarchar(200)
 as
@@ -694,7 +744,10 @@ BEGIN
 END
 GO --HASTA ACA
 
-exec actualizacionDeDatosUF.ImportarServiciosServicios 'C:\consorcios\Servicios.Servicios.json'
+--exec actualizacionDeDatosUF.ImportarServiciosServicios 'C:\consorcios\Servicios.Servicios.json'
+--GO
+
+EXEC actualizacionDeDatosUF.ImportarServiciosServicios '$(Ruta)/$(ArchServiciosServicios)'
 GO
 
 --select * from actualizacionDeDatosUF.GastoOrdinario
