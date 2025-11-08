@@ -114,19 +114,8 @@ END;
 GO --HASTA ACA
 
 --PARA EJECUTAR EL STORED PROCEDURE:
---EXEC actualizacionDeDatosUF.ImportarConsorciosDesdeExcel 'C:\consorcios\datos varios.xlsx';
---GO
-
-
 EXEC actualizacionDeDatosUF.ImportarConsorciosDesdeExcel '$(Ruta)/$(ArchDatosVarios)'
 GO
-
---PARA PODER VER LO QUE EFECTIVAMENTE SE CARGO:
---SELECT * FROM actualizacionDeDatosUF.Consorcio;
---GO
---ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
---LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
---DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
 
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: datos varios.xlsx
@@ -168,19 +157,8 @@ END;
 GO --HASTA ACA
 
 --PARA EJECUTAR EL STORED PROCEDURE:
---EXEC actualizacionDeDatosUF.ImportarProveedoresDesdeExcel 'C:\consorcios\datos varios.xlsx';
---GO
-
 EXEC actualizacionDeDatosUF.ImportarProveedoresDesdeExcel '$(Ruta)/$(ArchDatosVarios)'
 GO
-
---PARA PODER VER LO QUE EFECTIVAMENTE SE CARGO:
---SELECT * FROM actualizacionDeDatosUF.Proveedor;
---GO
---ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
---LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
---DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
-
 
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: pagos_consorcios.csv
@@ -274,10 +252,6 @@ END;
 GO --HASTA ACA
 
 --Ejecucion del SP
---EXECUTE actualizacionDeDatosUF.ImportarPagosConsorcio 
---    @RutaArchivo = 'C:\consorcios\pagos_consorcios.csv';
---GO
-
 EXEC actualizacionDeDatosUF.ImportarPagosConsorcio '$(Ruta)/$(ArchPagosConsorcio)'
 GO
 
@@ -387,21 +361,9 @@ begin
 end --HASTA ACA
 GO
 
---exec actualizacionDeDatosUF.importarDatosPersonas 
---@ubicacion='C:\consorcios\Inquilino-propietarios-datos.csv'
---GO
-
+--EJECUCION DEL STORED PROCEDURE
 EXEC actualizacionDeDatosUF.importarDatosPersonas '$(Ruta)/$(ArchInquilinoPropietariosDatos)'
 GO
-
-/*
-select * from actualizacionDeDatosUF.Persona
-select * from actualizacionDeDatosUF.Propietario
-select * from actualizacionDeDatosUF.Inquilino
-
-select * from actualizacionDeDatosUF.PersonasConError
-*/
-
 
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: UF por consorcio.txt                     --HAY QUE AGREGARLE UN TRIGGER
@@ -462,27 +424,10 @@ AS BEGIN
 END --HASTA ACA
 GO
 
---EXEC actualizacionDeDatosUF.Importar_UFxConsorcio 
---@ruta_archivo='C:\consorcios\UF por consorcio.txt'
---GO
-
+--EJECUCION DEL STORED PROCEDURE
 EXEC actualizacionDeDatosUF.Importar_UFxConsorcio '$(Ruta)/$(ArchUFPorConsorcio)'
 GO
 
--- PARA PODER VER LO QUE SE HIZO RECIEN
---SELECT *
---FROM actualizacionDeDatosUF.UnidadFuncional;
---GO
---ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
---LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
---DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
-
---select * from actualizacionDeDatosUF.Baulera
---select * from actualizacionDeDatosUF.Cochera
---select * from actualizacionDeDatosUF.UnidadFuncional
---ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
---LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
---DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
 
 EXEC xp_servicecontrol 'QUERYSTATE', 'MSSQLSERVER';
 GO
@@ -555,19 +500,9 @@ BEGIN
 END; --HASTA ACA
 GO
 
---exec actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF @ruta_archivo 
---='C:\consorcios\Inquilino-propietarios-UF.csv'
---GO
-
+--EJECUCION DEL STORED PROCEDURE
 EXEC actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF '$(Ruta)/$(ArchInquilinoPropietariosUF)'
 GO
-
---select * from actualizacionDeDatosUF.Inquilino
---select * from actualizacionDeDatosUF.UnidadFuncional
---ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
---LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
---DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
-
 
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: Servicios.Servcios.json
@@ -744,18 +679,9 @@ BEGIN
 END
 GO --HASTA ACA
 
---exec actualizacionDeDatosUF.ImportarServiciosServicios 'C:\consorcios\Servicios.Servicios.json'
---GO
-
+--EJECUCION DEL STORED PROCEDURE
 EXEC actualizacionDeDatosUF.ImportarServiciosServicios '$(Ruta)/$(ArchServiciosServicios)'
 GO
-
---select * from actualizacionDeDatosUF.GastoOrdinario
---select * from actualizacionDeDatosUF.GastoServicio
---ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
---LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
---DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
-
 
 --modificacion de las fk
 --ALTER TABLE actualizacionDeDatosUF.GastoOrdinario
