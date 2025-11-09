@@ -13,6 +13,7 @@
 
 *********************************************************************************/
 
+-- HAY QUE EJECUTAR EL CODIGO DE ESTE ARCHIVO TODO JUNTO DE UNA SOLA VEZ
 
 --===============================================================================
           -- DECLARACION Y SETTEO DE VARIABLES PARA LOS PATH:
