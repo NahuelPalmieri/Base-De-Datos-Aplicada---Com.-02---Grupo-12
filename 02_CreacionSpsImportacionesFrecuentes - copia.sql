@@ -41,101 +41,6 @@ GO
 
 
 --===============================================================================
-                -- IMPORTACION DE ARCHIVO: pagos_consorcios.csv
---===============================================================================
- 
---SPs de Importacion
-CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarPagosConsorcio --DE ACA
-    @RutaArchivo NVARCHAR(MAX)
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    -- Eliminar tabla temporal si ya existe
-    IF OBJECT_ID('#PagoTemp') IS NOT NULL
-        DROP TABLE #PagoTemp;
-
-    -- Crear tabla temporal 
-    CREATE TABLE #PagoTemp ( 
-        IdPago INT,                     -- Viene del CSV
-        Fecha VARCHAR(20),             -- Fecha como texto para transformaci�n 
-        CVU_CBU CHAR(22),              -- Para hacer el JOIN
-        Importe VARCHAR(20)            -- Importe como texto para limpieza de "$"
-    );
-
-    -- BULK INSERT para importar el archivo
-    DECLARE @CadenaSQL NVARCHAR(MAX) = '
-        BULK INSERT #PagoTemp
-        FROM ''' + @RutaArchivo + '''
-        WITH (
-            FIRSTROW = 2,                  -- Saltear encabezado
-            FIELDTERMINATOR = '','',       -- Separador de campos
-            ROWTERMINATOR = ''\n'',        -- Fin de l�nea
-            CODEPAGE = ''65001'',          -- UTF-8
-            TABLOCK
-        );
-    ';
-
-    -- Ejecuto el Bulk Insert usando manejo de errores
-    BEGIN TRY
-        EXEC sp_executesql @CadenaSQL;
-    END TRY
-    BEGIN CATCH
-        PRINT 'Error al importar el archivo CSV: ' + ERROR_MESSAGE();
-        RETURN;
-    END CATCH
-
-    -- Limpio s�mbolo $ del importe 
-    UPDATE #PagoTemp
-    SET Importe = REPLACE(Importe, '$', '');
-
-    -- Elimino espacios en blanco de CVU_CBU por si lo requiere
-    UPDATE #PagoTemp
-    SET CVU_CBU = LTRIM(RTRIM(CVU_CBU));
-
-    -- Convierto fecha de DD/MM/YYYY a formato YYYY-MM-DD usando estilo 103
-	UPDATE #PagoTemp
-	SET Fecha = CONVERT(VARCHAR(10), CONVERT(DATE, Fecha, 103), 120);
-
-    -- Inserto datos en la tabla final
-    INSERT INTO dbo.PagoAConsorcio (IDConsorcio, NumeroDeUnidad, Fecha, CVU_CBU, Importe)
-    SELECT 
-        uf.IdConsorcio,
-        uf.NumeroDeUnidad,
-        TRY_CONVERT(smalldatetime, pt.Fecha),
-        pt.CVU_CBU,
-        TRY_CAST(pt.Importe AS DECIMAL(10,2))
-    FROM #PagoTemp AS pt
-    INNER JOIN actualizacionDeDatosUF.UnidadFuncional AS uf
-        ON pt.CVU_CBU = uf.CVU_CBU
-    WHERE TRY_CAST(pt.Importe AS DECIMAL(10,2)) > 0
-      AND NOT EXISTS (
-          -- Validaci�n para evitar duplicados: si el IdPago ya existe, no se inserta
-          SELECT 1
-          FROM dbo.PagoAConsorcio AS pa
-          WHERE pa.IdPago = pt.IdPago --el IdPago es de la tabla temporal
-      );
-
-    -- Mensaje de confirmaci�n
-    PRINT 'Importacion finalizada correctamente';
-
-    --Verifico que los datos del Csv se cargaron en la tabla temporal
-    SELECT * FROM #PagoTemp;
-    --ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
-    --LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
-    --DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
-
-
-    -- Limpio tabla temporal
-    DROP TABLE #PagoTemp;
-END;
-GO --HASTA ACA
-
---Ejecucion del SP
-EXEC actualizacionDeDatosUF.ImportarPagosConsorcio '$(Ruta)/$(ArchPagosConsorcio)'
-GO
-
---===============================================================================
                 -- IMPORTACION DE ARCHIVO: inquilino-propietarios-datos.csv
 --===============================================================================
 
@@ -562,6 +467,102 @@ GO --HASTA ACA
 --EJECUCION DEL STORED PROCEDURE
 EXEC actualizacionDeDatosUF.ImportarServiciosServicios '$(Ruta)/$(ArchServiciosServicios)'
 GO
+
+--===============================================================================
+                -- IMPORTACION DE ARCHIVO: pagos_consorcios.csv
+--===============================================================================
+ 
+--SPs de Importacion
+CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarPagosConsorcio --DE ACA
+    @RutaArchivo NVARCHAR(MAX)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Eliminar tabla temporal si ya existe
+    IF OBJECT_ID('#PagoTemp') IS NOT NULL
+        DROP TABLE #PagoTemp;
+
+    -- Crear tabla temporal 
+    CREATE TABLE #PagoTemp ( 
+        IdPago INT,                     -- Viene del CSV
+        Fecha VARCHAR(20),             -- Fecha como texto para transformaci�n 
+        CVU_CBU CHAR(22),              -- Para hacer el JOIN
+        Importe VARCHAR(20)            -- Importe como texto para limpieza de "$"
+    );
+
+    -- BULK INSERT para importar el archivo
+    DECLARE @CadenaSQL NVARCHAR(MAX) = '
+        BULK INSERT #PagoTemp
+        FROM ''' + @RutaArchivo + '''
+        WITH (
+            FIRSTROW = 2,                  -- Saltear encabezado
+            FIELDTERMINATOR = '','',       -- Separador de campos
+            ROWTERMINATOR = ''\n'',        -- Fin de l�nea
+            CODEPAGE = ''65001'',          -- UTF-8
+            TABLOCK
+        );
+    ';
+
+    -- Ejecuto el Bulk Insert usando manejo de errores
+    BEGIN TRY
+        EXEC sp_executesql @CadenaSQL;
+    END TRY
+    BEGIN CATCH
+        PRINT 'Error al importar el archivo CSV: ' + ERROR_MESSAGE();
+        RETURN;
+    END CATCH
+
+    -- Limpio s�mbolo $ del importe 
+    UPDATE #PagoTemp
+    SET Importe = REPLACE(Importe, '$', '');
+
+    -- Elimino espacios en blanco de CVU_CBU por si lo requiere
+    UPDATE #PagoTemp
+    SET CVU_CBU = LTRIM(RTRIM(CVU_CBU));
+
+    -- Convierto fecha de DD/MM/YYYY a formato YYYY-MM-DD usando estilo 103
+	UPDATE #PagoTemp
+	SET Fecha = CONVERT(VARCHAR(10), CONVERT(DATE, Fecha, 103), 120);
+
+    -- Inserto datos en la tabla final
+    INSERT INTO dbo.PagoAConsorcio (IDConsorcio, NumeroDeUnidad, Fecha, CVU_CBU, Importe)
+    SELECT 
+        uf.IdConsorcio,
+        uf.NumeroDeUnidad,
+        TRY_CONVERT(smalldatetime, pt.Fecha),
+        pt.CVU_CBU,
+        TRY_CAST(pt.Importe AS DECIMAL(10,2))
+    FROM #PagoTemp AS pt
+    INNER JOIN actualizacionDeDatosUF.UnidadFuncional AS uf
+        ON pt.CVU_CBU = uf.CVU_CBU
+    WHERE TRY_CAST(pt.Importe AS DECIMAL(10,2)) > 0
+      AND NOT EXISTS (
+          -- Validaci�n para evitar duplicados: si el IdPago ya existe, no se inserta
+          SELECT 1
+          FROM dbo.PagoAConsorcio AS pa
+          WHERE pa.IdPago = pt.IdPago --el IdPago es de la tabla temporal
+      );
+
+    -- Mensaje de confirmaci�n
+    PRINT 'Importacion finalizada correctamente';
+
+    --Verifico que los datos del Csv se cargaron en la tabla temporal
+    --SELECT * FROM #PagoTemp;
+    --ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
+    --LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
+    --DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
+
+
+    -- Limpio tabla temporal
+    DROP TABLE #PagoTemp;
+END;
+GO --HASTA ACA
+
+--Ejecucion del SP
+EXEC actualizacionDeDatosUF.ImportarPagosConsorcio '$(Ruta)/$(ArchPagosConsorcio)'
+GO
+
 
 --modificacion de las fk
 --ALTER TABLE actualizacionDeDatosUF.GastoOrdinario
