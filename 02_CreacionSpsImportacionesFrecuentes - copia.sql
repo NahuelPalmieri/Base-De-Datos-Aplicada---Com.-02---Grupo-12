@@ -214,8 +214,8 @@ EXEC actualizacionDeDatosUF.Importar_UFxConsorcio '$(Ruta)/$(ArchUFPorConsorcio)
 GO
 
 
-EXEC xp_servicecontrol 'QUERYSTATE', 'MSSQLSERVER';
-GO
+--EXEC xp_servicecontrol 'QUERYSTATE', 'MSSQLSERVER';
+--GO
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: Inquilino-propietarios-UF.csv            --PONERLE UN TRIGGER
 --===============================================================================
