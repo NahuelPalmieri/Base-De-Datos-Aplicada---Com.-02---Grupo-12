@@ -14,6 +14,9 @@
 
 *********************************************************************************/
 
+--Para asegurarnos que se ejecute usando la BDD
+use Com5600G12
+
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'BAULERA'
 SELECT IdBaulera, IDConsorcio, NumeroUnidad, M2Baulera
 FROM actualizacionDeDatosUF.Baulera
@@ -76,7 +79,7 @@ GO
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'CUOTAS GASTO EXTRAORDINARIO'
 SELECT  IDGastoExtraordinario, TotalDeCuotas, NumeroDeCuota
-FROM dbo.CuotasGastoExtraordinario
+FROM actualizacionDeDatosUF.CuotasGastoExtraordinario
 GO
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'ESTADO DE CUENTA'
@@ -84,15 +87,15 @@ SELECT IDConsorcio, NumeroDeUnidad, IDEstadoDeCuenta,
 	   PorcentajeMetrosCuadrados, PisoDepto, Cocheras,
 	   Bauleras, Propietario, SaldoAnteriorAbonado, PagoRecibido,
 	   Deuda, InteresPorMora, ExpensaOrdinaria, ExpensaExtraordinaria
-FROM dbo.EstadoDeCuenta
+FROM importacionDeInformacionBancaria.EstadoDeCuenta
 GO
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'GASTO EXTRAORDINARIO'
 SELECT IDGastoExtraordinario, IDConsorcio, Mes, Año, Detalle, Importe
-FROM dbo.GastoExtraordinario
+FROM actualizacionDeDatosUF.GastoExtraordinario
 GO
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'PAGO A CONSORCIO'
 SELECT IDPAGO, IDConsorcio, NumeroDeUnidad, Fecha, CVU_CBU, Importe
-FROM dbo.PagoAConsorcio
+FROM importacionDeInformacionBancaria.PagoAConsorcio
 GO

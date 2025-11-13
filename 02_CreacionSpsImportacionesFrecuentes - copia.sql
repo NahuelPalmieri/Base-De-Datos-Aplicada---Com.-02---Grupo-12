@@ -15,6 +15,9 @@
 
 -- HAY QUE EJECUTAR EL CODIGO DE ESTE ARCHIVO TODO JUNTO DE UNA SOLA VEZ
 
+--Para asegurarnos que se ejecute usando la BDD
+use Com5600G12
+
 --===============================================================================
           -- DECLARACION Y SETTEO DE VARIABLES PARA LOS PATH:
           -- (Ruta, ArchPagosConsorcio, ArchInquilinoPropietariosDatos,
@@ -144,6 +147,7 @@ begin
 	and not exists(select 1 from actualizacionDeDatosUF.Inquilino inq where inq.DNI = per.DNI)
 
 end --HASTA ACA
+
 GO
 
 --EJECUCION DEL STORED PROCEDURE
@@ -214,7 +218,6 @@ EXEC actualizacionDeDatosUF.Importar_UFxConsorcio '$(Ruta)/$(ArchUFPorConsorcio)
 GO
 
 
-EXEC xp_servicecontrol 'QUERYSTATE', 'MSSQLSERVER';
 GO
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: Inquilino-propietarios-UF.csv            --PONERLE UN TRIGGER
@@ -275,7 +278,7 @@ BEGIN
 			IQ.NroDeUnidad	  = T.NumeroDeUnidad
 		FROM actualizacionDeDatosUF.Inquilino AS IQ
 		INNER JOIN actualizacionDeDatosUF.Persona AS PE
-			ON IQ.DNI = PE.DNI							
+			ON IQ.DNI = PE.DNI			--si hacemos clave compuesta dni+cvu el join con persona no hace falta (creo)				
 		INNER JOIN #TempInqPropUF as T					
 			ON PE.CVU_CBU = T.CVU_CBU
 		INNER JOIN actualizacionDeDatosUF.Consorcio AS C
@@ -473,7 +476,7 @@ GO
 --===============================================================================
  
 --SPs de Importacion
-CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.ImportarPagosConsorcio --DE ACA
+CREATE OR ALTER PROCEDURE importacionDeInformacionBancaria.ImportarPagosConsorcio --DE ACA
     @RutaArchivo NVARCHAR(MAX)
 AS
 BEGIN
@@ -526,7 +529,7 @@ BEGIN
 	SET Fecha = CONVERT(VARCHAR(10), CONVERT(DATE, Fecha, 103), 120);
 
     -- Inserto datos en la tabla final
-    INSERT INTO dbo.PagoAConsorcio (IDConsorcio, NumeroDeUnidad, Fecha, CVU_CBU, Importe)
+    INSERT INTO importacionDeInformacionBancaria.PagoAConsorcio (IDConsorcio, NumeroDeUnidad, Fecha, CVU_CBU, Importe)
     SELECT 
         uf.IdConsorcio,
         uf.NumeroDeUnidad,
@@ -540,7 +543,7 @@ BEGIN
       AND NOT EXISTS (
           -- Validaci�n para evitar duplicados: si el IdPago ya existe, no se inserta
           SELECT 1
-          FROM dbo.PagoAConsorcio AS pa
+          FROM importacionDeInformacionBancaria.PagoAConsorcio AS pa
           WHERE pa.IdPago = pt.IdPago --el IdPago es de la tabla temporal
       );
 
@@ -560,28 +563,6 @@ END;
 GO --HASTA ACA
 
 --Ejecucion del SP
-EXEC actualizacionDeDatosUF.ImportarPagosConsorcio '$(Ruta)/$(ArchPagosConsorcio)'
+EXEC importacionDeInformacionBancaria.ImportarPagosConsorcio '$(Ruta)/$(ArchPagosConsorcio)'
 GO
 
-
---modificacion de las fk
---ALTER TABLE actualizacionDeDatosUF.GastoOrdinario
---DROP CONSTRAINT CK__GastoOrdina__Año__5AEE82B9;
-
---ALTER TABLE actualizacionDeDatosUF.GastoServicio
---DROP CONSTRAINT CK__GastoServic__Año__6383C8BA;
-
---ALTER TABLE actualizacionDeDatosUF.GastoOrdinario
---ADD CONSTRAINT CK_GastoOrdinario_AnioValido
---CHECK (Año > 1999 AND Año <= YEAR(GETDATE()));
-
---ALTER TABLE actualizacionDeDatosUF.GastoServicio
---ADD CONSTRAINT CK_GastoServicio_AnioValido
---CHECK (Año > 1999 AND Año <= YEAR(GETDATE()));
-
---modificacion a la table GastoServicio, no nos sirve el nroFactura
---ALTER TABLE actualizacionDeDatosUF.GastoServicio
---DROP CONSTRAINT UQ__GastoSer__54177A857043C527;
-
---ALTER TABLE actualizacionDeDatosUF.GastoServicio
---DROP COLUMN NroFactura
