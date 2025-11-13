@@ -429,13 +429,13 @@ BEGIN
     FROM #tempServicios_Limpia AS tsl
     CROSS APPLY (
         VALUES
-            ('BANCARIOS', tsl.Bancarios),
-            ('LIMPIEZA', tsl.Limpieza),
-            ('ADMINISTRACION', tsl.Administracion),
+            ('GASTOS BANCARIOS', tsl.Bancarios),
+            ('GASTOS DE LIMPIEZA', tsl.Limpieza),
+            ('GASTOS DE ADMINISTRACION', tsl.Administracion),
             ('SEGUROS', tsl.Seguros),
-            ('GASTOS GENERALES', tsl.Gastos_Generales),
-            ('SERVICIOS PUBLICOS-Agua', tsl.Servicios_Publicos_Agua),
-            ('SERVICIOS PUBLICOS-Luz', tsl.Servicios_Publicos_Luz)
+            ('GASTOS GENERALES', tsl.Gastos_Generales),-- a cual va?
+            ('SERVICIOS PUBLICOS', tsl.Servicios_Publicos_Agua),
+            ('SERVICIOS PUBLICOS', tsl.Servicios_Publicos_Luz)
     ) AS unpvt(TipoDeServicio, Importe)
     JOIN actualizacionDeDatosUF.Consorcio c ON c.NombreDeConsorcio = tsl.NombreConsorcio
     JOIN actualizacionDeDatosUF.Proveedor p ON p.TipoDeServicio = unpvt.TipoDeServicio
@@ -470,11 +470,11 @@ GO --HASTA ACA
 --EJECUCION DEL STORED PROCEDURE
 EXEC actualizacionDeDatosUF.ImportarServiciosServicios '$(Ruta)/$(ArchServiciosServicios)'
 GO
-
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: pagos_consorcios.csv
 --===============================================================================
- 
+ GO
+--SPs de Importacion
 CREATE OR ALTER PROCEDURE importacionDeInformacionBancaria.ImportarPagosConsorcio --DE ACA
     @RutaArchivo NVARCHAR(MAX)
 AS
@@ -515,7 +515,7 @@ BEGIN
         RETURN;
     END CATCH
 
-    -- Limpio simbolo $ del importe 
+    -- Limpio s�mbolo $ del importe 
     UPDATE #PagoTemp
     SET Importe = REPLACE(Importe, '$', '');
 
@@ -528,26 +528,34 @@ BEGIN
 	SET Fecha = CONVERT(VARCHAR(10), CONVERT(DATE, Fecha, 103), 120);
 
     -- Inserto datos en la tabla final
-    INSERT INTO importacionDeInformacionBancaria.PagoAConsorcio (IDConsorcio, NumeroDeUnidad, Fecha, CVU_CBU, Importe)
+    INSERT INTO importacionDeInformacionBancaria.PagoAConsorcio (IDConsorcio, NumeroDeUnidad, Fecha, CVU_CBU, Importe, Ordinario)
     SELECT 
         uf.IdConsorcio,
         uf.NumeroDeUnidad,
         TRY_CONVERT(smalldatetime, pt.Fecha),
         pt.CVU_CBU,
-        TRY_CAST(pt.Importe AS DECIMAL(10,2))
+        TRY_CAST(pt.Importe AS DECIMAL(10,2)),
+        ( select ABS(CHECKSUM(NEWID())) % 2 )
     FROM #PagoTemp AS pt
     INNER JOIN actualizacionDeDatosUF.UnidadFuncional AS uf
         ON pt.CVU_CBU = uf.CVU_CBU
     WHERE TRY_CAST(pt.Importe AS DECIMAL(10,2)) > 0
       AND NOT EXISTS (
-          -- Validacion para evitar duplicados: si el IdPago ya existe, no se inserta
+          -- Validaci�n para evitar duplicados: si el IdPago ya existe, no se inserta
           SELECT 1
           FROM importacionDeInformacionBancaria.PagoAConsorcio AS pa
           WHERE pa.IdPago = pt.IdPago --el IdPago es de la tabla temporal
       );
 
-    -- Mensaje de confirmacion
+    -- Mensaje de confirmaci�n
     PRINT 'Importacion finalizada correctamente';
+
+    --Verifico que los datos del Csv se cargaron en la tabla temporal
+    --SELECT * FROM #PagoTemp;
+    --ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
+    --LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
+    --DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
+
 
     -- Limpio tabla temporal
     DROP TABLE #PagoTemp;
@@ -555,6 +563,5 @@ END;
 GO --HASTA ACA
 
 --Ejecucion del SP
-EXEC importacionDeInformacionBancaria.ImportarPagosConsorcio '$(Ruta)/$(ArchPagosConsorcio)'
+EXEC importacionDeInformacionBancaria.ImportarPagosConsorcio '$(Ruta)\$(ArchPagosConsorcio)'
 GO
-
