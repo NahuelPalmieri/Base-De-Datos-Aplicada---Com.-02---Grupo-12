@@ -179,6 +179,8 @@ CREATE TABLE dbo.GastoExtraordinario
 (
 	IDGastoExtraordinario int identity(1,1) primary key,
 	IDConsorcio int, 
+	Mes int CHECK(Mes > 0 AND Mes <= 12),  --le agregue Mes y Año ya que son necesarios para el informe
+	Año int CHECK(Año > 1999 AND Año <= year(getdate())),
 	Detalle varchar(80),
 	Importe decimal(10,2),
 

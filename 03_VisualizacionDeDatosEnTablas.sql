@@ -88,7 +88,7 @@ FROM dbo.EstadoDeCuenta
 GO
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'GASTO EXTRAORDINARIO'
-SELECT IDGastoExtraordinario, IDConsorcio, Detalle, Importe 
+SELECT IDGastoExtraordinario, IDConsorcio, Mes, Año, Detalle, Importe
 FROM dbo.GastoExtraordinario
 GO
 
