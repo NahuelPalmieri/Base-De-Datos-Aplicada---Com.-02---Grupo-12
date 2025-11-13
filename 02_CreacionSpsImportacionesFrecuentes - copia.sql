@@ -475,7 +475,6 @@ GO
                 -- IMPORTACION DE ARCHIVO: pagos_consorcios.csv
 --===============================================================================
  
---SPs de Importacion
 CREATE OR ALTER PROCEDURE importacionDeInformacionBancaria.ImportarPagosConsorcio --DE ACA
     @RutaArchivo NVARCHAR(MAX)
 AS
@@ -516,7 +515,7 @@ BEGIN
         RETURN;
     END CATCH
 
-    -- Limpio s�mbolo $ del importe 
+    -- Limpio simbolo $ del importe 
     UPDATE #PagoTemp
     SET Importe = REPLACE(Importe, '$', '');
 
@@ -541,21 +540,14 @@ BEGIN
         ON pt.CVU_CBU = uf.CVU_CBU
     WHERE TRY_CAST(pt.Importe AS DECIMAL(10,2)) > 0
       AND NOT EXISTS (
-          -- Validaci�n para evitar duplicados: si el IdPago ya existe, no se inserta
+          -- Validacion para evitar duplicados: si el IdPago ya existe, no se inserta
           SELECT 1
           FROM importacionDeInformacionBancaria.PagoAConsorcio AS pa
           WHERE pa.IdPago = pt.IdPago --el IdPago es de la tabla temporal
       );
 
-    -- Mensaje de confirmaci�n
+    -- Mensaje de confirmacion
     PRINT 'Importacion finalizada correctamente';
-
-    --Verifico que los datos del Csv se cargaron en la tabla temporal
-    --SELECT * FROM #PagoTemp;
-    --ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
-    --LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
-    --DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
-
 
     -- Limpio tabla temporal
     DROP TABLE #PagoTemp;
