@@ -81,6 +81,70 @@ END;
 
 EXEC actualizacionDeDatosUF.InsertarDatosAleatoriosGastoExtraordinario @Cantidad = 50;
 
+--=======================================================================================
+                      -- REPORTE 1: Flujo de caja semanal
+--=======================================================================================
+
+CREATE OR ALTER PROCEDURE generacionDeReportes.ReporteFlujoDeCajaSemanal
+    @Anio INT,                   --parametro obligatorio de enviar
+    @MesInicio INT = NULL,       --parametro opcional de enviar
+    @MesFin INT = NULL,          --parametro opcional de enviar
+    @IDConsorcio INT = NULL      --parametro opcional de enviar
+AS
+BEGIN
+    SET DATEFIRST 1; -- Seteo al lunes como primer día de la semana
+
+    DECLARE @FechaInicio DATE;
+    DECLARE @FechaFin DATE;
+
+    -- Si no se especifican meses de inicio y fin, se toma todo el año
+    IF @MesInicio IS NULL OR @MesFin IS NULL
+    BEGIN
+        SET @FechaInicio = DATEFROMPARTS(@Anio, 1, 1);
+        SET @FechaFin = DATEFROMPARTS(@Anio + 1, 1, 1);
+    END
+    ELSE
+    BEGIN
+        SET @FechaInicio = DATEFROMPARTS(@Anio, @MesInicio, 1);
+        SET @FechaFin = DATEADD(MONTH, 1, DATEFROMPARTS(@Anio, @MesFin, 1));
+    END
+
+    -- Tabla temporal con pagos semanales
+    SELECT 
+        DATEPART(WEEK, Fecha) AS Semana,
+        DATEADD(DAY, 1 - DATEPART(WEEKDAY, Fecha), CAST(Fecha AS DATE)) AS InicioSemana,
+        DATEADD(DAY, 7 - DATEPART(WEEKDAY, Fecha), CAST(Fecha AS DATE)) AS FinSemana,
+        SUM(CASE WHEN Ordinario = 1 THEN Importe ELSE 0 END) AS TotalOrdinario,
+        SUM(CASE WHEN Ordinario = 0 THEN Importe ELSE 0 END) AS TotalExtraordinario,
+        SUM(Importe) AS TotalSemanal
+    INTO #FlujoSemanal
+    FROM importacionDeInformacionBancaria.PagoAConsorcio
+    WHERE Fecha >= @FechaInicio AND Fecha < @FechaFin
+      AND (@IDConsorcio IS NULL OR IDConsorcio = @IDConsorcio)
+    GROUP BY DATEPART(WEEK, Fecha), DATEADD(DAY, 1 - DATEPART(WEEKDAY, Fecha), CAST(Fecha AS DATE)), DATEADD(DAY, 7 - DATEPART(WEEKDAY, Fecha), CAST(Fecha AS DATE));
+
+    -- Muestro la tabla temporal, agregando el acumulado progresivo y el promedio semanal
+    SELECT 
+        Semana,
+        InicioSemana,
+        FinSemana,
+        TotalOrdinario,
+        TotalExtraordinario,
+        TotalSemanal,
+        SUM(TotalSemanal) OVER (ORDER BY InicioSemana ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS AcumuladoProgresivo,
+        AVG(TotalSemanal) OVER () AS PromedioSemanal
+    FROM #FlujoSemanal
+    ORDER BY InicioSemana;
+
+    DROP TABLE #FlujoSemanal;
+END;
+GO
+
+EXEC generacionDeReportes.ReporteFlujoDeCajaSemanal 
+    @Anio = 2025,        --parametro obligatorio de enviar
+    @MesInicio = 3,      --parametro opcional de enviar
+    @MesFin = 6;         --parametro opcional de enviar
+GO
 
 --=======================================================================================
       -- REPORTE 2: Total de recaudacion por mes y departamento
