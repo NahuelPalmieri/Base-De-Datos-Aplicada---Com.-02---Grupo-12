@@ -1,30 +1,41 @@
---======================================
---Creacion de indices para los Reportes
---======================================
+/********************************************************************************
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2Ã‚Âº Cuatrimestre 2025)
+	Creacion de Indices para los reportes
+	Comision: 5600
+	Grupo: 12
+	Integrantes:
+		- Nahuel Palmieri		(DNI: 45074926)
+		- Ivan Morales			(DNI: 39772619)
+		- Tobias Argain			(DNI: 42998669)
+		- Tomas Daniel Yagueddu (DNI: 44100611)
+		- Fernando Pereyra		(DNI: 45738989)
+		- Gian Luca Di Salvio   (DNI: 45236135)
+
+*********************************************************************************/
 
 --Para asegurarnos que se ejecute usando la BDD
 use Com5600G12
 
---======================
---Indices para reporte 3
---======================
+--================================================================
+	--INDICES PARA REPORTE 3:
+--=================================================================
 
 CREATE NONCLUSTERED INDEX IDX_GastoOrdinario
-ON actualizacionDeDatosUF.GastoOrdinario (Año, Mes)
+ON actualizacionDeDatosUF.GastoOrdinario (AÃ±o, Mes)
 INCLUDE (Importe);
 
 
 CREATE NONCLUSTERED INDEX IDX_GastoServicio
-ON actualizacionDeDatosUF.GastoServicio (Año, Mes)
+ON actualizacionDeDatosUF.GastoServicio (AÃ±o, Mes)
 INCLUDE (Importe);
 
 CREATE NONCLUSTERED INDEX IDX_GastoExtraordinario
-ON actualizacionDeDatosUF.GastoExtraordinario (Año, Mes)
+ON actualizacionDeDatosUF.GastoExtraordinario (AÃ±o, Mes)
 INCLUDE (Importe);
 
---======================
---Indices para reporte 6
---======================
+--================================================================
+	--INDICES PARA REPORTE 6:
+--================================================================
 CREATE NONCLUSTERED INDEX IDX_PagoAConsorcio
 ON importacionDeInformacionBancaria.PagoAConsorcio(IdConsorcio, NumeroDeUnidad, Fecha)
 INCLUDE (Importe);

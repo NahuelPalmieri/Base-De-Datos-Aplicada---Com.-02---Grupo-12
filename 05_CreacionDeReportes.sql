@@ -1,6 +1,17 @@
---=========
---Reportes
---=========
+/********************************************************************************
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2Âº Cuatrimestre 2025)
+	Generacion de Reportes
+	Comision: 5600
+	Grupo: 12
+	Integrantes:
+		- Nahuel Palmieri		(DNI: 45074926)
+		- Ivan Morales			(DNI: 39772619)
+		- Tobias Argain			(DNI: 42998669)
+		- Tomas Daniel Yagueddu (DNI: 44100611)
+		- Fernando Pereyra		(DNI: 45738989)
+		- Gian Luca Di Salvio   (DNI: 45236135)
+
+*********************************************************************************/
 
 --Para asegurarnos que se ejecute usando la BDD
 use Com5600G12
@@ -18,7 +29,7 @@ BEGIN
     DECLARE @TotalConsorcios INT; -- cantidad total de consorcios disponibles (lo de la tabla Consorcio)
     DECLARE @IDConsorcio INT; -- ID de consorcio elegido aleatoriamente (de los que hay en la tabla)
     DECLARE @NDetalle INT; -- Se usa para seleccionar un detalle de manera aleatoria (segun numero)
-    DECLARE @Detalle VARCHAR(80); -- descripci�n del gasto extraordinario
+    DECLARE @Detalle VARCHAR(80); -- descripción del gasto extraordinario
     DECLARE @Mes INT; -- para obtener mes aleatorio entre 1 y 12
     DECLARE @Importe DECIMAL(10,2); -- Para obtener importe aleatorio entre 15.000 y 100.000
 
@@ -35,7 +46,7 @@ BEGIN
     -- Bucle para insertar la cantidad solicitada de registros
     WHILE @i < @Cantidad
     BEGIN
-        -- Selecciona aleatoriamente un consorcio v�lido
+        -- Selecciona aleatoriamente un consorcio válido
         SELECT TOP 1 @IDConsorcio = IDConsorcio
         FROM actualizacionDeDatosUF.Consorcio
         ORDER BY NEWID();
@@ -58,8 +69,8 @@ BEGIN
         -- Genera importe aleatorio entre 15.000 y 100.000
         SET @Importe = CAST(15000 + ABS(CHECKSUM(NEWID())) % 85001 AS DECIMAL(10,2));
 
-        -- Inserta el registro en la tabla GastoExtraordinario con a�o 2025 (el a�o lo puse fijo para que sea igual al de los archivos de importacion)
-        INSERT INTO actualizacionDeDatosUF.GastoExtraordinario (IDConsorcio, Mes, A�o, Detalle, Importe)
+        -- Inserta el registro en la tabla GastoExtraordinario con año 2025 (el año lo puse fijo para que sea igual al de los archivos de importacion)
+        INSERT INTO actualizacionDeDatosUF.GastoExtraordinario (IDConsorcio, Mes, Año, Detalle, Importe)
         VALUES (@IDConsorcio, @Mes, 2025, @Detalle, @Importe);
 
         -- Incrementa el contador
@@ -75,27 +86,123 @@ SELECT *
 FROM actualizacionDeDatosUF.GastoExtraordinario
 
 --delete from actualizacionDeDatosUF.GastoExtraordinario
---==========
---Reporte 3
---==========
+
+--=======================================================================================
+      -- REPORTE 2: Total de recaudacion por mes y departamento
+--=======================================================================================
+
+CREATE OR ALTER PROCEDURE generacionDeReportes.Reporte_Total_Recaudacion_Mes_Departamento
+		@IDConsorcio INT = NULL,
+		@Piso CHAR(2) = NULL,
+		@Departamento CHAR(1) = NULL,
+		@Anio INT,
+		@Mes INT = NULL
+AS
+BEGIN
+		----------------------1.CREACION DE FECHAS------------------------
+		DECLARE @FechaInicial DATE;
+		DECLARE @FechaFinal DATE;
+
+		IF @Mes IS NULL
+		BEGIN
+			  SET @FechaInicial = DATEFROMPARTS(@Anio,1,1); --2025/01/01
+			  SET @FechaFinal = DATEFROMPARTS(@Anio + 1,1,1); --2026/01/01
+		END
+		ELSE
+		BEGIN
+			  SET @FechaInicial = DATEFROMPARTS(@Anio,@Mes,1); --2025/mes/01
+			  SET @FechaFinal = DATEFROMPARTS(@Anio,@Mes + 1,1); --2025/mes+1/01
+			  END
+		------------------------------------------------------------------------
+
+		-----------------2.GENERACION DE LA TABLA TEMPORAL BASE-----------------
+		SELECT
+			  C.NombreDeConsorcio AS Consorcio,
+			  UF.Piso,
+			  UF.Departamento,
+			  MONTH(P.Fecha) AS Mes,
+			  SUM(P.Importe) AS TotalRecaudado
+		INTO #Recaudacion
+		FROM importacionDeInformacionBancaria.PagoAConsorcio AS P
+		INNER JOIN actualizacionDeDatosUF.UnidadFuncional AS UF
+			  ON P.IDConsorcio = UF.IDConsorcio
+			  AND P.NumeroDeUnidad = UF.NumeroDeUnidad
+		INNER JOIN actualizacionDeDatosUF.Consorcio AS C
+			  ON C.IDConsorcio = UF.IDConsorcio 
+		WHERE
+			 (P.Fecha >= @FechaInicial AND P.Fecha < @FechaFinal) 
+			 AND (@IDConsorcio IS NULL OR C.IDConsorcio= @IDConsorcio)
+			 AND (@Departamento IS NULL OR UF.Departamento = @Departamento)
+			 AND (@Piso IS NULL OR UF.Piso = @Piso) ----------------------------
+		GROUP BY
+			 C.NombreDeConsorcio,UF.Piso,UF.Departamento,MONTH(P.Fecha);
+		-------------------------------------------------------------------------
+
+		-----------------------------3.PIVOT-------------------------------------
+
+		IF @Mes IS NULL    ---Si no ingreso un mes especifico muestro todos los meses
+		BEGIN
+			SELECT 
+				  Consorcio,
+				  Piso,
+				  Departamento,
+				  ISNULL([1],0)	 AS Enero,
+				  ISNULL([2],0)	 AS Febrero,
+				  ISNULL([3],0)	 AS Marzo,
+				  ISNULL([4],0)	 AS Abril,
+				  ISNULL([5],0)	 AS Mayo,
+				  ISNULL([6],0)	 AS Junio,
+				  ISNULL([7],0)	 AS Julio,
+				  ISNULL([8],0)	 AS Agosto,
+				  ISNULL([9],0)	 AS Septiembre,
+				  ISNULL([10],0) AS Octubre,
+				  ISNULL([11],0) AS Noviembre,
+				  ISNULL([12],0) AS Diciembre
+			FROM #Recaudacion
+			PIVOT (
+				SUM(TotalRecaudado)
+				FOR Mes in ([1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12])
+			  ) AS PivotTable
+				ORDER BY Consorcio, Piso
+		END
+		ELSE
+		BEGIN
+			SELECT
+				Consorcio,
+				Piso,
+				Departamento, 
+				SUM(ISNULL(TotalRecaudado,0)) AS MesIngresado
+			FROM #Recaudacion
+			GROUP BY Consorcio,Piso,Departamento
+			ORDER BY Consorcio, Piso
+		END  
+		DROP TABLE #Recaudacion;
+END;
+
+
+--=======================================================================================
+        -- REPORTE 3: Recaudacion total desagregada segun su  procedencia (ordinario, 
+        --            extraordinario, etc). segun el periodo.
+--=======================================================================================
+
 ;--PASAR REPORTE A SP DENTRO DE SCHEMA 'generacionDeReportes'
 WITH CTE_Gastos AS (
     SELECT 'Ordinario' AS [Tipo de gasto], --Como no tengo un campo con los tipos de gasto, creo la columna [Tipo de gasto] y le asigno nombres fijos
-           CONVERT(VARCHAR(7), DATEFROMPARTS(A�o, Mes, 1), 120) AS Periodo,
+           CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
            Importe
     FROM actualizacionDeDatosUF.GastoOrdinario
 
     UNION ALL
 
     SELECT 'Extraordinario' AS [Tipo de gasto],
-           CONVERT(VARCHAR(7), DATEFROMPARTS(A�o, Mes, 1), 120) AS Periodo,
+           CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
            Importe
     FROM actualizacionDeDatosUF.GastoExtraordinario
 
     UNION ALL --uno los resultados de la consulta en una sola tabla sin repetidos, ya que todas tiene la misma estructura en lo que se pide
-			  -- Todas estan de la manera importe, a�o, mes
+			  -- Todas estan de la manera importe, año, mes
     SELECT 'Servicios' AS [Tipo de gasto],
-           CONVERT(VARCHAR(7), DATEFROMPARTS(A�o, Mes, 1), 120) AS Periodo,
+           CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
            Importe
     FROM actualizacionDeDatosUF.GastoServicio
 )
@@ -109,9 +216,10 @@ PIVOT (
 ) AS CuadroCruzado;
 
 
---==========
---Reporte 6
---==========
+--===========================================================================================
+        -- REPORTE 6: Fechas de pagos de expensas ordinarias de cada UF y la cantidad de 
+        --            dias que pasan entre un pago y el siguiente, para el conjunto examinado.
+--===========================================================================================
 
 GO
 EXEC sp_configure 'Ole Automation Procedures', 1;	-- Habilitamos esta opcion para poder interactuar con los objetos COM (para consumir la API)
