@@ -1,5 +1,5 @@
 /********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2Âº Cuatrimestre 2025)
 	Creacion de Indices para los reportes
 	Comision: 5600
 	Grupo: 12
@@ -21,16 +21,16 @@ use Com5600G12
 --=================================================================
 
 CREATE NONCLUSTERED INDEX IDX_GastoOrdinario
-ON actualizacionDeDatosUF.GastoOrdinario (A�o, Mes)
+ON actualizacionDeDatosUF.GastoOrdinario (Año, Mes)
 INCLUDE (Importe);
 
 
 CREATE NONCLUSTERED INDEX IDX_GastoServicio
-ON actualizacionDeDatosUF.GastoServicio (A�o, Mes)
+ON actualizacionDeDatosUF.GastoServicio (Año, Mes)
 INCLUDE (Importe);
 
 CREATE NONCLUSTERED INDEX IDX_GastoExtraordinario
-ON actualizacionDeDatosUF.GastoExtraordinario (A�o, Mes)
+ON actualizacionDeDatosUF.GastoExtraordinario (Año, Mes)
 INCLUDE (Importe);
 
 --================================================================

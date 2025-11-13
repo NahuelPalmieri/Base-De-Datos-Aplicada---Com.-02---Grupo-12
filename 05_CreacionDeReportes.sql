@@ -1,5 +1,5 @@
 /********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2Âº Cuatrimestre 2025)
 	Generacion de Reportes
 	Comision: 5600
 	Grupo: 12
@@ -29,7 +29,7 @@ BEGIN
     DECLARE @TotalConsorcios INT; -- cantidad total de consorcios disponibles (lo de la tabla Consorcio)
     DECLARE @IDConsorcio INT; -- ID de consorcio elegido aleatoriamente (de los que hay en la tabla)
     DECLARE @NDetalle INT; -- Se usa para seleccionar un detalle de manera aleatoria (segun numero)
-    DECLARE @Detalle VARCHAR(80); -- descripci�n del gasto extraordinario
+    DECLARE @Detalle VARCHAR(80); -- descripción del gasto extraordinario
     DECLARE @Mes INT; -- para obtener mes aleatorio entre 1 y 12
     DECLARE @Importe DECIMAL(10,2); -- Para obtener importe aleatorio entre 15.000 y 100.000
 
@@ -46,7 +46,7 @@ BEGIN
     -- Bucle para insertar la cantidad solicitada de registros
     WHILE @i < @Cantidad
     BEGIN
-        -- Selecciona aleatoriamente un consorcio v�lido
+        -- Selecciona aleatoriamente un consorcio válido
         SELECT TOP 1 @IDConsorcio = IDConsorcio
         FROM actualizacionDeDatosUF.Consorcio
         ORDER BY NEWID();
@@ -69,8 +69,8 @@ BEGIN
         -- Genera importe aleatorio entre 15.000 y 100.000
         SET @Importe = CAST(15000 + ABS(CHECKSUM(NEWID())) % 85001 AS DECIMAL(10,2));
 
-        -- Inserta el registro en la tabla GastoExtraordinario con a�o 2025 (el a�o lo puse fijo para que sea igual al de los archivos de importacion)
-        INSERT INTO actualizacionDeDatosUF.GastoExtraordinario (IDConsorcio, Mes, A�o, Detalle, Importe)
+        -- Inserta el registro en la tabla GastoExtraordinario con año 2025 (el año lo puse fijo para que sea igual al de los archivos de importacion)
+        INSERT INTO actualizacionDeDatosUF.GastoExtraordinario (IDConsorcio, Mes, Año, Detalle, Importe)
         VALUES (@IDConsorcio, @Mes, 2025, @Detalle, @Importe);
 
         -- Incrementa el contador
@@ -188,21 +188,21 @@ END;
 ;--PASAR REPORTE A SP DENTRO DE SCHEMA 'generacionDeReportes'
 WITH CTE_Gastos AS (
     SELECT 'Ordinario' AS [Tipo de gasto], --Como no tengo un campo con los tipos de gasto, creo la columna [Tipo de gasto] y le asigno nombres fijos
-           CONVERT(VARCHAR(7), DATEFROMPARTS(A�o, Mes, 1), 120) AS Periodo,
+           CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
            Importe
     FROM actualizacionDeDatosUF.GastoOrdinario
 
     UNION ALL
 
     SELECT 'Extraordinario' AS [Tipo de gasto],
-           CONVERT(VARCHAR(7), DATEFROMPARTS(A�o, Mes, 1), 120) AS Periodo,
+           CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
            Importe
     FROM actualizacionDeDatosUF.GastoExtraordinario
 
     UNION ALL --uno los resultados de la consulta en una sola tabla sin repetidos, ya que todas tiene la misma estructura en lo que se pide
-			  -- Todas estan de la manera importe, a�o, mes
+			  -- Todas estan de la manera importe, año, mes
     SELECT 'Servicios' AS [Tipo de gasto],
-           CONVERT(VARCHAR(7), DATEFROMPARTS(A�o, Mes, 1), 120) AS Periodo,
+           CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
            Importe
     FROM actualizacionDeDatosUF.GastoServicio
 )
