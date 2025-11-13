@@ -1,5 +1,5 @@
-/********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
+ï»¿/********************************************************************************
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2ï¿½ Cuatrimestre 2025)
 	Visualizacion de los datos que tienen las tablas de la base de datos
 	mediante el uso de consultas SELECT
 	Comision: 5600
@@ -35,12 +35,12 @@ GO
 
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'GASTO ORDINARIO'
-SELECT IDGastoOrdinario, IDConsorcio, Mes, Año, Importe 
+SELECT IDGastoOrdinario, IDConsorcio, Mes, Aï¿½o, Importe 
 FROM actualizacionDeDatosUF.GastoOrdinario
 GO
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'GASTO SERVICIO'
-SELECT IDGasto, IDConsorcio, IDProveedor, Importe, Mes, Año 
+SELECT IDGasto, IDConsorcio, IDProveedor, Importe, Mes, Aï¿½o 
 FROM actualizacionDeDatosUF.GastoServicio
 GO
 
@@ -91,11 +91,11 @@ FROM importacionDeInformacionBancaria.EstadoDeCuenta
 GO
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'GASTO EXTRAORDINARIO'
-SELECT IDGastoExtraordinario, IDConsorcio, Mes, Año, Detalle, Importe
+SELECT IDGastoExtraordinario, IDConsorcio, Mes, Aï¿½o, Detalle, Importe
 FROM actualizacionDeDatosUF.GastoExtraordinario
 GO
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'PAGO A CONSORCIO'
-SELECT IDPAGO, IDConsorcio, NumeroDeUnidad, Fecha, CVU_CBU, Importe, Ordinario
+SELECT IDPAGO, IDConsorcio, NumeroDeUnidad, Fecha, CVU_CBU, Importe
 FROM importacionDeInformacionBancaria.PagoAConsorcio
 GO

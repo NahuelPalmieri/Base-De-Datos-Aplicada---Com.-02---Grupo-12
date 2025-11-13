@@ -1,5 +1,5 @@
 /********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2Âº Cuatrimestre 2025)
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
 	Generacion de Reportes
 	Comision: 5600
 	Grupo: 12
@@ -15,71 +15,6 @@
 
 --Para asegurarnos que se ejecute usando la BDD
 use Com5600G12
-GO
-
---=======================================================================================
-                      -- REPORTE 1: Flujo de caja semanal
---=======================================================================================
-
-CREATE OR ALTER PROCEDURE generacionDeReportes.ReporteFlujoDeCajaSemanal
-    @Anio INT,                   --parametro obligatorio de enviar
-    @MesInicio INT = NULL,       --parametro opcional de enviar
-    @MesFin INT = NULL,          --parametro opcional de enviar
-    @IDConsorcio INT = NULL      --parametro opcional de enviar
-AS
-BEGIN
-    SET DATEFIRST 1; -- Seteo al lunes como primer día de la semana
-
-    DECLARE @FechaInicio DATE;
-    DECLARE @FechaFin DATE;
-
-    -- Si no se especifican meses de inicio y fin, se toma todo el año
-    IF @MesInicio IS NULL OR @MesFin IS NULL
-    BEGIN
-        SET @FechaInicio = DATEFROMPARTS(@Anio, 1, 1);
-        SET @FechaFin = DATEFROMPARTS(@Anio + 1, 1, 1);
-    END
-    ELSE
-    BEGIN
-        SET @FechaInicio = DATEFROMPARTS(@Anio, @MesInicio, 1);
-        SET @FechaFin = DATEADD(MONTH, 1, DATEFROMPARTS(@Anio, @MesFin, 1));
-    END
-
-    -- Tabla temporal con pagos semanales
-    SELECT 
-        DATEPART(WEEK, Fecha) AS Semana,
-        DATEADD(DAY, 1 - DATEPART(WEEKDAY, Fecha), CAST(Fecha AS DATE)) AS InicioSemana,
-        DATEADD(DAY, 7 - DATEPART(WEEKDAY, Fecha), CAST(Fecha AS DATE)) AS FinSemana,
-        SUM(CASE WHEN Ordinario = 1 THEN Importe ELSE 0 END) AS TotalOrdinario,
-        SUM(CASE WHEN Ordinario = 0 THEN Importe ELSE 0 END) AS TotalExtraordinario,
-        SUM(Importe) AS TotalSemanal
-    INTO #FlujoSemanal
-    FROM importacionDeInformacionBancaria.PagoAConsorcio
-    WHERE Fecha >= @FechaInicio AND Fecha < @FechaFin
-      AND (@IDConsorcio IS NULL OR IDConsorcio = @IDConsorcio)
-    GROUP BY DATEPART(WEEK, Fecha), DATEADD(DAY, 1 - DATEPART(WEEKDAY, Fecha), CAST(Fecha AS DATE)), DATEADD(DAY, 7 - DATEPART(WEEKDAY, Fecha), CAST(Fecha AS DATE));
-
-    -- Muestro la tabla temporal, agregando el acumulado progresivo y el promedio semanal
-    SELECT 
-        Semana,
-        InicioSemana,
-        FinSemana,
-        TotalOrdinario,
-        TotalExtraordinario,
-        TotalSemanal,
-        SUM(TotalSemanal) OVER (ORDER BY InicioSemana ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS AcumuladoProgresivo,
-        AVG(TotalSemanal) OVER () AS PromedioSemanal
-    FROM #FlujoSemanal
-    ORDER BY InicioSemana;
-
-    DROP TABLE #FlujoSemanal;
-END;
-GO
-
-EXEC generacionDeReportes.ReporteFlujoDeCajaSemanal 
-    @Anio = 2025,        --parametro obligatorio de enviar
-    @MesInicio = 3,      --parametro opcional de enviar
-    @MesFin = 6;         --parametro opcional de enviar
 GO
 
 --=======================================================================================
@@ -187,42 +122,42 @@ BEGIN
 	DECLARE @CadenaSQL NVARCHAR(MAX);
 
 	--Armo la lista de columnas
-	SELECT @ColumnasPivot = STRING_AGG(QUOTENAME(CONVERT(VARCHAR(7), DATEFROMPARTS(Año,Mes,1), 120)), ',')--Para que tenga la forma yyyy-mm
-	FROM(SELECT DISTINCT Año, Mes
+	SELECT @ColumnasPivot = STRING_AGG(QUOTENAME(CONVERT(VARCHAR(7), DATEFROMPARTS(A�o,Mes,1), 120)), ',')--Para que tenga la forma yyyy-mm
+	FROM(SELECT DISTINCT A�o, Mes
 		 FROM actualizacionDeDatosUF.GastoOrdinario
 		 UNION
-		 SELECT DISTINCT Año, Mes  --Obtengo todos los Meses y Años distintos de las tablas
+		 SELECT DISTINCT A�o, Mes  --Obtengo todos los Meses y A�os distintos de las tablas
 		 FROM actualizacionDeDatosUF.GastoExtraordinario 
 		 UNION
-		 SELECT DISTINCT Año, Mes
+		 SELECT DISTINCT A�o, Mes
 		 FROM actualizacionDeDatosUF.GastoServicio ) AS Periodos;
 
 	SET @CadenaSQL = '
 	WITH CTE_Gastos AS (
 		SELECT ''Ordinario'' AS [Tipo de gasto],
-			   CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,  --Convierte Año y Mes en un formato yyyy-mm
+			   CONVERT(VARCHAR(7), DATEFROMPARTS(A�o, Mes, 1), 120) AS Periodo,  --Convierte A�o y Mes en un formato yyyy-mm
 			   SUM(Importe) AS Importe
-		FROM (SELECT DISTINCT Año, Mes, Importe
+		FROM (SELECT DISTINCT A�o, Mes, Importe
 			  FROM actualizacionDeDatosUF.GastoOrdinario) AS tOrdinario
-		GROUP BY Año, Mes
+		GROUP BY A�o, Mes
 
 		UNION ALL
 
 		SELECT ''Extraordinario'' AS [Tipo de gasto],
-			   CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
+			   CONVERT(VARCHAR(7), DATEFROMPARTS(A�o, Mes, 1), 120) AS Periodo,
 			   SUM(Importe) AS Importe
-		FROM (SELECT DISTINCT Año, Mes, Importe   --Evita que se repitan la combinacion de Año,Mes,Importe y asi evitar duplicados antes de agrupar
+		FROM (SELECT DISTINCT A�o, Mes, Importe   --Evita que se repitan la combinacion de A�o,Mes,Importe y asi evitar duplicados antes de agrupar
 			  FROM actualizacionDeDatosUF.GastoExtraordinario) AS tExtraordinario
-		GROUP BY Año, Mes
+		GROUP BY A�o, Mes
 
 		UNION ALL
 
 		SELECT ''Servicios'' AS [Tipo de gasto],
-			   CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
+			   CONVERT(VARCHAR(7), DATEFROMPARTS(A�o, Mes, 1), 120) AS Periodo,
 			   SUM(Importe) AS Importe
-		FROM (SELECT DISTINCT Año, Mes, Importe
+		FROM (SELECT DISTINCT A�o, Mes, Importe
 			  FROM actualizacionDeDatosUF.GastoServicio) AS tServicios
-		GROUP BY Año, Mes
+		GROUP BY A�o, Mes
 	)
 	SELECT [Tipo de gasto], ' + @ColumnasPivot + '
 	FROM (SELECT [Tipo de gasto], Periodo, Importe
@@ -233,40 +168,6 @@ BEGIN
 END;
 
 EXEC generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto;
-
---===========================================================================================--
-        -- REPORTE 4: Los 5 (cinco) meses de mayores gastos y los 5 (cinco) de mayores ingresos. 
---===========================================================================================--
-CREATE OR ALTER PROCEDURE generacionDeReportes.Reporte_De_Cinco_Meses
-	@año INT = NULL, --Para filtrar gastos e ingresos por año
-	@consorcio INT = NULL, --Para filtrar gastos e ingresos de determinado consorcio por su ID.
-	@detalle CHAR(1) = NULL --Para filtrar gastos por numero de detalle
-AS
-BEGIN
-	DECLARE @strDetalle VARCHAR(10) = NULL;
-	IF @detalle IS NOT NULL
-		SET @strDetalle = CONCAT('Detalle ', @detalle);
-
-	SELECT TOP 5 
-		Año,
-		DATENAME(MONTH, DATEFROMPARTS(Año, mes, 1)) AS nombre_mes,
-		sum(importe) as total_gastos
-	FROM actualizacionDeDatosUF.GastoExtraordinario
-	WHERE (@año IS NULL OR Año = @año)
-		AND (@consorcio IS NULL OR IDConsorcio = @consorcio) 
-		AND (@strDetalle IS NULL OR Detalle = @strDetalle)
-	GROUP BY año, mes
-	ORDER BY total_gastos DESC;
-
-	SELECT TOP 5 
-		YEAR(Fecha) AS año,
-		DATENAME(MONTH, Fecha) AS mes,
-		sum(importe) as total_ingresos
-	FROM importacionDeInformacionBancaria.PagoAConsorcio
-		WHERE (@año IS NULL OR YEAR(Fecha) = @año) 
-		AND (@consorcio IS NULL OR @consorcio = IDConsorcio)
-	GROUP BY YEAR(Fecha), DATENAME(MONTH, Fecha), MONTH(Fecha);
-END;
 
 
 
@@ -320,5 +221,4 @@ begin
 end
 
 exec generacionDeReportes.ReporteDiasEntrePagosOrdinarios
-
 
