@@ -19,7 +19,7 @@ GO
 
 --Generacion aleatoria de datos para la tabla GastosExtraordinarios (PRUEBA)
 CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.InsertarDatosAleatoriosGastoExtraordinario
-    @Cantidad INT -- parametro para indicar la cantidad a insertar
+    @Cantidad INT --Cantidad a insertar
 AS
 BEGIN
 
@@ -66,8 +66,8 @@ BEGIN
         -- Genera mes aleatorio entre 1 y 12
         SET @Mes = 1 + ABS(CHECKSUM(NEWID())) % 12;
 
-        -- Genera importe aleatorio entre 15.000 y 100.000
-        SET @Importe = CAST(15000 + ABS(CHECKSUM(NEWID())) % 85001 AS DECIMAL(10,2));
+         -- Importe aleatorio con decimales
+        SET @Importe = ROUND(15000 + (RAND(CHECKSUM(NEWID())) * 85000), 2);
 
         -- Inserta el registro en la tabla GastoExtraordinario con año 2025 (el año lo puse fijo para que sea igual al de los archivos de importacion)
         INSERT INTO actualizacionDeDatosUF.GastoExtraordinario (IDConsorcio, Mes, Año, Detalle, Importe)
@@ -78,14 +78,9 @@ BEGIN
     END
 END;
 
---Ejecucion del SP
+
 EXEC actualizacionDeDatosUF.InsertarDatosAleatoriosGastoExtraordinario @Cantidad = 50;
 
---Verifico que los datos se cargaron en la tabla GastoExtraordinario
-SELECT *
-FROM actualizacionDeDatosUF.GastoExtraordinario
-
---delete from actualizacionDeDatosUF.GastoExtraordinario
 
 --=======================================================================================
       -- REPORTE 2: Total de recaudacion por mes y departamento
@@ -185,35 +180,60 @@ END;
         --            extraordinario, etc). segun el periodo.
 --=======================================================================================
 
-;--PASAR REPORTE A SP DENTRO DE SCHEMA 'generacionDeReportes'
-WITH CTE_Gastos AS (
-    SELECT 'Ordinario' AS [Tipo de gasto], --Como no tengo un campo con los tipos de gasto, creo la columna [Tipo de gasto] y le asigno nombres fijos
-           CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
-           Importe
-    FROM actualizacionDeDatosUF.GastoOrdinario
+CREATE OR ALTER PROCEDURE generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto AS
+BEGIN
 
-    UNION ALL
+	DECLARE @ColumnasPivot NVARCHAR(MAX); --Guarda los meses en la forma yyyy-mm
+	DECLARE @CadenaSQL NVARCHAR(MAX);
 
-    SELECT 'Extraordinario' AS [Tipo de gasto],
-           CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
-           Importe
-    FROM actualizacionDeDatosUF.GastoExtraordinario
+	--Armo la lista de columnas
+	SELECT @ColumnasPivot = STRING_AGG(QUOTENAME(CONVERT(VARCHAR(7), DATEFROMPARTS(Año,Mes,1), 120)), ',')--Para que tenga la forma yyyy-mm
+	FROM(SELECT DISTINCT Año, Mes
+		 FROM actualizacionDeDatosUF.GastoOrdinario
+		 UNION
+		 SELECT DISTINCT Año, Mes  --Obtengo todos los Meses y Años distintos de las tablas
+		 FROM actualizacionDeDatosUF.GastoExtraordinario 
+		 UNION
+		 SELECT DISTINCT Año, Mes
+		 FROM actualizacionDeDatosUF.GastoServicio ) AS Periodos;
 
-    UNION ALL --uno los resultados de la consulta en una sola tabla sin repetidos, ya que todas tiene la misma estructura en lo que se pide
-			  -- Todas estan de la manera importe, año, mes
-    SELECT 'Servicios' AS [Tipo de gasto],
-           CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
-           Importe
-    FROM actualizacionDeDatosUF.GastoServicio
-)
-SELECT [Tipo de gasto], [2025-04], [2025-05], [2025-06] ---Si se agregan nuevos meses?? SQL dinamico?
-FROM (
-    SELECT [Tipo de gasto], Periodo, Importe
-    FROM CTE_Gastos
-) AS Fuente
-PIVOT (
-    SUM(Importe) FOR Periodo IN ([2025-04], [2025-05], [2025-06])
-) AS CuadroCruzado;
+	SET @CadenaSQL = '
+	WITH CTE_Gastos AS (
+		SELECT ''Ordinario'' AS [Tipo de gasto],
+			   CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,  --Convierte Año y Mes en un formato yyyy-mm
+			   SUM(Importe) AS Importe
+		FROM (SELECT DISTINCT Año, Mes, Importe
+			  FROM actualizacionDeDatosUF.GastoOrdinario) AS tOrdinario
+		GROUP BY Año, Mes
+
+		UNION ALL
+
+		SELECT ''Extraordinario'' AS [Tipo de gasto],
+			   CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
+			   SUM(Importe) AS Importe
+		FROM (SELECT DISTINCT Año, Mes, Importe   --Evita que se repitan la combinacion de Año,Mes,Importe y asi evitar duplicados antes de agrupar
+			  FROM actualizacionDeDatosUF.GastoExtraordinario) AS tExtraordinario
+		GROUP BY Año, Mes
+
+		UNION ALL
+
+		SELECT ''Servicios'' AS [Tipo de gasto],
+			   CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
+			   SUM(Importe) AS Importe
+		FROM (SELECT DISTINCT Año, Mes, Importe
+			  FROM actualizacionDeDatosUF.GastoServicio) AS tServicios
+		GROUP BY Año, Mes
+	)
+	SELECT [Tipo de gasto], ' + @ColumnasPivot + '
+	FROM (SELECT [Tipo de gasto], Periodo, Importe
+		  FROM CTE_Gastos) AS tfuente
+	PIVOT (SUM(Importe) FOR Periodo IN (' + @ColumnasPivot + ')) AS CuadroCruzado;';
+
+	EXEC sp_executesql @CadenaSQL;
+END;
+
+EXEC generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto;
+
 
 
 --===========================================================================================
