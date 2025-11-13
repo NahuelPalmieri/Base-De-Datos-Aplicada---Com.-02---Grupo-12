@@ -90,7 +90,7 @@ FROM actualizacionDeDatosUF.GastoExtraordinario
 --=======================================================================================
       -- REPORTE 2: Total de recaudacion por mes y departamento
 --=======================================================================================
-
+GO
 CREATE OR ALTER PROCEDURE generacionDeReportes.Reporte_Total_Recaudacion_Mes_Departamento
 		@IDConsorcio INT = NULL,
 		@Piso CHAR(2) = NULL,
@@ -253,14 +253,18 @@ begin
         datediff(day, pac.fecha,lag(pac.Fecha, 1, NULL) over(partition by pac.IdConsorcio, pac.NumeroDeUnidad order by pac.Fecha desc)) as DiferenciaDias 
         from importacionDeInformacionBancaria.PagoAConsorcio pac
         where pac.IDConsorcio = @IdConsorcio
+		and pac.Ordinario = 1
     end
     else
     begin
         select pac.IDConsorcio, pac.NumeroDeUnidad, pac.Fecha, pac.Importe, pac.importe/(select importe from openjson(@datos)with([Importe] decimal(10,2) '$.venta')) as ImporteUSD,
         datediff(day, pac.fecha,lag(pac.Fecha, 1, NULL) over(partition by pac.IdConsorcio, pac.NumeroDeUnidad order by pac.Fecha desc)) as DiferenciaDias 
         from importacionDeInformacionBancaria.PagoAConsorcio pac
+		where pac.Ordinario = 1
     end
     
 end
 
 exec generacionDeReportes.ReporteDiasEntrePagosOrdinarios
+
+
