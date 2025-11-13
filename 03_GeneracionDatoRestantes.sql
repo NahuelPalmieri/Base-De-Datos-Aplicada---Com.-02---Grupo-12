@@ -80,3 +80,5 @@ END;
 
 
 EXEC actualizacionDeDatosUF.InsertarDatosAleatoriosGastoExtraordinario @Cantidad = 50;
+
+--Generacion aleatoria de datos para la tabla EstadoDeCuenta (PRUEBA)
