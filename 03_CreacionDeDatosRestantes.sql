@@ -1,5 +1,5 @@
 /********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2บ Cuatrimestre 2025)
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2ยบ Cuatrimestre 2025)
 	Generacion de Reportes
 	Comision: 5600
 	Grupo: 12
@@ -80,5 +80,3 @@ END;
 
 
 EXEC actualizacionDeDatosUF.InsertarDatosAleatoriosGastoExtraordinario @Cantidad = 50;
-
---Generacion aleatoria de datos para la tabla EstadoDeCuenta (PRUEBA)
