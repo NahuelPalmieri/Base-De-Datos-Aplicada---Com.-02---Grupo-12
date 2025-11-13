@@ -16,7 +16,7 @@
 -- ===============================
 -- 1. CREACION DE LA BASE DE DATOS
 -- ===============================
-DROP DATABASE Com5600G12
+--DROP DATABASE Com5600G12
 IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'Com5600G12')
 BEGIN
     CREATE DATABASE Com5600G12;
@@ -274,6 +274,7 @@ CREATE TABLE importacionDeInformacionBancaria.PagoAConsorcio
 	Fecha smalldatetime, --pasar a date?
 	CVU_CBU char(22),
 	Importe decimal(10,2) CHECK(Importe > 0),
+	Ordinario bit not null,
 
 	CONSTRAINT FK_Unidad FOREIGN KEY (IDConsorcio, NumeroDeUnidad) REFERENCES actualizacionDeDatosUF.UnidadFuncional (IDConsorcio, NumeroDeUnidad)
 );
