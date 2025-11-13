@@ -33,8 +33,8 @@ GO
 -- ===============================
 
 IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'actualizacionDeDatosUF') EXEC('CREATE SCHEMA actualizacionDeDatosUF');
---IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'importacionDeInformacionBancaria') EXEC('CREATE SCHEMA importacionDeInformacionBancaria');
---IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'ieneracionDeReportes') EXEC('CREATE SCHEMA administrativoOperativo');
+IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'importacionDeInformacionBancaria') EXEC('CREATE SCHEMA importacionDeInformacionBancaria');
+IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'generacionDeReportes') EXEC('CREATE SCHEMA generacionDeReportes');
 GO 
 
 
@@ -173,9 +173,9 @@ GO
 -- TABLA: GastoExtraordinario
 --==============================
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.GastoExtraordinario') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.GastoExtraordinario') AND type in (N'U'))
 BEGIN
-CREATE TABLE dbo.GastoExtraordinario
+CREATE TABLE actualizacionDeDatosUF.GastoExtraordinario
 (
 	IDGastoExtraordinario int identity(1,1) primary key,
 	IDConsorcio int, 
@@ -194,14 +194,14 @@ GO
 -- TABLA: CuotasGastoExtraordinario
 --==================================
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.CuotasGastoExtraordinario') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.CuotasGastoExtraordinario') AND type in (N'U'))
 BEGIN
-CREATE TABLE dbo.CuotasGastoExtraordinario
+CREATE TABLE actualizacionDeDatosUF.CuotasGastoExtraordinario
 (
 	IDGastoExtraordinario int identity(1,1) primary key,  --no se esta usando el PK de la tabla GastoExtraordinario, 
 	TotalDeCuotas int CHECK(TotalDeCuotas >= 0),		  --si es PK+FK como se muestra deberia ser IDGastoExtraordinario y NO IdGastoExtraordinario
 	NumeroDeCuota int
-	CONSTRAINT FK_CuotasGastoExtraordinario FOREIGN KEY (IDGastoExtraordinario) REFERENCES dbo.GastoExtraordinario (IDGastoExtraordinario)
+	CONSTRAINT FK_CuotasGastoExtraordinario FOREIGN KEY (IDGastoExtraordinario) REFERENCES actualizacionDeDatosUF.GastoExtraordinario (IDGastoExtraordinario)
 ); --Le agrege el FOREIGN KEY porque no se le coloco
 END 
 GO
@@ -229,7 +229,7 @@ GO
 -- TABLA: Proveedor
 --==============================
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.Proveedor') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.Proveedor') AND type in (N'U'))
 BEGIN
 CREATE TABLE actualizacionDeDatosUF.Proveedor
 (
@@ -243,9 +243,9 @@ GO
 -- TABLA: GastoServicio
 --==============================
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.Gasto_Servicio') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.GastoServicio') AND type in (N'U'))
 BEGIN
-CREATE TABLE actualizacionDeDatosUF.GastoServicio --Quite del nombre de la tabla el "_" 
+CREATE TABLE actualizacionDeDatosUF.GastoServicio
 (
 	IDGasto int identity(1,1) primary key,
 	IDConsorcio int,
@@ -265,19 +265,19 @@ GO --nombre FK_Consorcio en la tabla dbo.GastoExtraordinario
 -- TABLA: PagoAConsorcio
 --==============================
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.PagoAConsorcio') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'importacionDeInformacionBancaria.PagoAConsorcio') AND type in (N'U'))
 BEGIN
-CREATE TABLE dbo.PagoAConsorcio
+CREATE TABLE importacionDeInformacionBancaria.PagoAConsorcio
 (
 	IDPAGO int identity(1,1) primary key,
 	IDConsorcio int,
 	NumeroDeUnidad int,
-	Fecha smalldatetime,
+	Fecha smalldatetime, --pasar a date?
 	CVU_CBU char(22),
 	Importe decimal(10,2) CHECK(Importe > 0),
 
 	CONSTRAINT FK_Unidad FOREIGN KEY (IDConsorcio, NumeroDeUnidad) REFERENCES actualizacionDeDatosUF.UnidadFuncional (IDConsorcio, NumeroDeUnidad)
-); --Le agrege el FOREIGN KEY porque no se le coloco
+);
 END 
 GO
 
@@ -285,11 +285,11 @@ GO
 -- TABLA: EstadoDeCuenta
 --==============================
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.EstadoDeCuenta') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'importacionDeInformacionBancaria.EstadoDeCuenta') AND type in (N'U'))
 BEGIN
-CREATE TABLE dbo.EstadoDeCuenta
+CREATE TABLE importacionDeInformacionBancaria.EstadoDeCuenta
 (
-	IDConsorcio int, --cambie por IDConsorcio para respetar el nombre de la PK usada
+	IDConsorcio int,
 	NumeroDeUnidad int,
 	IDEstadoDeCuenta int identity(1,1),
 	PorcentajeMetrosCuadrados decimal(4,2) CHECK(PorcentajeMetrosCuadrados > 0),
@@ -313,7 +313,8 @@ GO
 --==============================
 -- TABLA DE CONTROL DE ERRORES
 --==============================
-
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualizacionDeDatosUF.PersonasConError') AND type in (N'U'))
+BEGIN
 CREATE TABLE actualizacionDeDatosUF.PersonasConError --Esta tabla es para no perder la informacion de los registros mal ingresados o duplicados
 (
 	Id int identity(1,1) primary key,
@@ -325,3 +326,4 @@ CREATE TABLE actualizacionDeDatosUF.PersonasConError --Esta tabla es para no per
 	CVU_CBU varchar(22),
 	Inquilino char(1)
 )
+END

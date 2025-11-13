@@ -19,6 +19,8 @@
           -- DECLARACION Y SETTEO DE VARIABLES PARA LOS PATH:
           -- (Ruta, ArchDatosVarios Y ArchPagosConsorcio)
 --===============================================================================
+--Para asegurarnos que se ejecute usando la BDD
+use Com5600G12
 
 -- PARA HACER USO DE LAS VARIABLES QUE VAMOS A DECLARAR, HACER LOS SIG. PASOS:
 -- 1. Dirigirse al apartado consulta.

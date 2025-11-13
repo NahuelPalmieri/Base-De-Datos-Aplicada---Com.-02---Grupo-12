@@ -2,11 +2,12 @@
 --Reportes
 --=========
 
-USE Com5600G12;
+--Para asegurarnos que se ejecute usando la BDD
+use Com5600G12
 GO
 
 --Generacion aleatoria de datos para la tabla GastosExtraordinarios (PRUEBA)
-CREATE OR ALTER PROCEDURE dbo.InsertarDatosAleatoriosGastoExtraordinario
+CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.InsertarDatosAleatoriosGastoExtraordinario
     @Cantidad INT -- parametro para indicar la cantidad a insertar
 AS
 BEGIN
@@ -58,7 +59,7 @@ BEGIN
         SET @Importe = CAST(15000 + ABS(CHECKSUM(NEWID())) % 85001 AS DECIMAL(10,2));
 
         -- Inserta el registro en la tabla GastoExtraordinario con año 2025 (el año lo puse fijo para que sea igual al de los archivos de importacion)
-        INSERT INTO dbo.GastoExtraordinario (IDConsorcio, Mes, Año, Detalle, Importe)
+        INSERT INTO actualizacionDeDatosUF.GastoExtraordinario (IDConsorcio, Mes, Año, Detalle, Importe)
         VALUES (@IDConsorcio, @Mes, 2025, @Detalle, @Importe);
 
         -- Incrementa el contador
@@ -67,16 +68,17 @@ BEGIN
 END;
 
 --Ejecucion del SP
-EXEC dbo.InsertarDatosAleatoriosGastoExtraordinario @Cantidad = 50;
+EXEC actualizacionDeDatosUF.InsertarDatosAleatoriosGastoExtraordinario @Cantidad = 50;
 
 --Verifico que los datos se cargaron en la tabla GastoExtraordinario
 SELECT *
-FROM dbo.GastoExtraordinario
+FROM actualizacionDeDatosUF.GastoExtraordinario
 
+--delete from actualizacionDeDatosUF.GastoExtraordinario
 --==========
 --Reporte 3
 --==========
-
+;--PASAR REPORTE A SP DENTRO DE SCHEMA 'generacionDeReportes'
 WITH CTE_Gastos AS (
     SELECT 'Ordinario' AS [Tipo de gasto], --Como no tengo un campo con los tipos de gasto, creo la columna [Tipo de gasto] y le asigno nombres fijos
            CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
@@ -88,7 +90,7 @@ WITH CTE_Gastos AS (
     SELECT 'Extraordinario' AS [Tipo de gasto],
            CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
            Importe
-    FROM dbo.GastoExtraordinario
+    FROM actualizacionDeDatosUF.GastoExtraordinario
 
     UNION ALL --uno los resultados de la consulta en una sola tabla sin repetidos, ya que todas tiene la misma estructura en lo que se pide
 			  -- Todas estan de la manera importe, año, mes
@@ -97,7 +99,7 @@ WITH CTE_Gastos AS (
            Importe
     FROM actualizacionDeDatosUF.GastoServicio
 )
-SELECT [Tipo de gasto], [2025-04], [2025-05], [2025-06]
+SELECT [Tipo de gasto], [2025-04], [2025-05], [2025-06] ---Si se agregan nuevos meses?? SQL dinamico?
 FROM (
     SELECT [Tipo de gasto], Periodo, Importe
     FROM CTE_Gastos
@@ -107,4 +109,50 @@ PIVOT (
 ) AS CuadroCruzado;
 
 
+--==========
+--Reporte 6
+--==========
 
+GO
+EXEC sp_configure 'Ole Automation Procedures', 1;	-- Habilitamos esta opcion para poder interactuar con los objetos COM (para consumir la API)
+RECONFIGURE;
+GO
+
+create or alter procedure generacionDeReportes.ReporteDiasEntrePagosOrdinarios
+    @IdConsorcio int = NULL
+as
+begin
+    
+    declare @url nvarchar(45) = 'https://dolarapi.com/v1/dolares/oficial'
+
+    DECLARE @Object INT
+    DECLARE @json TABLE(respuesta NVARCHAR(MAX))	-- Uso una tabla variable
+    DECLARE @respuesta NVARCHAR(MAX)
+
+    EXEC sp_OACreate 'MSXML2.XMLHTTP', @Object OUT	-- Creo una instancia del objeto OLE, que nos permite hacer los llamados.
+    EXEC sp_OAMethod @Object, 'OPEN', NULL, 'GET', @url, 'FALSE' -- Definino algunas propiedades del objeto para hacer una llamada HTTP Get.
+    EXEC sp_OAMethod @Object, 'SEND' 
+    EXEC sp_OAMethod @Object, 'RESPONSETEXT', @respuesta OUTPUT --, @json OUTPUT -- Decimos donde guardar la respuesta.
+
+    INSERT @json 
+	    EXEC sp_OAGetProperty @Object, 'RESPONSETEXT' -- Obtenemos el valor de la propiedad 'RESPONSETEXT' del objeto OLE desp de realizar la consulta.
+
+    DECLARE @datos NVARCHAR(MAX) = (SELECT respuesta FROM @json)
+
+    if @IdConsorcio is not null
+    begin
+        select pac.IDConsorcio, pac.NumeroDeUnidad, pac.Fecha, pac.Importe, pac.importe/(select importe from openjson(@datos)with([Importe] decimal(10,2) '$.venta')) as ImporteUSD,
+        datediff(day, pac.fecha,lag(pac.Fecha, 1, NULL) over(partition by pac.IdConsorcio, pac.NumeroDeUnidad order by pac.Fecha desc)) as DiferenciaDias 
+        from importacionDeInformacionBancaria.PagoAConsorcio pac
+        where pac.IDConsorcio = @IdConsorcio
+    end
+    else
+    begin
+        select pac.IDConsorcio, pac.NumeroDeUnidad, pac.Fecha, pac.Importe, pac.importe/(select importe from openjson(@datos)with([Importe] decimal(10,2) '$.venta')) as ImporteUSD,
+        datediff(day, pac.fecha,lag(pac.Fecha, 1, NULL) over(partition by pac.IdConsorcio, pac.NumeroDeUnidad order by pac.Fecha desc)) as DiferenciaDias 
+        from importacionDeInformacionBancaria.PagoAConsorcio pac
+    end
+    
+end
+
+exec generacionDeReportes.ReporteDiasEntrePagosOrdinarios
