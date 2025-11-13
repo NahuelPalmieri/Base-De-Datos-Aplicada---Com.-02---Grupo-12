@@ -24,6 +24,9 @@
     -- Seguir los pasos que figuran debajo
 
 --ESTABLECER CONFIGURACION PARA USAR Ad Hoc Distributed Queries:
+USE Com5600G12;
+go
+
 EXEC sp_configure 'show advanced options', 1;
 RECONFIGURE;
 EXEC sp_configure 'Ad Hoc Distributed Queries', 1;
@@ -82,8 +85,11 @@ END;
 GO --HASTA ACA
 
 --PARA EJECUTAR EL STORED PROCEDURE:
-EXEC actualizacionDeDatosUF.ImportarConsorciosDesdeExcel 'C:\consorcios\datos varios.xlsx';
+EXEC actualizacionDeDatosUF.ImportarConsorciosDesdeExcel 'D:\consorcios\datos varios.xlsx';
 GO
+
+EXEC sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0', N'AllowInProcess', 1;
+EXEC sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0', N'DynamicParameters', 1;
 
 --PARA PODER VER LO QUE EFECTIVAMENTE SE CARGO:
 SELECT * FROM actualizacionDeDatosUF.Consorcio;
