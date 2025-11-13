@@ -96,6 +96,6 @@ FROM actualizacionDeDatosUF.GastoExtraordinario
 GO
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'PAGO A CONSORCIO'
-SELECT IDPAGO, IDConsorcio, NumeroDeUnidad, Fecha, CVU_CBU, Importe
+SELECT IDPAGO, IDConsorcio, NumeroDeUnidad, Fecha, CVU_CBU, Importe, Ordinario
 FROM importacionDeInformacionBancaria.PagoAConsorcio
 GO
