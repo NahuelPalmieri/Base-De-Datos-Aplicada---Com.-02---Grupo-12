@@ -180,58 +180,69 @@ END;
         --            extraordinario, etc). segun el periodo.
 --=======================================================================================
 GO
-CREATE OR ALTER PROCEDURE generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto AS
+CREATE OR ALTER PROCEDURE generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto
+    @Año INT = 2025,
+    @MesDesde INT = 1,
+    @MesHasta INT = 12
+AS
 BEGIN
+    SET NOCOUNT ON;
 
-	DECLARE @ColumnasPivot NVARCHAR(MAX); --Guarda los meses en la forma yyyy-mm
-	DECLARE @CadenaSQL NVARCHAR(MAX);
+    DECLARE @ColumnasPivot NVARCHAR(MAX);
+    DECLARE @ColumnasPivotConISNULL NVARCHAR(MAX);
+    DECLARE @CadenaSQL NVARCHAR(MAX);
 
-	--Armo la lista de columnas
-	SELECT @ColumnasPivot = STRING_AGG(QUOTENAME(CONVERT(VARCHAR(7), DATEFROMPARTS(Año,Mes,1), 120)), ',')--Para que tenga la forma yyyy-mm
-	FROM(SELECT DISTINCT Año, Mes
-		 FROM actualizacionDeDatosUF.GastoOrdinario
-		 UNION
-		 SELECT DISTINCT Año, Mes  --Obtengo todos los Meses y Años distintos de las tablas
-		 FROM actualizacionDeDatosUF.GastoExtraordinario 
-		 UNION
-		 SELECT DISTINCT Año, Mes
-		 FROM actualizacionDeDatosUF.GastoServicio ) AS Periodos;
+    -- Armo la lista de columnas para el PIVOT
+    SELECT @ColumnasPivot = STRING_AGG(QUOTENAME(CONVERT(VARCHAR(7), DATEFROMPARTS(@Año, Mes, 1), 120)), ',')
+    FROM (SELECT DISTINCT Mes FROM actualizacionDeDatosUF.GastoOrdinario WHERE Año = @Año AND Mes BETWEEN @MesDesde AND @MesHasta
+          UNION
+          SELECT DISTINCT Mes FROM actualizacionDeDatosUF.GastoExtraordinario WHERE Año = @Año AND Mes BETWEEN @MesDesde AND @MesHasta
+          UNION
+          SELECT DISTINCT Mes FROM actualizacionDeDatosUF.GastoServicio WHERE Año = @Año AND Mes BETWEEN @MesDesde AND @MesHasta) AS Periodos;
 
-	SET @CadenaSQL = '
-	WITH CTE_Gastos AS (
-		SELECT ''Ordinario'' AS [Tipo de gasto],
-			   CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,  --Convierte Año y Mes en un formato yyyy-mm
-			   SUM(Importe) AS Importe
-		FROM (SELECT DISTINCT Año, Mes, Importe
-			  FROM actualizacionDeDatosUF.GastoOrdinario) AS tOrdinario
-		GROUP BY Año, Mes
+    -- Armo la lista de columnas 
+    SELECT @ColumnasPivotConISNULL = STRING_AGG('ISNULL(' + QUOTENAME(CONVERT(VARCHAR(7), DATEFROMPARTS(@Año, Mes, 1), 120)) + ', 0) AS ' +
+           QUOTENAME(CONVERT(VARCHAR(7), DATEFROMPARTS(@Año, Mes, 1), 120)), ',')
+    FROM (SELECT DISTINCT Mes FROM actualizacionDeDatosUF.GastoOrdinario WHERE Año = @Año AND Mes BETWEEN @MesDesde AND @MesHasta
+          UNION
+          SELECT DISTINCT Mes FROM actualizacionDeDatosUF.GastoExtraordinario WHERE Año = @Año AND Mes BETWEEN @MesDesde AND @MesHasta
+          UNION
+          SELECT DISTINCT Mes FROM actualizacionDeDatosUF.GastoServicio WHERE Año = @Año AND Mes BETWEEN @MesDesde AND @MesHasta) AS Periodos;
 
-		UNION ALL
+    SET @CadenaSQL = '
+    WITH CTE_Gastos AS (
+        SELECT ''Ordinario'' AS [Tipo de gasto],
+               CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
+               SUM(Importe) AS Importe
+        FROM actualizacionDeDatosUF.GastoOrdinario
+        WHERE Año = ' + CAST(@Año AS NVARCHAR) + ' AND Mes BETWEEN ' + CAST(@MesDesde AS NVARCHAR) + ' AND ' + CAST(@MesHasta AS NVARCHAR) + '
+        GROUP BY Año, Mes
 
-		SELECT ''Extraordinario'' AS [Tipo de gasto],
-			   CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
-			   SUM(Importe) AS Importe
-		FROM (SELECT DISTINCT Año, Mes, Importe   --Evita que se repitan la combinacion de Año,Mes,Importe y asi evitar duplicados antes de agrupar
-			  FROM actualizacionDeDatosUF.GastoExtraordinario) AS tExtraordinario
-		GROUP BY Año, Mes
+        UNION ALL
 
-		UNION ALL
+        SELECT ''Extraordinario'',
+               CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120),
+               SUM(Importe)
+        FROM actualizacionDeDatosUF.GastoExtraordinario
+        WHERE Año = ' + CAST(@Año AS NVARCHAR) + ' AND Mes BETWEEN ' + CAST(@MesDesde AS NVARCHAR) + ' AND ' + CAST(@MesHasta AS NVARCHAR) + '
+        GROUP BY Año, Mes
 
-		SELECT ''Servicios'' AS [Tipo de gasto],
-			   CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
-			   SUM(Importe) AS Importe
-		FROM (SELECT DISTINCT Año, Mes, Importe
-			  FROM actualizacionDeDatosUF.GastoServicio) AS tServicios
-		GROUP BY Año, Mes
-	)
-	SELECT [Tipo de gasto], ' + @ColumnasPivot + '
-	FROM (SELECT [Tipo de gasto], Periodo, Importe
-		  FROM CTE_Gastos) AS tfuente
-	PIVOT (SUM(Importe) FOR Periodo IN (' + @ColumnasPivot + ')) AS CuadroCruzado;';
+        UNION ALL
 
-	EXEC sp_executesql @CadenaSQL;
+        SELECT ''Servicios'',
+               CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120),
+               SUM(Importe)
+        FROM actualizacionDeDatosUF.GastoServicio
+        WHERE Año = ' + CAST(@Año AS NVARCHAR) + ' AND Mes BETWEEN ' + CAST(@MesDesde AS NVARCHAR) + ' AND ' + CAST(@MesHasta AS NVARCHAR) + '
+        GROUP BY Año, Mes
+    )
+    SELECT [Tipo de gasto], ' + @ColumnasPivotConISNULL + '
+    FROM (SELECT [Tipo de gasto], Periodo, Importe
+          FROM CTE_Gastos) AS tfuente
+    PIVOT (SUM(Importe) FOR Periodo IN (' + @ColumnasPivot + ')) AS CuadroCruzado;';
+
+    EXEC sp_executesql @CadenaSQL;
 END;
-
 go
 
 --===========================================================================================--
