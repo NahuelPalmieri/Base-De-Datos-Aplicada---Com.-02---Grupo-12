@@ -289,6 +289,65 @@ BEGIN
 		AND (@consorcio IS NULL OR @consorcio = IDConsorcio)
 	GROUP BY YEAR(Fecha), DATENAME(MONTH, Fecha), MONTH(Fecha);
 END;
+go
+
+--===========================================================================================
+    -- REPORTE 5: Obtenga los 3 (tres) propietarios con mayor morosidad. Presente información de contacto y
+	--DNI de los propietarios para que la administración los pueda contactar o remitir el trámite al
+	--estudio jurídico.
+--===========================================================================================
+
+CREATE OR ALTER PROCEDURE generacionDeReportes.ObtenerTopMorosos
+    --Defino valores por defecto (de respaldo)
+	@TopN int = 3,
+    @IDConsorcio int = NULL,
+    @MinDeuda decimal(10, 2) = 0
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT TOP (@TopN) --los primeros N
+        p.DNI,
+        per.Nombres, 
+        per.Apellidos,
+        per.NumeroDeTelefono,
+        per.Email,    
+        SUM(ec.Deuda) AS TotalDeuda
+    FROM 
+
+	--arranco con los joins entre las tablas Estado Cuenta, UF, propietario y persona
+    
+	importacionDeInformacionBancaria.EstadoDeCuenta AS ec
+    JOIN 
+        actualizacionDeDatosUF.UnidadFuncional AS uf 
+        ON ec.IDConsorcio = uf.IDConsorcio 
+        AND ec.NumeroDeUnidad = uf.NumeroDeUnidad
+    JOIN 
+        actualizacionDeDatosUF.Propietario AS p 
+        ON uf.DNIPropietario = p.DNI
+    JOIN
+        actualizacionDeDatosUF.Persona AS per 
+        ON p.DNI = per.DNI
+        
+    WHERE 
+        --dejo el filtro para el parametro de minimo
+        (@IDConsorcio IS NULL OR ec.IDConsorcio = @IDConsorcio)
+        AND ec.Deuda < @MinDeuda
+        
+    GROUP BY 
+        -- agrupamos por persona (por si hay alguna persona con mas de una UF con deudas)
+        p.DNI, 
+        per.Nombres,
+        per.Apellidos,
+        per.NumeroDeTelefono, 
+        per.Email
+        
+    ORDER BY 
+        -- ordenamos por la deuda total (es asc, porque contamos la deuda en negatibo)
+        TotalDeuda ASC;
+
+END
+GO
 
 --===========================================================================================
         -- REPORTE 6: Fechas de pagos de expensas ordinarias de cada UF y la cantidad de 

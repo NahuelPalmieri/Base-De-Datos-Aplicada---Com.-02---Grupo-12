@@ -227,7 +227,7 @@ GO
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: Inquilino-propietarios-UF.csv            --PONERLE UN TRIGGER
 --===============================================================================
-
+go
 CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF -- DE ACA
 
 		@ruta_archivo varchar(MAX)
