@@ -5,7 +5,7 @@
 	Grupo: 12
 	Integrantes:
 		- Nahuel Palmieri		(DNI: 45074926)
-		- Ivan Morales			(DNI: 39772619)
+		- Ivan Morales			(DNI: 39772619)8
 		- Tobias Argain			(DNI: 42998669)
 		- Tomas Daniel Yagueddu (DNI: 44100611)
 		- Fernando Pereyra		(DNI: 45738989)
@@ -49,7 +49,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualiza
 BEGIN
 CREATE TABLE actualizacionDeDatosUF.Persona
 (
-	DNI int primary key CHECK(DNI > 9999999 AND DNI < 100000000),
+	DNI int primary key CHECK(DNI > 0 AND DNI < 100000000),
 	Nombres varchar(30) not null,
 	Apellidos varchar(30) not null,
 	Email varchar(50),

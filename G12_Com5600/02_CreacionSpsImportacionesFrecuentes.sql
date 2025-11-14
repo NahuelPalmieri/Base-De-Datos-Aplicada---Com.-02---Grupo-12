@@ -118,8 +118,6 @@ begin
 	select DNI, Nombres, Apellidos, Email, NumeroDeTelefono, CVU_CBU, Inquilino
 	from #personasCrudoTemp p
 	where exists(select 1 from Duplicados d  where p.DNI = d.DNI and d.Apariciones>1)
-	or p.DNI is null or p.Nombres is null or p.Apellidos is null or p.NumeroDeTelefono is null or p.CVU_CBU is null or p.Inquilino is null
-	or Patindex('%[^A-Za-z ]%', p.Nombres)>0 or Patindex('%[^A-Za-z ]%', p.Apellidos)>0
 
 	;with Duplicados(DNI, Apariciones) as(
 		select DNI, count(DNI) over(partition by DNI) as apariciones
@@ -127,11 +125,15 @@ begin
 	)
 	delete from #personasCrudoTemp 
 	where exists(select 1 from Duplicados d where #personasCrudoTemp.DNI = d.DNI and d.Apariciones>1) --SI HAY DUPLICADOS LOS ELIMINO
-	or Patindex('%[^A-Za-z ]%', #personasCrudoTemp.Nombres)>0 or Patindex('%[^A-Za-z ]%', #personasCrudoTemp.Apellidos)>0 --SI HAY ALGUN NOMBRE O APELLIDO INVALIDO TAMBIEN
-
+	
 	insert into actualizacionDeDatosUF.Persona
 	select cast(DNI as int), Nombres, Apellidos, Email, NumeroDeTelefono, CVU_CBU, cast(Inquilino as bit) from #personasCrudoTemp
-	where DNI IS NOT NULL or Nombres is not null or Apellidos is not null or NumeroDeTelefono is not null or CVU_CBU is not null or Inquilino is not null --INSERTO MIENTRAS TENGAN LOS CAMPOS NOT NULL DE LA TABLA
+	where DNI IS NOT NULL 
+    or Nombres is not null 
+    or Apellidos is not null 
+    or NumeroDeTelefono is not null 
+    or CVU_CBU is not null 
+    or Inquilino is not null --INSERTO MIENTRAS TENGAN LOS CAMPOS NOT NULL DE LA TABLA
 	
 
 	insert into actualizacionDeDatosUF.Propietario ---Las personas con inquilino = 0 van a la tabla propietarios

@@ -89,4 +89,4 @@ EXEC generacionDeReportes.ObtenerTopMorosos
 			--Si se ingresa NroUnidad se debe ingresar AnioDede y viceversa. De caso contrario se tomara solo IdConsorcio
 --===========================================================================================
 
-EXEC generacionDeReportes.ReporteDiasEntrePagosOrdinarios, 1
+EXEC generacionDeReportes.ReporteDiasEntrePa

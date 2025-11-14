@@ -1,32 +1,18 @@
 <?xml version="1.0"?>
-<SqlWorkbenchSqlProject xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="Com5600_G12">
+<SqlWorkbenchSqlProject xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="G12_Com5600">
   <Items>
     <LogicalFolder Name="Conexiones" Type="2" Sorted="true">
       <Items>
-        <ConnectionNode Name="DESKTOP-0DHNFFG\SQLEXPRESS:NAHUEL2003\nahue">
-          <Created>2025-11-14T12:44:35.1362769-03:00</Created>
+        <ConnectionNode Name="DESKTOP-0DHNFFG\SQLEXPRESS:DESKTOP-0DHNFFG\tobia">
+          <Created>2025-11-14T18:59:27.2055333-03:00</Created>
           <Type>SQL</Type>
           <Server>DESKTOP-0DHNFFG\SQLEXPRESS</Server>
           <UserName />
           <Authentication>Autenticación de Windows</Authentication>
-          <InitialDB>grupo_12</InitialDB>
+          <InitialDB>master</InitialDB>
           <LoginTimeout>30</LoginTimeout>
           <TrustServerCertificate>False</TrustServerCertificate>
           <EncryptionOption>False</EncryptionOption>
-          <ExecutionTimeout>0</ExecutionTimeout>
-          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
-          <ApplicationName>Microsoft SQL Server Management Studio - Consulta</ApplicationName>
-        </ConnectionNode>
-        <ConnectionNode Name="Nahuel2003:NAHUEL2003\nahue">
-          <Created>2025-11-14T15:08:59.7166547-03:00</Created>
-          <Type>SQL</Type>
-          <Server>Nahuel2003</Server>
-          <UserName />
-          <Authentication>Autenticación de Windows</Authentication>
-          <InitialDB />
-          <LoginTimeout>15</LoginTimeout>
-          <TrustServerCertificate>True</TrustServerCertificate>
-          <EncryptionOption>True</EncryptionOption>
           <ExecutionTimeout>0</ExecutionTimeout>
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Consulta</ApplicationName>
@@ -36,20 +22,20 @@
     <LogicalFolder Name="Consultas" Type="0" Sorted="true">
       <Items>
         <FileNode Name="00_CreacionBaseYTablas.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
           <AssociatedConnUserName />
           <FullPath>00_CreacionBaseYTablas.sql</FullPath>
         </FileNode>
         <FileNode Name="01_CreacionSpsImportacionesIniciales.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-0DHNFFG\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-0DHNFFG\SQLEXPRESS</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>01_CreacionSpsImportacionesIniciales.sql</FullPath>
         </FileNode>
         <FileNode Name="02_CreacionSpsImportacionesFrecuentes.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-0DHNFFG\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-0DHNFFG\SQLEXPRESS</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>02_CreacionSpsImportacionesFrecuentes.sql</FullPath>
         </FileNode>
@@ -60,8 +46,8 @@
           <FullPath>03_CreacionDeDatosRestantes.sql</FullPath>
         </FileNode>
         <FileNode Name="04_VisualizacionDeDatosEnTablas.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-0DHNFFG\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-0DHNFFG\SQLEXPRESS</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>04_VisualizacionDeDatosEnTablas.sql</FullPath>
         </FileNode>
@@ -72,16 +58,22 @@
           <FullPath>05_CreacionDeIndices.sql</FullPath>
         </FileNode>
         <FileNode Name="06_CreacionDeReportes.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-0DHNFFG\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-0DHNFFG\SQLEXPRESS</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>06_CreacionDeReportes.sql</FullPath>
         </FileNode>
         <FileNode Name="07_VisualizacionDeReportes.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-0DHNFFG\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-0DHNFFG\SQLEXPRESS</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>07_VisualizacionDeReportes.sql</FullPath>
+        </FileNode>
+        <FileNode Name="08_AsignacionDeRoles.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-0DHNFFG\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-0DHNFFG\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>08_AsignacionDeRoles.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>
