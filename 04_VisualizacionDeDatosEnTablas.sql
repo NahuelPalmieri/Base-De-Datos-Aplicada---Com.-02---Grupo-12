@@ -35,12 +35,12 @@ GO
 
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'GASTO ORDINARIO'
-SELECT IDGastoOrdinario, IDConsorcio, Mes, A�o, Importe 
+SELECT IDGastoOrdinario, IDConsorcio, Mes, Año, Importe 
 FROM actualizacionDeDatosUF.GastoOrdinario
 GO
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'GASTO SERVICIO'
-SELECT IDGasto, IDConsorcio, IDProveedor, Importe, Mes, A�o 
+SELECT IDGasto, IDConsorcio, IDProveedor, Importe, Mes, Año 
 FROM actualizacionDeDatosUF.GastoServicio
 GO
 
@@ -91,7 +91,7 @@ FROM importacionDeInformacionBancaria.EstadoDeCuenta
 GO
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'GASTO EXTRAORDINARIO'
-SELECT IDGastoExtraordinario, IDConsorcio, Mes, A�o, Detalle, Importe
+SELECT IDGastoExtraordinario, IDConsorcio, Mes, Año, Detalle, Importe
 FROM actualizacionDeDatosUF.GastoExtraordinario
 GO
 

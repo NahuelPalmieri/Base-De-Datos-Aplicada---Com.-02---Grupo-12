@@ -56,4 +56,4 @@ EXEC generacionDeReportes.Reporte_De_Cinco_Meses 2025, 1, 2
 			-- IdConsorcio
 --===========================================================================================
 
-EXEC generacionDeReportes.ReporteDiasEntrePagosOrdinarios 
+EXEC generacionDeReportes.ReporteDiasEntrePagosOrdinarios 1
