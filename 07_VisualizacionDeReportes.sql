@@ -38,11 +38,11 @@ GO
 --=======================================================================================
 
 EXEC generacionDeReportes.Reporte_Total_Recaudacion_Mes_Departamento
-	@IDConsorcio = 1,		--parametro opcional de enviar
-	@Piso = 'PB',			--parametro opcional de enviar
+	@IDConsorcio = 1,			--parametro opcional de enviar
+	@Piso = 'PB',					--parametro opcional de enviar
 	@Departamento = 'D',	--parametro opcional de enviar
-	@Anio = 2025,			--parametro opcional de enviar
-	@Mes = 	5				--parametro opcional de enviar
+	@Anio = 2025,					--parametro opcional de enviar
+	@Mes = 	5							--parametro opcional de enviar
 GO
 
 --=======================================================================================
@@ -51,7 +51,7 @@ GO
 --=======================================================================================
 
 EXEC generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto 
-	@Año = 2025,		--parametro opcional de enviar
+	@Año = 2025,			--parametro opcional de enviar
 	@MesDesde = 1,		--parametro opcional de enviar
 	@MesHasta = 12;		--parametro opcional de enviar
 GO
@@ -81,9 +81,25 @@ GO
 --===========================================================================================
 
 EXEC generacionDeReportes.ObtenerTopMorosos
-	@TopN = 3,			--parametro opcional de enviar
+	@TopN = 3,					--parametro opcional de enviar
     @IDConsorcio = 1,	--parametro opcional de enviar
-    @MinDeuda = 0		--parametro opcional de enviar
+    @MinDeuda = 0			--parametro opcional de enviar
+GO
+
+--===========================================================================================
+    -- REPORTE 5: Obtenga los 3 (tres) propietarios con mayor morosidad. Presente información de contacto y
+	--DNI de los propietarios para que la administración los pueda contactar o remitir el trámite al
+	--estudio jurídico.
+	--Parametros:
+		--TopN: Cantidad de puestos que desea mostrar.
+		--IdConsorcio: Filtrar por consorcio, si es NULL, se hace la comparacion entre todos los reportes.
+		--MinimoDeuda: Extra, agregar un minimo de deuda para mostrarlo.
+--===========================================================================================
+
+EXEC generacionDeReportes.ObtenerTopMorosos
+		@TopN = 3,					--parametro opcional de enviar
+    @IDConsorcio = 1,		--parametro opcional de enviar
+    @MinDeuda = 0				--parametro opcional de enviar
 GO
 
 --===========================================================================================
