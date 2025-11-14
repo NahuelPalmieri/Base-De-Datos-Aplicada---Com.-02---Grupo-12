@@ -312,6 +312,7 @@ BEGIN
 		SET @strDetalle = CONCAT('Detalle ', @detalle);
 
 	SELECT TOP 5 
+		IDConsorcio,
 		Año,
 		DATENAME(MONTH, DATEFROMPARTS(Año, mes, 1)) AS nombre_mes,
 		sum(importe) as total_gastos
@@ -319,17 +320,18 @@ BEGIN
 	WHERE (@año IS NULL OR Año = @año)
 		AND (@consorcio IS NULL OR IDConsorcio = @consorcio) 
 		AND (@strDetalle IS NULL OR Detalle = @strDetalle)
-	GROUP BY año, mes
+	GROUP BY IDConsorcio, año, mes
 	ORDER BY total_gastos DESC;
 
 	SELECT TOP 5 
+		IDConsorcio,
 		YEAR(Fecha) AS año,
 		DATENAME(MONTH, Fecha) AS mes,
 		sum(importe) as total_ingresos
 	FROM importacionDeInformacionBancaria.PagoAConsorcio
 		WHERE (@año IS NULL OR YEAR(Fecha) = @año) 
 		AND (@consorcio IS NULL OR @consorcio = IDConsorcio)
-	GROUP BY YEAR(Fecha), DATENAME(MONTH, Fecha), MONTH(Fecha);
+	GROUP BY IDConsorcio, YEAR(Fecha), DATENAME(MONTH, Fecha), MONTH(Fecha);
 END;
 
 
