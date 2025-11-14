@@ -80,3 +80,12 @@ END;
 
 
 EXEC actualizacionDeDatosUF.InsertarDatosAleatoriosGastoExtraordinario @Cantidad = 50;
+
+go
+--Generacion aleatoria de datos para la tabla EstadoDeCuenta (PRUEBA)
+/*create or alter procedure importacionDeInformacionBancaria.InsertarEstadoDeCuenta
+as
+begin
+    
+end
+*/
