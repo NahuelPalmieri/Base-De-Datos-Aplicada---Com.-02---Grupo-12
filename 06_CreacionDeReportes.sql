@@ -247,15 +247,37 @@ BEGIN
 	IF @detalle IS NOT NULL
 		SET @strDetalle = CONCAT('Detalle ', @detalle);
 
-	SELECT TOP 5 
-		Año,
-		DATENAME(MONTH, DATEFROMPARTS(Año, mes, 1)) AS nombre_mes,
-		sum(importe) as total_gastos
-	FROM actualizacionDeDatosUF.GastoExtraordinario
-	WHERE (@año IS NULL OR Año = @año)
-		AND (@consorcio IS NULL OR IDConsorcio = @consorcio) 
-		AND (@strDetalle IS NULL OR Detalle = @strDetalle)
-	GROUP BY año, mes
+	;WITH 
+	ext AS (
+		SELECT 
+			Año,
+			mes,
+			SUM(importe) AS total_ext
+		FROM actualizacionDeDatosUF.GastoExtraordinario
+		WHERE (@año IS NULL OR Año = @año)
+		  AND (@consorcio IS NULL OR IDConsorcio = @consorcio)
+		  AND (@strDetalle IS NULL OR Detalle = @strDetalle)
+		GROUP BY Año, mes
+	),
+	ord AS (
+		SELECT 
+			Año,
+			mes,
+			SUM(importe) AS total_ord
+		FROM actualizacionDeDatosUF.GastoOrdinario
+		WHERE (@año IS NULL OR Año = @año)
+		  AND (@consorcio IS NULL OR IDConsorcio = @consorcio)
+		GROUP BY Año, mes
+	)
+
+	SELECT TOP 5
+		COALESCE(ext.Año, ord.Año) AS Año,
+		COALESCE(ext.mes, ord.mes) AS mes,
+		DATENAME(MONTH, DATEFROMPARTS(COALESCE(ext.Año, ord.Año), COALESCE(ext.mes, ord.mes), 1)) AS nombre_mes,
+		COALESCE(total_ext, 0) + COALESCE(total_ord, 0) AS total_gastos
+	FROM ext
+	FULL JOIN ord 
+		ON ext.Año = ord.Año AND ext.mes = ord.mes
 	ORDER BY total_gastos DESC;
 
 	SELECT TOP 5 
