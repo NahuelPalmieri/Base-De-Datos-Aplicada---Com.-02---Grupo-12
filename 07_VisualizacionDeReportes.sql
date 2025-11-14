@@ -37,7 +37,7 @@ EXEC generacionDeReportes.Reporte_Total_Recaudacion_Mes_Departamento
         --            extraordinario, etc). segun el periodo.
 --=======================================================================================
 
-EXEC generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto
+EXEC generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto @Año = 2025, @MesDesde = 1, @MesHasta = 12;
 
 --===========================================================================================--
         -- REPORTE 4: Los 5 (cinco) meses de mayores gastos y los 5 (cinco) de mayores ingresos.
