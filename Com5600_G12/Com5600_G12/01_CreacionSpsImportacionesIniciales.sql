@@ -30,6 +30,8 @@ use Com5600G12
 GO
 :SETVAR ArchDatosVarios "datos varios.xlsx"
 GO
+:SETVAR ArchUFPorConsorcio "UF por consorcio.txt"
+GO
 
 --===============================================================================
     -- CONFIGURACION INICIAL PARA TRABAJAR CON ARCHIVOS DE EXTENSION xlsx

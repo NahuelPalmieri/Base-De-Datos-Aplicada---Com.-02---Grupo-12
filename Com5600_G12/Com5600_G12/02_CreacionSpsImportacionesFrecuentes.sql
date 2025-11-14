@@ -35,8 +35,6 @@ GO
 GO
 :SETVAR ArchInquilinoPropietariosDatos "Inquilino-propietarios-datos.csv"
 GO
-:SETVAR ArchUFPorConsorcio "UF por consorcio.txt"
-GO
 :SETVAR ArchInquilinoPropietariosUF "Inquilino-propietarios-UF.csv"
 GO
 :SETVAR ArchServiciosServicios "Servicios.Servicios.json"

@@ -76,12 +76,6 @@ BEGIN
 END;
 GO
 
-EXEC generacionDeReportes.ReporteFlujoDeCajaSemanal 
-    @Anio = 2025,        --parametro obligatorio de enviar
-    @MesInicio = 3,      --parametro opcional de enviar
-    @MesFin = 6;         --parametro opcional de enviar
-GO
-
 --=======================================================================================
       -- REPORTE 2: Total de recaudacion por mes y departamento
 --=======================================================================================

@@ -20,6 +20,24 @@ Go
 --Especifica el entorno de idioma de la sesi?n a Espa?ol.
 SET LANGUAGE Spanish;
 
+
+
+
+
+--=======================================================================================
+      -- REPORTE 1: Flujo de caja semanal
+	  -- Parametros:
+		-- @Anio: parametro opcional de enviar
+		-- @MesInicio: parametro opcional de enviar
+		-- @MesFin: parametro opcional de enviar
+		-- @IDConsorcio: parametro opcional de enviar
+--=======================================================================================
+EXEC generacionDeReportes.ReporteFlujoDeCajaSemanal 
+    @Anio = 2025,        --parametro obligatorio de enviar
+    @MesInicio = 3,      --parametro opcional de enviar
+    @MesFin = 6;         --parametro opcional de enviar
+GO
+
 --=======================================================================================
       -- REPORTE 2: Total de recaudacion por mes y departamento
 	  -- Parametros:
