@@ -82,10 +82,100 @@ GO
 EXEC actualizacionDeDatosUF.InsertarDatosAleatoriosGastoExtraordinario @Cantidad = 50;
 GO
 
---Generacion aleatoria de datos para la tabla EstadoDeCuenta (PRUEBA)
-/*create or alter procedure importacionDeInformacionBancaria.InsertarEstadoDeCuenta
-as
-begin
-    
-end
-*/
+--=======================================================================================
+                      -- INSERTAR DATOS: Estado De Cuenta
+--=======================================================================================
+
+-- Declaración De Vistas Y Stored Procedures Para InsertarEstadoDeCuentaInicial + Ejecución:
+
+CREATE OR ALTER VIEW importacionDeInformacionBancaria.VistaEstadoDeCuenta
+AS
+    SELECT DISTINCT c.IdConsorcio, uf.NumeroDeUnidad, b.M2Baulera, ch.M2Cochera, uf.M2Unidad, c.M2Totales,
+                    uf.Piso, uf.Departamento, uf.DNIPropietario
+    FROM actualizacionDeDatosUF.UnidadFuncional uf
+    JOIN actualizacionDeDatosUF.Consorcio c ON uf.IDConsorcio = c.IDConsorcio
+    LEFT JOIN actualizacionDeDatosUF.Baulera b ON b.IDConsorcio = c.IDConsorcio AND b.NumeroUnidad = uf.NumeroDeUnidad
+    LEFT JOIN actualizacionDeDatosUF.Cochera ch ON ch.IDConsorcio = c.IDConsorcio AND ch.NumeroUnidad = uf.NumeroDeUnidad
+GO
+
+CREATE OR ALTER PROCEDURE importacionDeInformacionBancaria.InsertarEstadoDeCuentaInicial
+AS
+BEGIN
+    INSERT INTO importacionDeInformacionBancaria.EstadoDeCuenta (IDConsorcio,
+                NumeroDeUnidad, PorcentajeMetrosCuadrados, PisoDepto, Propietario,
+                SaldoAnteriorAbonado, PagoRecibido, Deuda, InteresPorMora,
+                ExpensaExtraordinaria, ExpensaOrdinaria, Cocheras, Bauleras)
+    SELECT v.IdConsorcio, v.NumeroDeUnidad, 
+           (cast( (ISNULL(v.M2Baulera,0) + ISNULL(v.M2Cochera,0) + v.M2Unidad) as decimal(4,2) ) / v.M2Totales * 100) as porcentaje,
+            v.piso + '-' + v.Departamento, v.DNIPropietario, 0, 0, 0, 0, 0, 0, 0, 0
+    FROM importacionDeInformacionBancaria.VistaEstadoDeCuenta v
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM importacionDeInformacionBancaria.EstadoDeCuenta ec
+        WHERE ec.IDConsorcio = v.IDConsorcio AND ec.NumeroDeUnidad = v.NumeroDeUnidad
+    )
+END
+GO
+
+EXEC importacionDeInformacionBancaria.InsertarEstadoDeCuentaInicial
+GO
+
+-- Declaración De Vistas Y Stored Procedures Para InsertarEstadoDeCuentaFrecuente + Ejecución:
+
+CREATE OR ALTER VIEW importacionDeInformacionBancaria.VistaEstadoDeCuenta
+AS
+    SELECT DISTINCT uf.IDConsorcio, uf.NumeroDeUnidad, ISNULL(b.M2Baulera, 0) AS M2Baulera, ISNULL(c.M2Cochera, 0) AS M2Cochera,
+    ISNULL(sum(gextord.Importe) over(partition by gextord.IDConsorcio), 0) as ImporteGExtOrdinario,
+    sum(gord.Importe) over(partition by gord.IDConsorcio) as ImporteGOrdinario, cons.M2Totales
+    FROM actualizacionDeDatosUF.UnidadFuncional uf
+    JOIN actualizacionDeDatosUF.Consorcio cons ON uf.IDConsorcio = cons.IDConsorcio
+    LEFT JOIN actualizacionDeDatosUF.GastoOrdinario gord ON uf.IDConsorcio = gord.IDConsorcio
+    FULL JOIN actualizacionDeDatosUF.GastoExtraordinario gextord ON uf.IDConsorcio = gextord.IDConsorcio AND gextord.Mes = 4
+    LEFT JOIN actualizacionDeDatosUF.Baulera b ON b.IDConsorcio = uf.IDConsorcio AND b.NumeroUnidad = uf.NumeroDeUnidad
+    LEFT JOIN actualizacionDeDatosUF.Cochera c ON c.IDConsorcio = uf.IDConsorcio AND c.NumeroUnidad = uf.NumeroDeUnidad
+    WHERE gord.Mes = 4 -- cambiar
+GO
+
+CREATE OR ALTER VIEW importacionDeInformacionBancaria.VistaPagosRecibidos
+AS
+    SELECT uf.IDConsorcio, uf.NumeroDeUnidad, YEAR(pg.Fecha) AS Anio, MONTH(pg.Fecha) AS Mes, ISNULL(SUM(pg.Importe), 0) AS Total
+    FROM actualizacionDeDatosUF.UnidadFuncional uf
+    LEFT JOIN importacionDeInformacionBancaria.PagoAConsorcio pg ON  uf.IDConsorcio = pg.IDConsorcio
+    AND uf.NumeroDeUnidad = pg.NumeroDeUnidad
+    AND MONTH(Fecha) = 4 -- cambiar
+    GROUP BY uf.IDConsorcio, uf.NumeroDeUnidad, YEAR(pg.Fecha), MONTH(pg.Fecha)
+GO
+
+CREATE OR ALTER PROCEDURE importacionDeInformacionBancaria.InsertarEstadoDeCuentaFrecuente
+AS
+BEGIN
+    UPDATE importacionDeInformacionBancaria.EstadoDeCuenta
+    SET SaldoAnteriorAbonado = (InteresPorMora + ExpensaOrdinaria + ExpensaExtraordinaria + Bauleras + Cocheras)
+
+    UPDATE estCuenta
+    SET Cocheras = ((cast(vist.M2Cochera as decimal(10,2)))/(vist.M2Totales)*vist.ImporteGOrdinario),
+        Bauleras = ((cast(vist.M2Baulera as decimal(10,2)))/(vist.M2Totales)*vist.ImporteGOrdinario),
+        ExpensaOrdinaria = ((cast(vist.ImporteGOrdinario as decimal(10,2)))*estCuenta.PorcentajeMetrosCuadrados/100),
+        ExpensaExtraordinaria = ((cast(vist.ImporteGExtOrdinario as decimal(10,2))*estCuenta.PorcentajeMetrosCuadrados)/(vist.M2Totales)) 
+    FROM importacionDeInformacionBancaria.EstadoDeCuenta estCuenta
+    JOIN importacionDeInformacionBancaria.VistaEstadoDeCuenta vist
+    ON estCuenta.IDConsorcio = vist.IDConsorcio AND estCuenta.NumeroDeUnidad = vist.NumeroDeUnidad
+
+    UPDATE estCuenta
+    SET estCuenta.PagoRecibido = vist.Total
+    FROM importacionDeInformacionBancaria.EstadoDeCuenta estCuenta
+    JOIN importacionDeInformacionBancaria.VistaPagosRecibidos vist
+    ON estCuenta.IDConsorcio = vist.IDConsorcio AND estCuenta.NumeroDeUnidad = vist.NumeroDeUnidad
+
+    UPDATE importacionDeInformacionBancaria.EstadoDeCuenta
+    SET Deuda = Deuda + (SaldoAnteriorAbonado - PagoRecibido)
+
+    --FALTA INTERES POR MORA
+END
+GO
+
+EXEC importacionDeInformacionBancaria.InsertarEstadoDeCuentaFrecuente
+GO
+
+
+--DELETE FROM importacionDeInformacionBancaria.EstadoDeCuenta
