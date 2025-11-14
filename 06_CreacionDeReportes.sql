@@ -1,5 +1,5 @@
 /********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2Âº Cuatrimestre 2025)
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
 	Generacion de Reportes
 	Comision: 5600
 	Grupo: 12
@@ -17,70 +17,6 @@
 use Com5600G12
 GO
 
---Generacion aleatoria de datos para la tabla GastosExtraordinarios (PRUEBA)
-CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.InsertarDatosAleatoriosGastoExtraordinario
-    @Cantidad INT --Cantidad a insertar
-AS
-BEGIN
-
-    SET NOCOUNT ON;
-	
-    DECLARE @i INT = 0; -- contador de registros insertados
-    DECLARE @TotalConsorcios INT; -- cantidad total de consorcios disponibles (lo de la tabla Consorcio)
-    DECLARE @IDConsorcio INT; -- ID de consorcio elegido aleatoriamente (de los que hay en la tabla)
-    DECLARE @NDetalle INT; -- Se usa para seleccionar un detalle de manera aleatoria (segun numero)
-    DECLARE @Detalle VARCHAR(80); -- descripción del gasto extraordinario
-    DECLARE @Mes INT; -- para obtener mes aleatorio entre 1 y 12
-    DECLARE @Importe DECIMAL(10,2); -- Para obtener importe aleatorio entre 15.000 y 100.000
-
-    -- Verifica si hay consorcios cargados en la tabla Consorcio
-    SELECT @TotalConsorcios = COUNT(*) FROM actualizacionDeDatosUF.Consorcio;
-
-    IF @TotalConsorcios = 0
-    BEGIN
-        --Si no hay consorcios no inserta datos y sale
-        RAISERROR('No hay consorcios cargados. No se puede insertar en GastoExtraordinario.', 16, 1);
-        RETURN;
-    END
-
-    -- Bucle para insertar la cantidad solicitada de registros
-    WHILE @i < @Cantidad
-    BEGIN
-        -- Selecciona aleatoriamente un consorcio válido
-        SELECT TOP 1 @IDConsorcio = IDConsorcio
-        FROM actualizacionDeDatosUF.Consorcio
-        ORDER BY NEWID();
-
-        -- Guarda un numero entre 0 y 5 para seleccionar un detalle
-        SET @NDetalle = ABS(CHECKSUM(NEWID())) % 6;
-
-        SET @Detalle = CASE @NDetalle
-            WHEN 0 THEN 'Detalle 1'
-            WHEN 1 THEN 'Detalle 2'
-            WHEN 2 THEN 'Detalle 3'
-            WHEN 3 THEN 'Detalle 4'
-            WHEN 4 THEN 'Detalle 5'
-            WHEN 5 THEN 'Detalle 6'
-        END;
-
-        -- Genera mes aleatorio entre 1 y 12
-        SET @Mes = 1 + ABS(CHECKSUM(NEWID())) % 12;
-
-         -- Importe aleatorio con decimales
-        SET @Importe = ROUND(15000 + (RAND(CHECKSUM(NEWID())) * 85000), 2);
-
-        -- Inserta el registro en la tabla GastoExtraordinario con año 2025 (el año lo puse fijo para que sea igual al de los archivos de importacion)
-        INSERT INTO actualizacionDeDatosUF.GastoExtraordinario (IDConsorcio, Mes, Año, Detalle, Importe)
-        VALUES (@IDConsorcio, @Mes, 2025, @Detalle, @Importe);
-
-        -- Incrementa el contador
-        SET @i = @i + 1;
-    END
-END;
-
-
-EXEC actualizacionDeDatosUF.InsertarDatosAleatoriosGastoExtraordinario @Cantidad = 50;
-
 --=======================================================================================
                       -- REPORTE 1: Flujo de caja semanal
 --=======================================================================================
@@ -92,12 +28,12 @@ CREATE OR ALTER PROCEDURE generacionDeReportes.ReporteFlujoDeCajaSemanal
     @IDConsorcio INT = NULL      --parametro opcional de enviar
 AS
 BEGIN
-    SET DATEFIRST 1; -- Seteo al lunes como primer día de la semana
+    SET DATEFIRST 1; -- Seteo al lunes como primer d�a de la semana
 
     DECLARE @FechaInicio DATE;
     DECLARE @FechaFin DATE;
 
-    -- Si no se especifican meses de inicio y fin, se toma todo el año
+    -- Si no se especifican meses de inicio y fin, se toma todo el a�o
     IF @MesInicio IS NULL OR @MesFin IS NULL
     BEGIN
         SET @FechaInicio = DATEFROMPARTS(@Anio, 1, 1);
@@ -243,7 +179,7 @@ END;
         -- REPORTE 3: Recaudacion total desagregada segun su  procedencia (ordinario, 
         --            extraordinario, etc). segun el periodo.
 --=======================================================================================
-
+GO
 CREATE OR ALTER PROCEDURE generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto AS
 BEGIN
 
@@ -251,42 +187,42 @@ BEGIN
 	DECLARE @CadenaSQL NVARCHAR(MAX);
 
 	--Armo la lista de columnas
-	SELECT @ColumnasPivot = STRING_AGG(QUOTENAME(CONVERT(VARCHAR(7), DATEFROMPARTS(Año,Mes,1), 120)), ',')--Para que tenga la forma yyyy-mm
-	FROM(SELECT DISTINCT Año, Mes
+	SELECT @ColumnasPivot = STRING_AGG(QUOTENAME(CONVERT(VARCHAR(7), DATEFROMPARTS(A�o,Mes,1), 120)), ',')--Para que tenga la forma yyyy-mm
+	FROM(SELECT DISTINCT A�o, Mes
 		 FROM actualizacionDeDatosUF.GastoOrdinario
 		 UNION
-		 SELECT DISTINCT Año, Mes  --Obtengo todos los Meses y Años distintos de las tablas
+		 SELECT DISTINCT A�o, Mes  --Obtengo todos los Meses y A�os distintos de las tablas
 		 FROM actualizacionDeDatosUF.GastoExtraordinario 
 		 UNION
-		 SELECT DISTINCT Año, Mes
+		 SELECT DISTINCT A�o, Mes
 		 FROM actualizacionDeDatosUF.GastoServicio ) AS Periodos;
 
 	SET @CadenaSQL = '
 	WITH CTE_Gastos AS (
 		SELECT ''Ordinario'' AS [Tipo de gasto],
-			   CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,  --Convierte Año y Mes en un formato yyyy-mm
+			   CONVERT(VARCHAR(7), DATEFROMPARTS(A�o, Mes, 1), 120) AS Periodo,  --Convierte A�o y Mes en un formato yyyy-mm
 			   SUM(Importe) AS Importe
-		FROM (SELECT DISTINCT Año, Mes, Importe
+		FROM (SELECT DISTINCT A�o, Mes, Importe
 			  FROM actualizacionDeDatosUF.GastoOrdinario) AS tOrdinario
-		GROUP BY Año, Mes
+		GROUP BY A�o, Mes
 
 		UNION ALL
 
 		SELECT ''Extraordinario'' AS [Tipo de gasto],
-			   CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
+			   CONVERT(VARCHAR(7), DATEFROMPARTS(A�o, Mes, 1), 120) AS Periodo,
 			   SUM(Importe) AS Importe
-		FROM (SELECT DISTINCT Año, Mes, Importe   --Evita que se repitan la combinacion de Año,Mes,Importe y asi evitar duplicados antes de agrupar
+		FROM (SELECT DISTINCT A�o, Mes, Importe   --Evita que se repitan la combinacion de A�o,Mes,Importe y asi evitar duplicados antes de agrupar
 			  FROM actualizacionDeDatosUF.GastoExtraordinario) AS tExtraordinario
-		GROUP BY Año, Mes
+		GROUP BY A�o, Mes
 
 		UNION ALL
 
 		SELECT ''Servicios'' AS [Tipo de gasto],
-			   CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
+			   CONVERT(VARCHAR(7), DATEFROMPARTS(A�o, Mes, 1), 120) AS Periodo,
 			   SUM(Importe) AS Importe
-		FROM (SELECT DISTINCT Año, Mes, Importe
+		FROM (SELECT DISTINCT A�o, Mes, Importe
 			  FROM actualizacionDeDatosUF.GastoServicio) AS tServicios
-		GROUP BY Año, Mes
+		GROUP BY A�o, Mes
 	)
 	SELECT [Tipo de gasto], ' + @ColumnasPivot + '
 	FROM (SELECT [Tipo de gasto], Periodo, Importe
@@ -296,13 +232,13 @@ BEGIN
 	EXEC sp_executesql @CadenaSQL;
 END;
 
-EXEC generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto;
+go
 
 --===========================================================================================--
         -- REPORTE 4: Los 5 (cinco) meses de mayores gastos y los 5 (cinco) de mayores ingresos. 
 --===========================================================================================--
 CREATE OR ALTER PROCEDURE generacionDeReportes.Reporte_De_Cinco_Meses
-	@año INT = NULL, --Para filtrar gastos e ingresos por año
+	@a�o INT = NULL, --Para filtrar gastos e ingresos por a�o
 	@consorcio INT = NULL, --Para filtrar gastos e ingresos de determinado consorcio por su ID.
 	@detalle CHAR(1) = NULL --Para filtrar gastos por numero de detalle
 AS
@@ -312,29 +248,40 @@ BEGIN
 		SET @strDetalle = CONCAT('Detalle ', @detalle);
 
 	SELECT TOP 5 
+<<<<<<< HEAD:05_CreacionDeReportes.sql
 		IDConsorcio,
 		Año,
 		DATENAME(MONTH, DATEFROMPARTS(Año, mes, 1)) AS nombre_mes,
+=======
+		A�o,
+		DATENAME(MONTH, DATEFROMPARTS(A�o, mes, 1)) AS nombre_mes,
+>>>>>>> b9422de3962c4291dbb398972597ba40da8e00fb:06_CreacionDeReportes.sql
 		sum(importe) as total_gastos
 	FROM actualizacionDeDatosUF.GastoExtraordinario
-	WHERE (@año IS NULL OR Año = @año)
+	WHERE (@a�o IS NULL OR A�o = @a�o)
 		AND (@consorcio IS NULL OR IDConsorcio = @consorcio) 
 		AND (@strDetalle IS NULL OR Detalle = @strDetalle)
+<<<<<<< HEAD:05_CreacionDeReportes.sql
 	GROUP BY IDConsorcio, año, mes
 	ORDER BY total_gastos DESC;
 
 	SELECT TOP 5 
 		IDConsorcio,
 		YEAR(Fecha) AS año,
+=======
+	GROUP BY a�o, mes
+	ORDER BY total_gastos DESC;
+
+	SELECT TOP 5 
+		YEAR(Fecha) AS a�o,
+>>>>>>> b9422de3962c4291dbb398972597ba40da8e00fb:06_CreacionDeReportes.sql
 		DATENAME(MONTH, Fecha) AS mes,
 		sum(importe) as total_ingresos
 	FROM importacionDeInformacionBancaria.PagoAConsorcio
-		WHERE (@año IS NULL OR YEAR(Fecha) = @año) 
+		WHERE (@a�o IS NULL OR YEAR(Fecha) = @a�o) 
 		AND (@consorcio IS NULL OR @consorcio = IDConsorcio)
 	GROUP BY IDConsorcio, YEAR(Fecha), DATENAME(MONTH, Fecha), MONTH(Fecha);
 END;
-
-
 
 --===========================================================================================
         -- REPORTE 6: Fechas de pagos de expensas ordinarias de cada UF y la cantidad de 
@@ -385,6 +332,5 @@ begin
     
 end
 
-exec generacionDeReportes.ReporteDiasEntrePagosOrdinarios
 
 

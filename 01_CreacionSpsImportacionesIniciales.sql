@@ -1,5 +1,5 @@
 /********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2Âº Cuatrimestre 2025)
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
 	Importacion de Datos mediante Stored Procedures
 	Comision: 5600
 	Grupo: 12
@@ -40,7 +40,7 @@ GO
     -- Dirigirse a la carpeta donde se encuentran los archivos .xlsx
     -- Presionar boton derecho y seleccionar propiedades
     -- Dirigirse a seguridad, y presionar el boton editar
-    -- AÃ±adir a la lista el usuario que controla el SSMS
+    -- Añadir a la lista el usuario que controla el SSMS
     -- Darle permisos de lectura
     -- Aplicar los cambios y guardar
     -- Seguir los pasos que figuran debajo

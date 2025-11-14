@@ -1,4 +1,4 @@
-/********************************************************************************
+ï»¿/********************************************************************************
 	Trabajo Practico Integrador - Bases de Datos Aplicadas (2Âº Cuatrimestre 2025)
 	Generacion de Reportes
 	Comision: 5600
@@ -17,7 +17,7 @@
 use Com5600G12
 Go
 
---Especifica el entorno de idioma de la sesión a Español.
+--Especifica el entorno de idioma de la sesiï¿½n a Espaï¿½ol.
 SET LANGUAGE Spanish;
 
 --=======================================================================================
@@ -42,7 +42,7 @@ EXEC generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto
 --===========================================================================================--
         -- REPORTE 4: Los 5 (cinco) meses de mayores gastos y los 5 (cinco) de mayores ingresos.
 		-- Parametros:
-			-- Año: Entro para filtrar gastos e ingresos por año.
+			-- Aï¿½o: Entro para filtrar gastos e ingresos por aï¿½o.
 			-- Consorcio: Entero para filtrar gastos e ingresos de determinado consorcio por su ID.
 			-- Detalle: Digito entero para filtrar gastos por numero de detalle
 --===========================================================================================--
@@ -56,4 +56,4 @@ EXEC generacionDeReportes.Reporte_De_Cinco_Meses 2025, 1, 2
 			-- IdConsorcio
 --===========================================================================================
 
-EXEC generacionDeReportes.ReporteDiasEntrePagosOrdinarios 
+EXEC generacionDeReportes.ReporteDiasEntrePagosOrdinarios 1
