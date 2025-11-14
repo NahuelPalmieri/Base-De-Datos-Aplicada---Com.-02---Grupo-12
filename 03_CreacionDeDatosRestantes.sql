@@ -77,11 +77,11 @@ BEGIN
         SET @i = @i + 1;
     END
 END;
-
+GO
 
 EXEC actualizacionDeDatosUF.InsertarDatosAleatoriosGastoExtraordinario @Cantidad = 50;
+GO
 
-go
 --Generacion aleatoria de datos para la tabla EstadoDeCuenta (PRUEBA)
 /*create or alter procedure importacionDeInformacionBancaria.InsertarEstadoDeCuenta
 as
