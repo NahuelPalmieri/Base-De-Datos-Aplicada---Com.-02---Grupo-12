@@ -1,5 +1,5 @@
-/********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
+ï»¿/********************************************************************************
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2ï¿½ Cuatrimestre 2025)
 	Visualizacion de los datos que tienen las tablas de la base de datos
 	mediante el uso de consultas SELECT
 	Comision: 5600
@@ -13,6 +13,9 @@
 		- Gian Luca Di Salvio   (DNI: 45236135)
 
 *********************************************************************************/
+
+--Para asegurarnos que se ejecute usando la BDD
+use Com5600G12
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'BAULERA'
 SELECT IdBaulera, IDConsorcio, NumeroUnidad, M2Baulera
@@ -32,12 +35,12 @@ GO
 
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'GASTO ORDINARIO'
-SELECT IDGastoOrdinario, IDConsorcio, Mes, Año, Importe 
+SELECT IDGastoOrdinario, IDConsorcio, Mes, AÃ±o, Importe 
 FROM actualizacionDeDatosUF.GastoOrdinario
 GO
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'GASTO SERVICIO'
-SELECT IDGasto, IDConsorcio, IDProveedor, Importe, Mes, Año 
+SELECT IDGasto, IDConsorcio, IDProveedor, Importe, Mes, AÃ±o 
 FROM actualizacionDeDatosUF.GastoServicio
 GO
 
@@ -76,7 +79,7 @@ GO
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'CUOTAS GASTO EXTRAORDINARIO'
 SELECT  IDGastoExtraordinario, TotalDeCuotas, NumeroDeCuota
-FROM dbo.CuotasGastoExtraordinario
+FROM actualizacionDeDatosUF.CuotasGastoExtraordinario
 GO
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'ESTADO DE CUENTA'
@@ -84,15 +87,15 @@ SELECT IDConsorcio, NumeroDeUnidad, IDEstadoDeCuenta,
 	   PorcentajeMetrosCuadrados, PisoDepto, Cocheras,
 	   Bauleras, Propietario, SaldoAnteriorAbonado, PagoRecibido,
 	   Deuda, InteresPorMora, ExpensaOrdinaria, ExpensaExtraordinaria
-FROM dbo.EstadoDeCuenta
+FROM importacionDeInformacionBancaria.EstadoDeCuenta
 GO
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'GASTO EXTRAORDINARIO'
-SELECT IDGastoExtraordinario, IDConsorcio, Detalle, Importe 
-FROM dbo.GastoExtraordinario
+SELECT IDGastoExtraordinario, IDConsorcio, Mes, AÃ±o, Detalle, Importe
+FROM actualizacionDeDatosUF.GastoExtraordinario
 GO
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'PAGO A CONSORCIO'
 SELECT IDPAGO, IDConsorcio, NumeroDeUnidad, Fecha, CVU_CBU, Importe
-FROM dbo.PagoAConsorcio
+FROM importacionDeInformacionBancaria.PagoAConsorcio
 GO
