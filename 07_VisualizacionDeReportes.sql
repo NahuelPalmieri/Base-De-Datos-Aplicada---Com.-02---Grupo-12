@@ -1,4 +1,6 @@
-﻿/********************************************************************************
+﻿
+
+/********************************************************************************
 	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
 	Generacion de Reportes
 	Comision: 5600
@@ -17,37 +19,56 @@
 use Com5600G12
 Go
 
---Especifica el entorno de idioma de la sesi�n a Espa�ol.
+--Especifica el entorno de idioma de la sesi n a Espa ol.
 SET LANGUAGE Spanish;
 
 --=======================================================================================
+                      -- REPORTE 1: Flujo de caja semanal
+--=======================================================================================
+
+EXEC generacionDeReportes.ReporteFlujoDeCajaSemanal 
+    @Anio = 2025,        --parametro obligatorio de enviar
+    @MesInicio = 3,      --parametro opcional de enviar
+    @MesFin = 6;         --parametro opcional de enviar
+GO
+
+
+--=======================================================================================
       -- REPORTE 2: Total de recaudacion por mes y departamento
-	  -- Parametros:
-		-- IDConsorcio:
-		-- Piso:
-		-- Departamento:
-		-- Anio:
-		-- Mes:
 --=======================================================================================
 
 EXEC generacionDeReportes.Reporte_Total_Recaudacion_Mes_Departamento
+	@IDConsorcio = 1,		--parametro opcional de enviar
+	@Piso = 'PB',			--parametro opcional de enviar
+	@Departamento = 'D',	--parametro opcional de enviar
+	@Anio = 2025,			--parametro opcional de enviar
+	@Mes = 	5				--parametro opcional de enviar
+GO
 
 --=======================================================================================
         -- REPORTE 3: Recaudacion total desagregada segun su  procedencia (ordinario, 
         --            extraordinario, etc). segun el periodo.
 --=======================================================================================
 
-EXEC generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto @Año = 2025, @MesDesde = 1, @MesHasta = 12;
+EXEC generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto 
+	@Año = 2025,		--parametro opcional de enviar
+	@MesDesde = 1,		--parametro opcional de enviar
+	@MesHasta = 12;		--parametro opcional de enviar
+GO
 
 --===========================================================================================--
         -- REPORTE 4: Los 5 (cinco) meses de mayores gastos y los 5 (cinco) de mayores ingresos.
 		-- Parametros:
-			-- A�o: Entro para filtrar gastos e ingresos por a�o.
+			-- Anio: Entero para filtrar gastos e ingresos por anio.
 			-- Consorcio: Entero para filtrar gastos e ingresos de determinado consorcio por su ID.
 			-- Detalle: Digito entero para filtrar gastos por numero de detalle
 --===========================================================================================--
 
-EXEC generacionDeReportes.Reporte_De_Cinco_Meses 2025, 1, 2
+EXEC generacionDeReportes.Reporte_De_Cinco_Meses
+	@año = 2025,	--parametro opcional de enviar
+	@consorcio = 1, --parametro opcional de enviar
+	@detalle = 5	--parametro opcional de enviar
+GO
 
 --===========================================================================================
     -- REPORTE 5: Obtenga los 3 (tres) propietarios con mayor morosidad. Presente información de contacto y
@@ -60,12 +81,15 @@ EXEC generacionDeReportes.Reporte_De_Cinco_Meses 2025, 1, 2
 --===========================================================================================
 
 EXEC generacionDeReportes.ObtenerTopMorosos
+	@TopN = 3,			--parametro opcional de enviar
+    @IDConsorcio = 1,	--parametro opcional de enviar
+    @MinDeuda = 0		--parametro opcional de enviar
+GO
 
 --===========================================================================================
         -- REPORTE 6: Fechas de pagos de expensas ordinarias de cada UF y la cantidad de 
         --            dias que pasan entre un pago y el siguiente, para el conjunto examinado.
-		-- Parametros:
-			-- IdConsorcio
 --===========================================================================================
-
-EXEC generacionDeReportes.ReporteDiasEntrePagosOrdinarios 1
+EXEC generacionDeReportes.ReporteDiasEntrePagosOrdinarios
+    @IdConsorcio = 1	--parametro opcional de enviar
+GO
