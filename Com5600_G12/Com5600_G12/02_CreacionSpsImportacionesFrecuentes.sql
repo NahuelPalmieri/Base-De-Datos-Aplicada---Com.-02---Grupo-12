@@ -1,5 +1,5 @@
-ï»¿/********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2Âº Cuatrimestre 2025)
+/********************************************************************************
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
 	Importacion de Datos mediante Stored Procedures
 	Comision: 5600
 	Grupo: 12
@@ -410,7 +410,7 @@ BEGIN
 
     --inserto en gasto servicio
     INSERT INTO actualizacionDeDatosUF.GastoServicio (
-        IDConsorcio, IDProveedor, Importe, Mes, AÃ±o
+        IDConsorcio, IDProveedor, Importe, Mes, Año
     )
     SELECT
         c.IDConsorcio,
@@ -442,7 +442,7 @@ BEGIN
 
     -- inserto en gasto ordinario (Sumar)
     INSERT INTO actualizacionDeDatosUF.GastoOrdinario (
-        IDConsorcio, Mes, AÃ±o, Importe
+        IDConsorcio, Mes, Año, Importe
     )
     SELECT
         c.IDConsorcio,
@@ -486,7 +486,7 @@ BEGIN
     -- Crear tabla temporal 
     CREATE TABLE #PagoTemp ( 
         IdPago INT,                     -- Viene del CSV
-        Fecha VARCHAR(20),             -- Fecha como texto para transformaciï¿½n 
+        Fecha VARCHAR(20),             -- Fecha como texto para transformaci?n 
         CVU_CBU CHAR(22),              -- Para hacer el JOIN
         Importe VARCHAR(20)            -- Importe como texto para limpieza de "$"
     );
@@ -498,7 +498,7 @@ BEGIN
         WITH (
             FIRSTROW = 2,                  -- Saltear encabezado
             FIELDTERMINATOR = '','',       -- Separador de campos
-            ROWTERMINATOR = ''\n'',        -- Fin de lï¿½nea
+            ROWTERMINATOR = ''\n'',        -- Fin de l?nea
             CODEPAGE = ''65001'',          -- UTF-8
             TABLOCK
         );
@@ -513,7 +513,7 @@ BEGIN
         RETURN;
     END CATCH
 
-    -- Limpio sï¿½mbolo $ del importe 
+    -- Limpio s?mbolo $ del importe 
     UPDATE #PagoTemp
     SET Importe = REPLACE(Importe, '$', '');
 
@@ -539,13 +539,13 @@ BEGIN
         ON pt.CVU_CBU = uf.CVU_CBU
     WHERE TRY_CAST(pt.Importe AS DECIMAL(10,2)) > 0
       AND NOT EXISTS (
-          -- Validaciï¿½n para evitar duplicados: si el IdPago ya existe, no se inserta
+          -- Validaci?n para evitar duplicados: si el IdPago ya existe, no se inserta
           SELECT 1
           FROM importacionDeInformacionBancaria.PagoAConsorcio AS pa
           WHERE pa.IdPago = pt.IdPago --el IdPago es de la tabla temporal
       );
 
-    -- Mensaje de confirmaciï¿½n
+    -- Mensaje de confirmaci?n
     PRINT 'Importacion finalizada correctamente';
 
     --Verifico que los datos del Csv se cargaron en la tabla temporal

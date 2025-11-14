@@ -1,5 +1,5 @@
 /********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2Âº Cuatrimestre 2025)
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
 	Generacion de Reportes
 	Comision: 5600
 	Grupo: 12
@@ -28,7 +28,7 @@ CREATE OR ALTER PROCEDURE generacionDeReportes.ReporteFlujoDeCajaSemanal
     @IDConsorcio INT = NULL      --parametro opcional de enviar
 AS
 BEGIN
-    SET DATEFIRST 1; -- Seteo al lunes como primer día de la semana
+    SET DATEFIRST 1; -- Seteo al lunes como primer d?a de la semana
 
     DECLARE @FechaInicio DATE;
     DECLARE @FechaFin DATE;
@@ -181,7 +181,7 @@ END;
 --=======================================================================================
 GO
 CREATE OR ALTER PROCEDURE generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto
-    @Año INT = 2025,
+    @año INT = 2025,
     @MesDesde INT = 1,
     @MesHasta INT = 12
 AS
@@ -193,26 +193,26 @@ BEGIN
     DECLARE @CadenaSQL NVARCHAR(MAX);
 
     -- Armo la lista de columnas para el PIVOT
-    SELECT @ColumnasPivot = STRING_AGG(QUOTENAME(CONVERT(VARCHAR(7), DATEFROMPARTS(@Año, Mes, 1), 120)), ',')
-    FROM (SELECT DISTINCT Mes FROM actualizacionDeDatosUF.GastoOrdinario WHERE Año = @Año AND Mes BETWEEN @MesDesde AND @MesHasta
+    SELECT @ColumnasPivot = STRING_AGG(QUOTENAME(CONVERT(VARCHAR(7), DATEFROMPARTS(@año, Mes, 1), 120)), ',')
+    FROM (SELECT DISTINCT Mes FROM actualizacionDeDatosUF.GastoOrdinario WHERE año = @año AND Mes BETWEEN @MesDesde AND @MesHasta
           UNION
-          SELECT DISTINCT Mes FROM actualizacionDeDatosUF.GastoExtraordinario WHERE Año = @Año AND Mes BETWEEN @MesDesde AND @MesHasta
+          SELECT DISTINCT Mes FROM actualizacionDeDatosUF.GastoExtraordinario WHERE año = @año AND Mes BETWEEN @MesDesde AND @MesHasta
           UNION
-          SELECT DISTINCT Mes FROM actualizacionDeDatosUF.GastoServicio WHERE Año = @Año AND Mes BETWEEN @MesDesde AND @MesHasta) AS Periodos;
+          SELECT DISTINCT Mes FROM actualizacionDeDatosUF.GastoServicio WHERE año = @año AND Mes BETWEEN @MesDesde AND @MesHasta) AS Periodos;
 
     -- Armo la lista de columnas 
-    SELECT @ColumnasPivotConISNULL = STRING_AGG('ISNULL(' + QUOTENAME(CONVERT(VARCHAR(7), DATEFROMPARTS(@Año, Mes, 1), 120)) + ', 0) AS ' +
-           QUOTENAME(CONVERT(VARCHAR(7), DATEFROMPARTS(@Año, Mes, 1), 120)), ',')
-    FROM (SELECT DISTINCT Mes FROM actualizacionDeDatosUF.GastoOrdinario WHERE Año = @Año AND Mes BETWEEN @MesDesde AND @MesHasta
+    SELECT @ColumnasPivotConISNULL = STRING_AGG('ISNULL(' + QUOTENAME(CONVERT(VARCHAR(7), DATEFROMPARTS(@año, Mes, 1), 120)) + ', 0) AS ' +
+           QUOTENAME(CONVERT(VARCHAR(7), DATEFROMPARTS(@año, Mes, 1), 120)), ',')
+    FROM (SELECT DISTINCT Mes FROM actualizacionDeDatosUF.GastoOrdinario WHERE año = @año AND Mes BETWEEN @MesDesde AND @MesHasta
           UNION
-          SELECT DISTINCT Mes FROM actualizacionDeDatosUF.GastoExtraordinario WHERE Año = @Año AND Mes BETWEEN @MesDesde AND @MesHasta
+          SELECT DISTINCT Mes FROM actualizacionDeDatosUF.GastoExtraordinario WHERE año = @año AND Mes BETWEEN @MesDesde AND @MesHasta
           UNION
-          SELECT DISTINCT Mes FROM actualizacionDeDatosUF.GastoServicio WHERE Año = @Año AND Mes BETWEEN @MesDesde AND @MesHasta) AS Periodos;
+          SELECT DISTINCT Mes FROM actualizacionDeDatosUF.GastoServicio WHERE año = @año AND Mes BETWEEN @MesDesde AND @MesHasta) AS Periodos;
 
     SET @CadenaSQL = '
     WITH CTE_Gastos AS (
         SELECT ''Ordinario'' AS [Tipo de gasto],
-               CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120) AS Periodo,
+               CONVERT(VARCHAR(7), DATEFROMPARTS(año, Mes, 1), 120) AS Periodo,
                SUM(Importe) AS Importe
         FROM actualizacionDeDatosUF.GastoOrdinario
         WHERE Año = ' + CAST(@Año AS NVARCHAR) + ' AND Mes BETWEEN ' + CAST(@MesDesde AS NVARCHAR) + ' AND ' + CAST(@MesHasta AS NVARCHAR) + '
@@ -221,7 +221,7 @@ BEGIN
         UNION ALL
 
         SELECT ''Extraordinario'',
-               CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120),
+               CONVERT(VARCHAR(7), DATEFROMPARTS(año, Mes, 1), 120),
                SUM(Importe)
         FROM actualizacionDeDatosUF.GastoExtraordinario
         WHERE Año = ' + CAST(@Año AS NVARCHAR) + ' AND Mes BETWEEN ' + CAST(@MesDesde AS NVARCHAR) + ' AND ' + CAST(@MesHasta AS NVARCHAR) + '
@@ -230,11 +230,11 @@ BEGIN
         UNION ALL
 
         SELECT ''Servicios'',
-               CONVERT(VARCHAR(7), DATEFROMPARTS(Año, Mes, 1), 120),
+               CONVERT(VARCHAR(7), DATEFROMPARTS(año, Mes, 1), 120),
                SUM(Importe)
         FROM actualizacionDeDatosUF.GastoServicio
-        WHERE Año = ' + CAST(@Año AS NVARCHAR) + ' AND Mes BETWEEN ' + CAST(@MesDesde AS NVARCHAR) + ' AND ' + CAST(@MesHasta AS NVARCHAR) + '
-        GROUP BY Año, Mes
+        WHERE año = ' + CAST(@Año AS NVARCHAR) + ' AND Mes BETWEEN ' + CAST(@MesDesde AS NVARCHAR) + ' AND ' + CAST(@MesHasta AS NVARCHAR) + '
+        GROUP BY año, Mes
     )
     SELECT [Tipo de gasto], ' + @ColumnasPivotConISNULL + '
     FROM (SELECT [Tipo de gasto], Periodo, Importe
@@ -261,7 +261,7 @@ BEGIN
 	;WITH 
 	ext AS (
 		SELECT 
-			Año,
+			año,
 			mes,
 			SUM(importe) AS total_ext
 		FROM actualizacionDeDatosUF.GastoExtraordinario
@@ -276,19 +276,19 @@ BEGIN
 			mes,
 			SUM(importe) AS total_ord
 		FROM actualizacionDeDatosUF.GastoOrdinario
-		WHERE (@año IS NULL OR Año = @año)
+		WHERE (@año IS NULL OR año = @año)
 		  AND (@consorcio IS NULL OR IDConsorcio = @consorcio)
-		GROUP BY Año, mes
+		GROUP BY año, mes
 	)
 
 	SELECT TOP 5
-		COALESCE(ext.Año, ord.Año) AS Año,
+		COALESCE(ext.año, ord.año) AS año,
 		COALESCE(ext.mes, ord.mes) AS mes,
-		DATENAME(MONTH, DATEFROMPARTS(COALESCE(ext.Año, ord.Año), COALESCE(ext.mes, ord.mes), 1)) AS nombre_mes,
+		DATENAME(MONTH, DATEFROMPARTS(COALESCE(ext.año, ord.año), COALESCE(ext.mes, ord.mes), 1)) AS nombre_mes,
 		COALESCE(total_ext, 0) + COALESCE(total_ord, 0) AS total_gastos
 	FROM ext
 	FULL JOIN ord 
-		ON ext.Año = ord.Año AND ext.mes = ord.mes
+		ON ext.año = ord.año AND ext.mes = ord.mes
 	ORDER BY total_gastos DESC;
 
 	SELECT TOP 5 
@@ -303,9 +303,9 @@ END;
 go
 
 --===========================================================================================
-    -- REPORTE 5: Obtenga los 3 (tres) propietarios con mayor morosidad. Presente información de contacto y
-	--DNI de los propietarios para que la administración los pueda contactar o remitir el trámite al
-	--estudio jurídico.
+    -- REPORTE 5: Obtenga los 3 (tres) propietarios con mayor morosidad. Presente informaci?n de contacto y
+	--DNI de los propietarios para que la administraci?n los pueda contactar o remitir el tr?mite al
+	--estudio jur?dico.
 --===========================================================================================
 
 CREATE OR ALTER PROCEDURE generacionDeReportes.ObtenerTopMorosos
@@ -408,6 +408,5 @@ begin
     end
     
 end
-
 
 

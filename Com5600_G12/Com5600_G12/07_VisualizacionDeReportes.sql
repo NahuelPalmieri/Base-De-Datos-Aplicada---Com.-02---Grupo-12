@@ -1,5 +1,5 @@
-ï»¿/********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2Âº Cuatrimestre 2025)
+/********************************************************************************
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
 	Generacion de Reportes
 	Comision: 5600
 	Grupo: 12
@@ -17,7 +17,7 @@
 use Com5600G12
 Go
 
---Especifica el entorno de idioma de la sesiï¿½n a Espaï¿½ol.
+--Especifica el entorno de idioma de la sesi?n a Espa?ol.
 SET LANGUAGE Spanish;
 
 --=======================================================================================
@@ -37,12 +37,12 @@ EXEC generacionDeReportes.Reporte_Total_Recaudacion_Mes_Departamento
         --            extraordinario, etc). segun el periodo.
 --=======================================================================================
 
-EXEC generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto @AÃ±o = 2025, @MesDesde = 1, @MesHasta = 12;
+EXEC generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto @Año = 2025, @MesDesde = 1, @MesHasta = 12;
 
 --===========================================================================================--
         -- REPORTE 4: Los 5 (cinco) meses de mayores gastos y los 5 (cinco) de mayores ingresos.
 		-- Parametros:
-			-- Aï¿½o: Entro para filtrar gastos e ingresos por aï¿½o.
+			-- A?o: Entro para filtrar gastos e ingresos por a?o.
 			-- Consorcio: Entero para filtrar gastos e ingresos de determinado consorcio por su ID.
 			-- Detalle: Digito entero para filtrar gastos por numero de detalle
 --===========================================================================================--
@@ -50,9 +50,9 @@ EXEC generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto @AÃ±o = 2025, 
 EXEC generacionDeReportes.Reporte_De_Cinco_Meses 2025, 1, 2
 
 --===========================================================================================
-    -- REPORTE 5: Obtenga los 3 (tres) propietarios con mayor morosidad. Presente informaciÃ³n de contacto y
-	--DNI de los propietarios para que la administraciÃ³n los pueda contactar o remitir el trÃ¡mite al
-	--estudio jurÃ­dico.
+    -- REPORTE 5: Obtenga los 3 (tres) propietarios con mayor morosidad. Presente información de contacto y
+	--DNI de los propietarios para que la administración los pueda contactar o remitir el trámite al
+	--estudio jurídico.
 	--Parametros:
 		--TopN: Cantidad de puestos que desea mostrar.
 		--IdConsorcio: Filtrar por consorcio, si es NULL, se hace la comparacion entre todos los reportes.

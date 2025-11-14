@@ -1,5 +1,5 @@
 /********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2Âº Cuatrimestre 2025)
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
 	Creacion de Indices para los reportes
 	Comision: 5600
 	Grupo: 12
@@ -43,6 +43,16 @@ INCLUDE (importe);
 CREATE NONCLUSTERED INDEX IX_GastoOrdinario_Filtros
 ON actualizacionDeDatosUF.GastoOrdinario (Año, IDConsorcio, mes)
 INCLUDE (importe);
+
+--================================================================
+	--INDICES PARA REPORTE 5:
+--================================================================
+CREATE NONCLUSTERED INDEX IX_EstadoDeCuenta_Deuda_Includes
+ON importacionDeInformacionBancaria.EstadoDeCuenta(Deuda)
+INCLUDE (IDConsorcio, NumeroDeUnidad); --
+
+CREATE INDEX IX_UnidadFuncional_DNIPropietario
+ON actualizacionDeDatosUF.UnidadFuncional(DNIPropietario);
 
 --================================================================
 	--INDICES PARA REPORTE 6:
