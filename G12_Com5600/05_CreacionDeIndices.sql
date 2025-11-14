@@ -1,5 +1,5 @@
 /********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2Ã‚Âº Cuatrimestre 2025)
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
 	Creacion de Indices para los reportes
 	Comision: 5600
 	Grupo: 12
@@ -21,17 +21,38 @@ use Com5600G12
 --=================================================================
 
 CREATE NONCLUSTERED INDEX IDX_GastoOrdinario
-ON actualizacionDeDatosUF.GastoOrdinario (AÃ±o, Mes)
+ON actualizacionDeDatosUF.GastoOrdinario (Año, Mes)
 INCLUDE (Importe);
 
 
 CREATE NONCLUSTERED INDEX IDX_GastoServicio
-ON actualizacionDeDatosUF.GastoServicio (AÃ±o, Mes)
+ON actualizacionDeDatosUF.GastoServicio (Año, Mes)
 INCLUDE (Importe);
 
 CREATE NONCLUSTERED INDEX IDX_GastoExtraordinario
-ON actualizacionDeDatosUF.GastoExtraordinario (AÃ±o, Mes)
+ON actualizacionDeDatosUF.GastoExtraordinario (Año, Mes)
 INCLUDE (Importe);
+
+--================================================================
+	--INDICES PARA REPORTE 4:
+--=================================================================
+CREATE NONCLUSTERED INDEX IX_GastoExtraordinario_Filtros
+ON actualizacionDeDatosUF.GastoExtraordinario (Año, IDConsorcio, Detalle, mes)
+INCLUDE (importe);
+
+CREATE NONCLUSTERED INDEX IX_GastoOrdinario_Filtros
+ON actualizacionDeDatosUF.GastoOrdinario (Año, IDConsorcio, mes)
+INCLUDE (importe);
+
+--================================================================
+	--INDICES PARA REPORTE 5:
+--================================================================
+CREATE NONCLUSTERED INDEX IX_EstadoDeCuenta_Deuda_Includes
+ON importacionDeInformacionBancaria.EstadoDeCuenta(Deuda)
+INCLUDE (IDConsorcio, NumeroDeUnidad); --
+
+CREATE INDEX IX_UnidadFuncional_DNIPropietario
+ON actualizacionDeDatosUF.UnidadFuncional(DNIPropietario);
 
 --================================================================
 	--INDICES PARA REPORTE 6:

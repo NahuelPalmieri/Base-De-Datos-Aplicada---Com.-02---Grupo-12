@@ -1,5 +1,5 @@
 /********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2Âº Cuatrimestre 2025)
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
 	Importacion de Datos mediante Stored Procedures
 	Comision: 5600
 	Grupo: 12
@@ -34,8 +34,6 @@ GO
 :SETVAR ArchPagosConsorcio "pagos_consorcios.csv"
 GO
 :SETVAR ArchInquilinoPropietariosDatos "Inquilino-propietarios-datos.csv"
-GO
-:SETVAR ArchUFPorConsorcio "UF por consorcio.txt"
 GO
 :SETVAR ArchInquilinoPropietariosUF "Inquilino-propietarios-UF.csv"
 GO
@@ -120,8 +118,6 @@ begin
 	select DNI, Nombres, Apellidos, Email, NumeroDeTelefono, CVU_CBU, Inquilino
 	from #personasCrudoTemp p
 	where exists(select 1 from Duplicados d  where p.DNI = d.DNI and d.Apariciones>1)
-	or p.DNI is null or p.Nombres is null or p.Apellidos is null or p.NumeroDeTelefono is null or p.CVU_CBU is null or p.Inquilino is null
-	or Patindex('%[^A-Za-z ]%', p.Nombres)>0 or Patindex('%[^A-Za-z ]%', p.Apellidos)>0
 
 	;with Duplicados(DNI, Apariciones) as(
 		select DNI, count(DNI) over(partition by DNI) as apariciones
@@ -129,11 +125,15 @@ begin
 	)
 	delete from #personasCrudoTemp 
 	where exists(select 1 from Duplicados d where #personasCrudoTemp.DNI = d.DNI and d.Apariciones>1) --SI HAY DUPLICADOS LOS ELIMINO
-	or Patindex('%[^A-Za-z ]%', #personasCrudoTemp.Nombres)>0 or Patindex('%[^A-Za-z ]%', #personasCrudoTemp.Apellidos)>0 --SI HAY ALGUN NOMBRE O APELLIDO INVALIDO TAMBIEN
-
+	
 	insert into actualizacionDeDatosUF.Persona
 	select cast(DNI as int), Nombres, Apellidos, Email, NumeroDeTelefono, CVU_CBU, cast(Inquilino as bit) from #personasCrudoTemp
-	where DNI IS NOT NULL or Nombres is not null or Apellidos is not null or NumeroDeTelefono is not null or CVU_CBU is not null or Inquilino is not null --INSERTO MIENTRAS TENGAN LOS CAMPOS NOT NULL DE LA TABLA
+	where DNI IS NOT NULL 
+    or Nombres is not null 
+    or Apellidos is not null 
+    or NumeroDeTelefono is not null 
+    or CVU_CBU is not null 
+    or Inquilino is not null --INSERTO MIENTRAS TENGAN LOS CAMPOS NOT NULL DE LA TABLA
 	
 
 	insert into actualizacionDeDatosUF.Propietario ---Las personas con inquilino = 0 van a la tabla propietarios
@@ -155,74 +155,9 @@ EXEC actualizacionDeDatosUF.importarDatosPersonas '$(Ruta)/$(ArchInquilinoPropie
 GO
 
 --===============================================================================
-                -- IMPORTACION DE ARCHIVO: UF por consorcio.txt                     --HAY QUE AGREGARLE UN TRIGGER
---===============================================================================
-GO
-CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.Importar_UFxConsorcio --DE ACA
-    @ruta_archivo varchar(100)
-AS BEGIN
-    CREATE TABLE #UFxConsorcioTemp (
-        NombreDeConsorcio varchar(20),
-        NumeroDeUnidad int,
-        Piso char(2),
-        Departamento char(1),
-        coeficiente char(3),
-        m2Unidad decimal(5,2) CHECK(m2Unidad > 0),
-        tieneBauleras char(2),
-        tieneCocheras char(2),
-        metrosCuadradosBaulera int CHECK(metrosCuadradosBaulera > 0),
-        metrosCuadradosCochera int CHECK(metrosCuadradosCochera > 0)
-    );
-
-    DECLARE @ImportarDinamico nvarchar(MAX);
-
-    SET @ImportarDinamico = '
-        BULK INSERT #UFxConsorcioTemp
-        FROM ''' + @ruta_archivo + '''
-        WITH (
-            FIELDTERMINATOR = ''\t'',
-            ROWTERMINATOR = ''\n'',
-            FIRSTROW = 2,
-            CODEPAGE = ''ACP''
-        );
-    ';
-
-    EXEC sp_executesql @ImportarDinamico;
-
-    --Insertando datos en UnidadFuncional
-    INSERT INTO actualizacionDeDatosUF.UnidadFuncional (IDConsorcio, NumeroDeUnidad, Piso, Departamento, m2Unidad)
-    SELECT con.idConsorcio, UF.NumeroDeUnidad, UF.Piso, UF.Departamento, UF.m2Unidad
-    FROM #UFxConsorcioTemp UF
-        inner join actualizacionDeDatosUF.Consorcio con ON UF.NombreDeConsorcio = con.NombreDeConsorcio;
-
-    --Insertando datos en Baulera
-    INSERT INTO actualizacionDeDatosUF.Baulera (IDConsorcio, NumeroUnidad, M2Baulera)
-    SELECT con.idConsorcio, UF.NumeroDeUnidad, UF.metrosCuadradosBaulera 
-    FROM #UFxConsorcioTemp UF
-        inner join actualizacionDeDatosUF.Consorcio con ON UF.NombreDeConsorcio = con.NombreDeConsorcio
-    WHERE UF.tieneBauleras = 'SI';
-
-    --Insertando datos en Cochera
-    INSERT INTO actualizacionDeDatosUF.Cochera (IDConsorcio, NumeroUnidad, M2Cochera)
-    SELECT con.idConsorcio, UF.NumeroDeUnidad, UF.metrosCuadradosCochera 
-    FROM #UFxConsorcioTemp UF
-        inner join actualizacionDeDatosUF.Consorcio con ON UF.NombreDeConsorcio = con.NombreDeConsorcio
-    WHERE UF.tieneCocheras = 'SI';
-
-    DROP TABLE #UFxConsorcioTemp;
-END --HASTA ACA
-GO
-
---EJECUCION DEL STORED PROCEDURE
-EXEC actualizacionDeDatosUF.Importar_UFxConsorcio '$(Ruta)/$(ArchUFPorConsorcio)'
-GO
-
-
-GO
---===============================================================================
                 -- IMPORTACION DE ARCHIVO: Inquilino-propietarios-UF.csv            --PONERLE UN TRIGGER
 --===============================================================================
-
+go
 CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF -- DE ACA
 
 		@ruta_archivo varchar(MAX)
@@ -412,7 +347,7 @@ BEGIN
 
     --inserto en gasto servicio
     INSERT INTO actualizacionDeDatosUF.GastoServicio (
-        IDConsorcio, IDProveedor, Importe, Mes, AÃ±o
+        IDConsorcio, IDProveedor, Importe, Mes, Año
     )
     SELECT
         c.IDConsorcio,
@@ -444,7 +379,7 @@ BEGIN
 
     -- inserto en gasto ordinario (Sumar)
     INSERT INTO actualizacionDeDatosUF.GastoOrdinario (
-        IDConsorcio, Mes, AÃ±o, Importe
+        IDConsorcio, Mes, Año, Importe
     )
     SELECT
         c.IDConsorcio,
@@ -488,7 +423,7 @@ BEGIN
     -- Crear tabla temporal 
     CREATE TABLE #PagoTemp ( 
         IdPago INT,                     -- Viene del CSV
-        Fecha VARCHAR(20),             -- Fecha como texto para transformaciï¿½n 
+        Fecha VARCHAR(20),             -- Fecha como texto para transformaci?n 
         CVU_CBU CHAR(22),              -- Para hacer el JOIN
         Importe VARCHAR(20)            -- Importe como texto para limpieza de "$"
     );
@@ -500,7 +435,7 @@ BEGIN
         WITH (
             FIRSTROW = 2,                  -- Saltear encabezado
             FIELDTERMINATOR = '','',       -- Separador de campos
-            ROWTERMINATOR = ''\n'',        -- Fin de lï¿½nea
+            ROWTERMINATOR = ''\n'',        -- Fin de l?nea
             CODEPAGE = ''65001'',          -- UTF-8
             TABLOCK
         );
@@ -515,7 +450,7 @@ BEGIN
         RETURN;
     END CATCH
 
-    -- Limpio sï¿½mbolo $ del importe 
+    -- Limpio s?mbolo $ del importe 
     UPDATE #PagoTemp
     SET Importe = REPLACE(Importe, '$', '');
 
@@ -541,13 +476,13 @@ BEGIN
         ON pt.CVU_CBU = uf.CVU_CBU
     WHERE TRY_CAST(pt.Importe AS DECIMAL(10,2)) > 0
       AND NOT EXISTS (
-          -- Validaciï¿½n para evitar duplicados: si el IdPago ya existe, no se inserta
+          -- Validaci?n para evitar duplicados: si el IdPago ya existe, no se inserta
           SELECT 1
           FROM importacionDeInformacionBancaria.PagoAConsorcio AS pa
           WHERE pa.IdPago = pt.IdPago --el IdPago es de la tabla temporal
       );
 
-    -- Mensaje de confirmaciï¿½n
+    -- Mensaje de confirmaci?n
     PRINT 'Importacion finalizada correctamente';
 
     --Verifico que los datos del Csv se cargaron en la tabla temporal

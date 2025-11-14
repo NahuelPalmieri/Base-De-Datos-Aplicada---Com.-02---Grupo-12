@@ -1,11 +1,11 @@
 /********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2? Cuatrimestre 2025)
 	Creacion de Base de Datos, Esquemas y Tablas
 	Comision: 5600
 	Grupo: 12
 	Integrantes:
 		- Nahuel Palmieri		(DNI: 45074926)
-		- Ivan Morales			(DNI: 39772619)
+		- Ivan Morales			(DNI: 39772619)8
 		- Tobias Argain			(DNI: 42998669)
 		- Tomas Daniel Yagueddu (DNI: 44100611)
 		- Fernando Pereyra		(DNI: 45738989)
@@ -26,7 +26,6 @@ GO
 
 USE Com5600G12;
 GO
-
 
 -- ===============================
 -- 2. CREACION DE ESQUEMAS
@@ -50,7 +49,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualiza
 BEGIN
 CREATE TABLE actualizacionDeDatosUF.Persona
 (
-	DNI int primary key CHECK(DNI > 9999999 AND DNI < 100000000),
+	DNI int primary key CHECK(DNI > 0 AND DNI < 100000000),
 	Nombres varchar(30) not null,
 	Apellidos varchar(30) not null,
 	Email varchar(50),
@@ -179,8 +178,8 @@ CREATE TABLE actualizacionDeDatosUF.GastoExtraordinario
 (
 	IDGastoExtraordinario int identity(1,1) primary key,
 	IDConsorcio int, 
-	Mes int CHECK(Mes > 0 AND Mes <= 12),  --le agregue Mes y Año ya que son necesarios para el informe
-	Año int CHECK(Año > 1999 AND Año <= year(getdate())),
+	Mes int CHECK(Mes > 0 AND Mes <= 12),  --le agregue Mes y A?o ya que son necesarios para el informe
+	A�o int CHECK(A�o > 1999 AND A�o <= year(getdate())),
 	Detalle varchar(80),
 	Importe decimal(10,2),
 
@@ -217,7 +216,7 @@ CREATE TABLE actualizacionDeDatosUF.GastoOrdinario
 	IDGastoOrdinario int identity(1,1) primary key,
 	IDConsorcio int, 
 	Mes int CHECK(Mes > 0 AND Mes <= 12),
-	Año int CHECK(Año > 1999 AND Año <= year(getdate())),
+	A�o int CHECK(A�o > 1999 AND A�o <= year(getdate())),
 	Importe decimal(10,2),
 
 	CONSTRAINT FK_Consorcio2 FOREIGN KEY (IDConsorcio) REFERENCES actualizacionDeDatosUF.Consorcio (IDConsorcio)
@@ -252,7 +251,7 @@ CREATE TABLE actualizacionDeDatosUF.GastoServicio
 	IDProveedor int,
 	Importe decimal(10,2) CHECK(Importe > 0),
 	Mes int CHECK(Mes > 0 AND Mes <= 12),
-	Año int CHECK(Año > 1999 AND Año <= year(getdate())),
+	A�o int CHECK(A�o > 1999 AND A�o <= year(getdate())),
 	--NroFactura int UNIQUE,-- la saque porque daba problemas con la importacion del JSON, en el sp mas explicado.
 
 	CONSTRAINT FK_Consorcio3 FOREIGN KEY (IDConsorcio) REFERENCES actualizacionDeDatosUF.Consorcio (IDConsorcio),
@@ -300,7 +299,7 @@ CREATE TABLE importacionDeInformacionBancaria.EstadoDeCuenta
 	Propietario varchar(30),
 	SaldoAnteriorAbonado decimal(10,2) CHECK(SaldoAnteriorAbonado >= 0),
 	PagoRecibido decimal(10,2) CHECK(PagoRecibido >= 0),
-	Deuda decimal(10,2) CHECK(Deuda >= 0),
+	Deuda decimal(10,2),
 	InteresPorMora decimal(10,2) CHECK(InteresPorMora >= 0),
 	ExpensaOrdinaria decimal(10,2) CHECK(ExpensaOrdinaria >= 0),
 	ExpensaExtraordinaria decimal(10,2) CHECK(ExpensaExtraordinaria >= 0),

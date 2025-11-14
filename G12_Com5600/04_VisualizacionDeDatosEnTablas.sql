@@ -1,5 +1,5 @@
 /********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2? Cuatrimestre 2025)
 	Visualizacion de los datos que tienen las tablas de la base de datos
 	mediante el uso de consultas SELECT
 	Comision: 5600

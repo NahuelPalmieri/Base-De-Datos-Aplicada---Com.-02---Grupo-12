@@ -1,5 +1,5 @@
 /********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2? Cuatrimestre 2025)
 	Importacion de Datos mediante Stored Procedures
 	Comision: 5600
 	Grupo: 12
@@ -30,6 +30,8 @@ use Com5600G12
 GO
 :SETVAR ArchDatosVarios "datos varios.xlsx"
 GO
+:SETVAR ArchUFPorConsorcio "UF por consorcio.txt"
+GO
 
 --===============================================================================
     -- CONFIGURACION INICIAL PARA TRABAJAR CON ARCHIVOS DE EXTENSION xlsx
@@ -40,7 +42,7 @@ GO
     -- Dirigirse a la carpeta donde se encuentran los archivos .xlsx
     -- Presionar boton derecho y seleccionar propiedades
     -- Dirigirse a seguridad, y presionar el boton editar
-    -- Añadir a la lista el usuario que controla el SSMS
+    -- A?adir a la lista el usuario que controla el SSMS
     -- Darle permisos de lectura
     -- Aplicar los cambios y guardar
     -- Seguir los pasos que figuran debajo
@@ -150,4 +152,68 @@ GO --HASTA ACA
 
 --PARA EJECUTAR EL STORED PROCEDURE:
 EXEC actualizacionDeDatosUF.ImportarProveedoresDesdeExcel '$(Ruta)/$(ArchDatosVarios)'
+GO
+
+
+--===============================================================================
+                -- IMPORTACION DE ARCHIVO: UF por consorcio.txt                    
+--===============================================================================
+GO
+CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.Importar_UFxConsorcio --DE ACA
+    @ruta_archivo varchar(100)
+AS BEGIN
+    CREATE TABLE #UFxConsorcioTemp (
+        NombreDeConsorcio varchar(20),
+        NumeroDeUnidad int,
+        Piso char(2),
+        Departamento char(1),
+        coeficiente char(3),
+        m2Unidad decimal(5,2) CHECK(m2Unidad > 0),
+        tieneBauleras char(2),
+        tieneCocheras char(2),
+        metrosCuadradosBaulera int CHECK(metrosCuadradosBaulera > 0),
+        metrosCuadradosCochera int CHECK(metrosCuadradosCochera > 0)
+    );
+
+    DECLARE @ImportarDinamico nvarchar(MAX);
+
+    SET @ImportarDinamico = '
+        BULK INSERT #UFxConsorcioTemp
+        FROM ''' + @ruta_archivo + '''
+        WITH (
+            FIELDTERMINATOR = ''\t'',
+            ROWTERMINATOR = ''\n'',
+            FIRSTROW = 2,
+            CODEPAGE = ''ACP''
+        );
+    ';
+
+    EXEC sp_executesql @ImportarDinamico;
+
+    --Insertando datos en UnidadFuncional
+    INSERT INTO actualizacionDeDatosUF.UnidadFuncional (IDConsorcio, NumeroDeUnidad, Piso, Departamento, m2Unidad)
+    SELECT con.idConsorcio, UF.NumeroDeUnidad, UF.Piso, UF.Departamento, UF.m2Unidad
+    FROM #UFxConsorcioTemp UF
+        inner join actualizacionDeDatosUF.Consorcio con ON UF.NombreDeConsorcio = con.NombreDeConsorcio;
+
+    --Insertando datos en Baulera
+    INSERT INTO actualizacionDeDatosUF.Baulera (IDConsorcio, NumeroUnidad, M2Baulera)
+    SELECT con.idConsorcio, UF.NumeroDeUnidad, UF.metrosCuadradosBaulera 
+    FROM #UFxConsorcioTemp UF
+        inner join actualizacionDeDatosUF.Consorcio con ON UF.NombreDeConsorcio = con.NombreDeConsorcio
+    WHERE UF.tieneBauleras = 'SI';
+
+    --Insertando datos en Cochera
+    INSERT INTO actualizacionDeDatosUF.Cochera (IDConsorcio, NumeroUnidad, M2Cochera)
+    SELECT con.idConsorcio, UF.NumeroDeUnidad, UF.metrosCuadradosCochera 
+    FROM #UFxConsorcioTemp UF
+        inner join actualizacionDeDatosUF.Consorcio con ON UF.NombreDeConsorcio = con.NombreDeConsorcio
+    WHERE UF.tieneCocheras = 'SI';
+
+    DROP TABLE #UFxConsorcioTemp;
+END --HASTA ACA
+GO
+
+--EJECUCION DEL STORED PROCEDURE
+EXEC actualizacionDeDatosUF.Importar_UFxConsorcio '$(Ruta)/$(ArchUFPorConsorcio)'
 GO
