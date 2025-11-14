@@ -1,5 +1,5 @@
 /********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2Âº Cuatrimestre 2025)
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
 	Generacion de Reportes
 	Comision: 5600
 	Grupo: 12
@@ -29,7 +29,7 @@ BEGIN
     DECLARE @TotalConsorcios INT; -- cantidad total de consorcios disponibles (lo de la tabla Consorcio)
     DECLARE @IDConsorcio INT; -- ID de consorcio elegido aleatoriamente (de los que hay en la tabla)
     DECLARE @NDetalle INT; -- Se usa para seleccionar un detalle de manera aleatoria (segun numero)
-    DECLARE @Detalle VARCHAR(80); -- descripción del gasto extraordinario
+    DECLARE @Detalle VARCHAR(80); -- descripci?n del gasto extraordinario
     DECLARE @Mes INT; -- para obtener mes aleatorio entre 1 y 12
     DECLARE @Importe DECIMAL(10,2); -- Para obtener importe aleatorio entre 15.000 y 100.000
 
@@ -46,7 +46,7 @@ BEGIN
     -- Bucle para insertar la cantidad solicitada de registros
     WHILE @i < @Cantidad
     BEGIN
-        -- Selecciona aleatoriamente un consorcio válido
+        -- Selecciona aleatoriamente un consorcio v?lido
         SELECT TOP 1 @IDConsorcio = IDConsorcio
         FROM actualizacionDeDatosUF.Consorcio
         ORDER BY NEWID();
@@ -69,7 +69,7 @@ BEGIN
          -- Importe aleatorio con decimales
         SET @Importe = ROUND(15000 + (RAND(CHECKSUM(NEWID())) * 85000), 2);
 
-        -- Inserta el registro en la tabla GastoExtraordinario con año 2025 (el año lo puse fijo para que sea igual al de los archivos de importacion)
+        -- Inserta el registro en la tabla GastoExtraordinario con a?o 2025 (el a?o lo puse fijo para que sea igual al de los archivos de importacion)
         INSERT INTO actualizacionDeDatosUF.GastoExtraordinario (IDConsorcio, Mes, Año, Detalle, Importe)
         VALUES (@IDConsorcio, @Mes, 2025, @Detalle, @Importe);
 
@@ -86,7 +86,7 @@ GO
                       -- INSERTAR DATOS: Estado De Cuenta
 --=======================================================================================
 
--- Declaración De Vistas Y Stored Procedures Para InsertarEstadoDeCuentaInicial + Ejecución:
+-- Declaraci?n De Vistas Y Stored Procedures Para InsertarEstadoDeCuentaInicial + Ejecuci?n:
 
 CREATE OR ALTER VIEW importacionDeInformacionBancaria.VistaEstadoDeCuenta
 AS
@@ -120,7 +120,7 @@ GO
 EXEC importacionDeInformacionBancaria.InsertarEstadoDeCuentaInicial
 GO
 
--- Declaración De Vistas Y Stored Procedures Para InsertarEstadoDeCuentaFrecuente + Ejecución:
+-- Declaraci?n De Vistas Y Stored Procedures Para InsertarEstadoDeCuentaFrecuente + Ejecuci?n:
 
 CREATE OR ALTER VIEW importacionDeInformacionBancaria.VistaEstadoDeCuenta
 AS

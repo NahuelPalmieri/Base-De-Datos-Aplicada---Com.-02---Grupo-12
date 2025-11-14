@@ -1,5 +1,5 @@
 /********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2ยบ Cuatrimestre 2025)
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2บ Cuatrimestre 2025)
 	Creacion de Indices para los reportes
 	Comision: 5600
 	Grupo: 12

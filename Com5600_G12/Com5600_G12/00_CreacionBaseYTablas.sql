@@ -1,5 +1,5 @@
 /********************************************************************************
-	Trabajo Practico Integrador - Bases de Datos Aplicadas (2º Cuatrimestre 2025)
+	Trabajo Practico Integrador - Bases de Datos Aplicadas (2? Cuatrimestre 2025)
 	Creacion de Base de Datos, Esquemas y Tablas
 	Comision: 5600
 	Grupo: 12
@@ -178,7 +178,7 @@ CREATE TABLE actualizacionDeDatosUF.GastoExtraordinario
 (
 	IDGastoExtraordinario int identity(1,1) primary key,
 	IDConsorcio int, 
-	Mes int CHECK(Mes > 0 AND Mes <= 12),  --le agregue Mes y Año ya que son necesarios para el informe
+	Mes int CHECK(Mes > 0 AND Mes <= 12),  --le agregue Mes y A?o ya que son necesarios para el informe
 	Año int CHECK(Año > 1999 AND Año <= year(getdate())),
 	Detalle varchar(80),
 	Importe decimal(10,2),
