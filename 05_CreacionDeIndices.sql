@@ -45,6 +45,16 @@ ON actualizacionDeDatosUF.GastoOrdinario (Año, IDConsorcio, mes)
 INCLUDE (importe);
 
 --================================================================
+	--INDICES PARA REPORTE 5:
+--================================================================
+CREATE NONCLUSTERED INDEX IX_EstadoDeCuenta_Deuda_Includes
+ON importacionDeInformacionBancaria.EstadoDeCuenta(Deuda)
+INCLUDE (IDConsorcio, NumeroDeUnidad); --
+
+CREATE INDEX IX_UnidadFuncional_DNIPropietario
+ON actualizacionDeDatosUF.UnidadFuncional(DNIPropietario);
+
+--================================================================
 	--INDICES PARA REPORTE 6:
 --================================================================
 CREATE NONCLUSTERED INDEX IDX_PagoAConsorcio
