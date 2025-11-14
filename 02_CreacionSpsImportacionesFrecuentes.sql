@@ -217,13 +217,6 @@ GO
 EXEC actualizacionDeDatosUF.Importar_UFxConsorcio '$(Ruta)/$(ArchUFPorConsorcio)'
 GO
 
-
-<<<<<<< HEAD:02_CreacionSpsImportacionesFrecuentes - copia.sql
---EXEC xp_servicecontrol 'QUERYSTATE', 'MSSQLSERVER';
---GO
-=======
-GO
->>>>>>> main:02_CreacionSpsImportacionesFrecuentes.sql
 --===============================================================================
                 -- IMPORTACION DE ARCHIVO: Inquilino-propietarios-UF.csv            --PONERLE UN TRIGGER
 --===============================================================================
