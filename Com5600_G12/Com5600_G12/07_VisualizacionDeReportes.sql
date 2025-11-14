@@ -65,7 +65,10 @@ EXEC generacionDeReportes.ObtenerTopMorosos
         -- REPORTE 6: Fechas de pagos de expensas ordinarias de cada UF y la cantidad de 
         --            dias que pasan entre un pago y el siguiente, para el conjunto examinado.
 		-- Parametros:
-			-- IdConsorcio
+			-- IdConsorcio (OBLIGATORIO)
+			-- NroUnidadFuncional (OPCIONAL)
+			-- AnioDesde (OPCIONAL)
+			--Si se ingresa NroUnidad se debe ingresar AnioDede y viceversa. De caso contrario se tomara solo IdConsorcio
 --===========================================================================================
 
-EXEC generacionDeReportes.ReporteDiasEntrePagosOrdinarios 1
+EXEC generacionDeReportes.ReporteDiasEntrePagosOrdinarios, 1

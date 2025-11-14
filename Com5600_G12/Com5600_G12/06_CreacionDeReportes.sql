@@ -371,7 +371,9 @@ RECONFIGURE;
 GO
 
 create or alter procedure generacionDeReportes.ReporteDiasEntrePagosOrdinarios
-    @IdConsorcio int = NULL
+    @IdConsorcio int, --PARAMETRO OBLIGATORIO
+    @NroUnidadFuncional int = NULL, --PARAMETRO OPCIONAL
+    @AnioDesde int = NULL --PARAMETRO OPCIONAL
 as
 begin
     
@@ -391,12 +393,14 @@ begin
 
     DECLARE @datos NVARCHAR(MAX) = (SELECT respuesta FROM @json)
 
-    if @IdConsorcio is not null
+    if @NroUnidadFuncional is not null and @AnioDesde is not null
     begin
         select pac.IDConsorcio, pac.NumeroDeUnidad, pac.Fecha, pac.Importe, pac.importe/(select importe from openjson(@datos)with([Importe] decimal(10,2) '$.venta')) as ImporteUSD,
         datediff(day, pac.fecha,lag(pac.Fecha, 1, NULL) over(partition by pac.IdConsorcio, pac.NumeroDeUnidad order by pac.Fecha desc)) as DiferenciaDias 
         from importacionDeInformacionBancaria.PagoAConsorcio pac
         where pac.IDConsorcio = @IdConsorcio
+        and pac.NumeroDeUnidad = @NroUnidadFuncional
+        and year(pac.Fecha)>=@AnioDesde
 		and pac.Ordinario = 1
     end
     else
@@ -404,7 +408,9 @@ begin
         select pac.IDConsorcio, pac.NumeroDeUnidad, pac.Fecha, pac.Importe, pac.importe/(select importe from openjson(@datos)with([Importe] decimal(10,2) '$.venta')) as ImporteUSD,
         datediff(day, pac.fecha,lag(pac.Fecha, 1, NULL) over(partition by pac.IdConsorcio, pac.NumeroDeUnidad order by pac.Fecha desc)) as DiferenciaDias 
         from importacionDeInformacionBancaria.PagoAConsorcio pac
-		where pac.Ordinario = 1
+		where pac.IDConsorcio = @IdConsorcio 
+        and pac.Ordinario = 1
+
     end
     
 end
