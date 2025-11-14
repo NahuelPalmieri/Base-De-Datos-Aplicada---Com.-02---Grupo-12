@@ -28,7 +28,7 @@ CREATE OR ALTER PROCEDURE generacionDeReportes.ReporteFlujoDeCajaSemanal
     @IDConsorcio INT = NULL      --parametro opcional de enviar
 AS
 BEGIN
-    SET DATEFIRST 1; -- Seteo al lunes como primer d?a de la semana
+    SET DATEFIRST 1; -- Seteo al lunes como primer dia de la semana
 
     DECLARE @FechaInicio DATE;
     DECLARE @FechaFin DATE;
