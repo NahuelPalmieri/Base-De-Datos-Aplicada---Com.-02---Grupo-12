@@ -37,7 +37,7 @@ EXEC generacionDeReportes.Reporte_Total_Recaudacion_Mes_Departamento
         --            extraordinario, etc). segun el periodo.
 --=======================================================================================
 
-EXEC generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto
+EXEC generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto @Año = 2025, @MesDesde = 1, @MesHasta = 12;
 
 --===========================================================================================--
         -- REPORTE 4: Los 5 (cinco) meses de mayores gastos y los 5 (cinco) de mayores ingresos.
@@ -48,6 +48,18 @@ EXEC generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto
 --===========================================================================================--
 
 EXEC generacionDeReportes.Reporte_De_Cinco_Meses 2025, 1, 2
+
+--===========================================================================================
+    -- REPORTE 5: Obtenga los 3 (tres) propietarios con mayor morosidad. Presente información de contacto y
+	--DNI de los propietarios para que la administración los pueda contactar o remitir el trámite al
+	--estudio jurídico.
+	--Parametros:
+		--TopN: Cantidad de puestos que desea mostrar.
+		--IdConsorcio: Filtrar por consorcio, si es NULL, se hace la comparacion entre todos los reportes.
+		--MinimoDeuda: Extra, agregar un minimo de deuda para mostrarlo.
+--===========================================================================================
+
+EXEC generacionDeReportes.ObtenerTopMorosos
 
 --===========================================================================================
         -- REPORTE 6: Fechas de pagos de expensas ordinarias de cada UF y la cantidad de 

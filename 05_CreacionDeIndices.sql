@@ -34,6 +34,27 @@ ON actualizacionDeDatosUF.GastoExtraordinario (Año, Mes)
 INCLUDE (Importe);
 
 --================================================================
+	--INDICES PARA REPORTE 4:
+--=================================================================
+CREATE NONCLUSTERED INDEX IX_GastoExtraordinario_Filtros
+ON actualizacionDeDatosUF.GastoExtraordinario (Año, IDConsorcio, Detalle, mes)
+INCLUDE (importe);
+
+CREATE NONCLUSTERED INDEX IX_GastoOrdinario_Filtros
+ON actualizacionDeDatosUF.GastoOrdinario (Año, IDConsorcio, mes)
+INCLUDE (importe);
+
+--================================================================
+	--INDICES PARA REPORTE 5:
+--================================================================
+CREATE NONCLUSTERED INDEX IX_EstadoDeCuenta_Deuda_Includes
+ON importacionDeInformacionBancaria.EstadoDeCuenta(Deuda)
+INCLUDE (IDConsorcio, NumeroDeUnidad); --
+
+CREATE INDEX IX_UnidadFuncional_DNIPropietario
+ON actualizacionDeDatosUF.UnidadFuncional(DNIPropietario);
+
+--================================================================
 	--INDICES PARA REPORTE 6:
 --================================================================
 CREATE NONCLUSTERED INDEX IDX_PagoAConsorcio

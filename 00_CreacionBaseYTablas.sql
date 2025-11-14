@@ -299,7 +299,7 @@ CREATE TABLE importacionDeInformacionBancaria.EstadoDeCuenta
 	Propietario varchar(30),
 	SaldoAnteriorAbonado decimal(10,2) CHECK(SaldoAnteriorAbonado >= 0),
 	PagoRecibido decimal(10,2) CHECK(PagoRecibido >= 0),
-	Deuda decimal(10,2) CHECK(Deuda >= 0),
+	Deuda decimal(10,2),
 	InteresPorMora decimal(10,2) CHECK(InteresPorMora >= 0),
 	ExpensaOrdinaria decimal(10,2) CHECK(ExpensaOrdinaria >= 0),
 	ExpensaExtraordinaria decimal(10,2) CHECK(ExpensaExtraordinaria >= 0),
