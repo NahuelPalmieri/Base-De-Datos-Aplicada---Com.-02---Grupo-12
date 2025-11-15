@@ -111,8 +111,8 @@
           <FullPath>09_CifradoDeDatos.sql</FullPath>
         </FileNode>
         <FileNode Name="10_SP_DatosCifrados.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>10_SP_DatosCifrados.sql</FullPath>
         </FileNode>

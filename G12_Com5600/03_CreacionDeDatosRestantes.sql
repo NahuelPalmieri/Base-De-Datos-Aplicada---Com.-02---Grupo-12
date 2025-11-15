@@ -203,4 +203,12 @@ GO
 
 EXEC importacionDeInformacionBancaria.InsertarEstadoDeCuentaFrecuente
         @DiaActual = 28;
-GO
+GO -- HACEMOS QUE SE CALCULEN TODOS LOS MONTOS QUE SUMAN PARA LUEGO ARMAR EL
+   -- TOTAL A PAGAR (EXPENSAS ORDINARIAS, EXPENSAS EXTRAORDINARIAS, COCHERA, BAULERA,
+   -- INTERES POR MORA)
+EXEC importacionDeInformacionBancaria.InsertarEstadoDeCuentaFrecuente
+        @DiaActual = 12;
+GO -- NOS FIJAMOS SI ALGUIEN TIENE INTERESES POR MORA (EN ESTE CASO DEL 2%)
+EXEC importacionDeInformacionBancaria.InsertarEstadoDeCuentaFrecuente
+        @DiaActual = 1;
+GO -- HACEMOS QUE SE CARGUE EL TOTAL A PAGAR ESE MES Y SE SETEE EL CAMPO INTERES POR MORA EN CERO

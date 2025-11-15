@@ -291,7 +291,7 @@ BEGIN
  	FROM ext
  	FULL JOIN ord ON ext.año = ord.año AND ext.mes = ord.mes
  	ORDER BY total_gastos DESC
- 	FOR XML PATH('MesGasto'), ROOT('Top5Gastos')
+ 	FOR XML PATH('MesGasto'), ROOT('Top5Gastos'), TYPE
     ) AS 'TOP-GASTOS'
 
  	-- INGRESOS
@@ -306,7 +306,7 @@ BEGIN
  	  AND (@consorcio IS NULL OR @consorcio = IDConsorcio)
  	GROUP BY YEAR(Fecha), MONTH(Fecha)
  	ORDER BY total_ingresos DESC
- 	FOR XML PATH('MesIngreso'), ROOT('Top5Ingresos')
+ 	FOR XML PATH('MesIngreso'), ROOT('Top5Ingresos'), TYPE
     ) AS 'TOP-INGRESOS'
 
 END;

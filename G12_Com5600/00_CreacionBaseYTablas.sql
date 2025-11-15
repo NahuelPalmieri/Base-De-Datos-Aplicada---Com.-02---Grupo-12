@@ -53,9 +53,11 @@ CREATE TABLE actualizacionDeDatosUF.Persona
 	Nombres varchar(30) not null,
 	Apellidos varchar(30) not null,
 	Email varchar(50),
-	NumeroDeTelefono char(10) CHECK(NumeroDeTelefono like '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]') not null,
-	CVU_CBU char(22) UNIQUE not null,
-	Inquilino bit NOT NULL
+	NumeroDeTelefono char(10) not null,
+	CVU_CBU char(22) not null,
+	Inquilino bit NOT NULL,
+	CONSTRAINT CK_Telefono CHECK(NumeroDeTelefono like '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
+	CONSTRAINT UNQ_CVU unique(CVU_CBU)
 );
 END
 GO

@@ -49,11 +49,11 @@ SET
 GO
 
 ALTER TABLE actualizacionDeDatosUF.Persona
-DROP CONSTRAINT UQ__Persona__B9B1535BAAB1A31D;
+DROP CONSTRAINT UNQ_CVU;
 GO
-
+ 
 ALTER TABLE actualizacionDeDatosUF.Persona
-DROP CONSTRAINT UQ__Persona__B9B1535BB5421F34;
+DROP CONSTRAINT CK_Telefono;
 GO
 
 ALTER TABLE actualizacionDeDatosUF.Persona
@@ -96,4 +96,3 @@ GO
 --ver tabla persona
 EXEC actualizacionDeDatosUF.VerDatosDesencriptados
 select * from actualizacionDeDatosUF.Persona
-
