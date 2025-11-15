@@ -1,42 +1,50 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\",
+  "WorkspaceRootPath": "C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\08_AsignacionDeRoles.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:08_AsignacionDeRoles.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\10_SP_DatosCifrados.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:10_SP_DatosCifrados.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\07_VisualizacionDeReportes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:07_VisualizacionDeReportes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\06_CreacionDeReportes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:06_CreacionDeReportes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\05_CreacionDeIndices.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\05_CreacionDeIndices.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
       "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:05_CreacionDeIndices.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\04_VisualizacionDeDatosEnTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:04_VisualizacionDeDatosEnTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\03_CreacionDeDatosRestantes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\03_CreacionDeDatosRestantes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
       "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:03_CreacionDeDatosRestantes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\01_CreacionSpsImportacionesIniciales.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:01_CreacionSpsImportacionesIniciales.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\02_CreacionSpsImportacionesFrecuentes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\02_CreacionSpsImportacionesFrecuentes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
       "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:02_CreacionSpsImportacionesFrecuentes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\00_CreacionBaseYTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\01_CreacionSpsImportacionesIniciales.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:01_CreacionSpsImportacionesIniciales.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\00_CreacionBaseYTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
       "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:00_CreacionBaseYTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\08_AsignacionDeRoles.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:08_AsignacionDeRoles.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\09_CifradoDeDatos.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:09_CifradoDeDatos.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\06_CreacionDeReportes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:06_CreacionDeReportes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\07_VisualizacionDeReportes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:07_VisualizacionDeReportes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\04_VisualizacionDeDatosEnTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:04_VisualizacionDeDatosEnTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
     }
   ],
   "DocumentGroupContainers": [
@@ -46,106 +54,128 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "03_CreacionDeDatosRestantes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (52))",
-              "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\03_CreacionDeDatosRestantes.sql",
-              "RelativeDocumentMoniker": "03_CreacionDeDatosRestantes.sql",
-              "ToolTip": "03_CreacionDeDatosRestantes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (52))",
+              "Title": "00_CreacionBaseYTablas.sql - Nahuel2003.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (77))",
+              "DocumentMoniker": "C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\00_CreacionBaseYTablas.sql",
+              "RelativeDocumentMoniker": "00_CreacionBaseYTablas.sql",
+              "ToolTip": "00_CreacionBaseYTablas.sql - Nahuel2003.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (77))",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T22:00:41.852Z",
-              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (52))"
+              "WhenOpened": "2025-11-14T21:58:52.451Z",
+              "EditorCaption": " - Nahuel2003.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (77))"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "04_VisualizacionDeDatosEnTablas.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (57))",
-              "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\04_VisualizacionDeDatosEnTablas.sql",
-              "RelativeDocumentMoniker": "04_VisualizacionDeDatosEnTablas.sql",
-              "ToolTip": "04_VisualizacionDeDatosEnTablas.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (57))",
+              "Title": "01_CreacionSpsImportacionesIniciales.sql - Nahuel2003.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (74))",
+              "DocumentMoniker": "C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\01_CreacionSpsImportacionesIniciales.sql",
+              "RelativeDocumentMoniker": "01_CreacionSpsImportacionesIniciales.sql",
+              "ToolTip": "01_CreacionSpsImportacionesIniciales.sql - Nahuel2003.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (74))",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T22:01:50.218Z",
-              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (57))"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "06_CreacionDeReportes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (53))",
-              "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\06_CreacionDeReportes.sql",
-              "RelativeDocumentMoniker": "06_CreacionDeReportes.sql",
-              "ToolTip": "06_CreacionDeReportes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (53))",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T22:02:40.03Z",
-              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (53))"
+              "WhenOpened": "2025-11-14T21:59:26.914Z",
+              "EditorCaption": " - Nahuel2003.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (74))"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "05_CreacionDeIndices.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (51))",
-              "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\05_CreacionDeIndices.sql",
-              "RelativeDocumentMoniker": "05_CreacionDeIndices.sql",
-              "ToolTip": "05_CreacionDeIndices.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (51))",
+              "Title": "02_CreacionSpsImportacionesFrecuentes.sql - Nahuel2003.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (76))",
+              "DocumentMoniker": "C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\02_CreacionSpsImportacionesFrecuentes.sql",
+              "RelativeDocumentMoniker": "02_CreacionSpsImportacionesFrecuentes.sql",
+              "ToolTip": "02_CreacionSpsImportacionesFrecuentes.sql - Nahuel2003.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (76))",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T22:02:15.992Z",
-              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (51))"
+              "WhenOpened": "2025-11-14T22:00:05.381Z",
+              "EditorCaption": " - Nahuel2003.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (76))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "03_CreacionDeDatosRestantes.sql - DESKTOP-C8R5SK8\\SQLEXPRESS.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (78))",
+              "DocumentMoniker": "C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\03_CreacionDeDatosRestantes.sql",
+              "RelativeDocumentMoniker": "03_CreacionDeDatosRestantes.sql",
+              "ToolTip": "03_CreacionDeDatosRestantes.sql - DESKTOP-C8R5SK8\\SQLEXPRESS.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (78))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-14T22:00:41.852Z",
+              "EditorCaption": " - DESKTOP-C8R5SK8\\SQLEXPRESS.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (78))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "04_VisualizacionDeDatosEnTablas.sql - DESKTOP-C8R5SK8\\SQLEXPRESS.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (79))",
+              "DocumentMoniker": "C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\04_VisualizacionDeDatosEnTablas.sql",
+              "RelativeDocumentMoniker": "04_VisualizacionDeDatosEnTablas.sql",
+              "ToolTip": "04_VisualizacionDeDatosEnTablas.sql - DESKTOP-C8R5SK8\\SQLEXPRESS.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (79))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-14T22:01:50.218Z",
+              "EditorCaption": " - DESKTOP-C8R5SK8\\SQLEXPRESS.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (79))"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "07_VisualizacionDeReportes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (56))",
-              "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\07_VisualizacionDeReportes.sql",
-              "RelativeDocumentMoniker": "07_VisualizacionDeReportes.sql",
-              "ToolTip": "07_VisualizacionDeReportes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (56))",
+              "Title": "05_CreacionDeIndices.sql - Nahuel2003.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (72))",
+              "DocumentMoniker": "C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\05_CreacionDeIndices.sql",
+              "RelativeDocumentMoniker": "05_CreacionDeIndices.sql",
+              "ToolTip": "05_CreacionDeIndices.sql - Nahuel2003.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (72))",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T22:03:16.108Z",
-              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (56))"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "08_AsignacionDeRoles.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (70))",
-              "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\08_AsignacionDeRoles.sql",
-              "RelativeDocumentMoniker": "08_AsignacionDeRoles.sql",
-              "ToolTip": "08_AsignacionDeRoles.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (70))",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T22:03:42.897Z",
-              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (70))"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "01_CreacionSpsImportacionesIniciales.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (87))",
-              "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\01_CreacionSpsImportacionesIniciales.sql",
-              "RelativeDocumentMoniker": "01_CreacionSpsImportacionesIniciales.sql",
-              "ToolTip": "01_CreacionSpsImportacionesIniciales.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (87))",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T21:59:26.914Z",
-              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (87))"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "02_CreacionSpsImportacionesFrecuentes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (88))",
-              "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\02_CreacionSpsImportacionesFrecuentes.sql",
-              "RelativeDocumentMoniker": "02_CreacionSpsImportacionesFrecuentes.sql",
-              "ToolTip": "02_CreacionSpsImportacionesFrecuentes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (88))",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T22:00:05.381Z",
-              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (88))"
+              "WhenOpened": "2025-11-14T22:02:15.992Z",
+              "EditorCaption": " - Nahuel2003.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (72))"
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "00_CreacionBaseYTablas.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (80))",
-              "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Escritorio\\Nueva carpeta\\G12_Com5600\\00_CreacionBaseYTablas.sql",
-              "RelativeDocumentMoniker": "00_CreacionBaseYTablas.sql",
-              "ToolTip": "00_CreacionBaseYTablas.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (80))",
+              "Title": "06_CreacionDeReportes.sql - DESKTOP-C8R5SK8\\SQLEXPRESS.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (98))",
+              "DocumentMoniker": "C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\06_CreacionDeReportes.sql",
+              "RelativeDocumentMoniker": "06_CreacionDeReportes.sql",
+              "ToolTip": "06_CreacionDeReportes.sql - DESKTOP-C8R5SK8\\SQLEXPRESS.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (98))",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T21:58:52.451Z",
-              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (80))"
+              "WhenOpened": "2025-11-14T22:02:40.03Z",
+              "EditorCaption": " - DESKTOP-C8R5SK8\\SQLEXPRESS.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (98))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "07_VisualizacionDeReportes.sql - Nahuel2003.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (73))",
+              "DocumentMoniker": "C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\07_VisualizacionDeReportes.sql",
+              "RelativeDocumentMoniker": "07_VisualizacionDeReportes.sql",
+              "ToolTip": "07_VisualizacionDeReportes.sql - Nahuel2003.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (73))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-14T22:03:16.108Z",
+              "EditorCaption": " - Nahuel2003.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (73))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "08_AsignacionDeRoles.sql - DESKTOP-C8R5SK8\\SQLEXPRESS.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (57))",
+              "DocumentMoniker": "C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\08_AsignacionDeRoles.sql",
+              "RelativeDocumentMoniker": "08_AsignacionDeRoles.sql",
+              "ToolTip": "08_AsignacionDeRoles.sql - DESKTOP-C8R5SK8\\SQLEXPRESS.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (57))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-14T22:03:42.897Z",
+              "EditorCaption": " - DESKTOP-C8R5SK8\\SQLEXPRESS.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (57))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "09_CifradoDeDatos.sql - DESKTOP-C8R5SK8\\SQLEXPRESS.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (71))",
+              "DocumentMoniker": "C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\09_CifradoDeDatos.sql",
+              "RelativeDocumentMoniker": "09_CifradoDeDatos.sql",
+              "ToolTip": "09_CifradoDeDatos.sql - DESKTOP-C8R5SK8\\SQLEXPRESS.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (71))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-15T04:30:01.995Z",
+              "EditorCaption": " - DESKTOP-C8R5SK8\\SQLEXPRESS.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (71))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "10_SP_DatosCifrados.sql - DESKTOP-C8R5SK8\\SQLEXPRESS.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (62))",
+              "DocumentMoniker": "C:\\Users\\CIRCO STUDIO\\Documents\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\10_SP_DatosCifrados.sql",
+              "RelativeDocumentMoniker": "10_SP_DatosCifrados.sql",
+              "ToolTip": "10_SP_DatosCifrados.sql - DESKTOP-C8R5SK8\\SQLEXPRESS.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (62))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-15T04:42:25.433Z",
+              "EditorCaption": " - DESKTOP-C8R5SK8\\SQLEXPRESS.Com5600G12 (DESKTOP-C8R5SK8\\CIRCO STUDIO (62))"
             }
           ]
         }
