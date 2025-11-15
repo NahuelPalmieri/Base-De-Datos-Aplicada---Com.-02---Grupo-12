@@ -12,48 +12,131 @@
 		- Gian Luca Di Salvio   (DNI: 45236135)
 
 *********************************************************************************/
+--cuando inicies sesion con un rol, poner la conexion en opcional, NO ENCRIPTADO
+--================================================================
+	--Creacion de Logins -- a nivel servidor
+--=================================================================
+use master
+GO
 
---Para asegurarnos que se ejecute usando la BDD
+CREATE LOGIN AdminGeneral
+WITH PASSWORD = '<1234>';
+
+CREATE LOGIN AdminBancario
+WITH PASSWORD = '<1234>';
+
+CREATE LOGIN AdminOperativo
+WITH PASSWORD = '<1234>';
+
+CREATE LOGIN AdminSistemas
+WITH PASSWORD = '<1234>';
+
+GO
+--scripst para endurecer las contraseñas (pedido requerido de Microsoft)
+GO
+ALTER LOGIN AdminGeneral
+WITH PASSWORD = 'UnaClaveFuerte123!';
+
+ALTER LOGIN AdminBancario
+WITH PASSWORD = 'UnaClaveFuerte123!';
+
+ALTER LOGIN AdminOperativo
+WITH PASSWORD = 'UnaClaveFuerte123!';
+
+ALTER LOGIN AdminSistemas
+WITH PASSWORD = 'UnaClaveFuerte123!';
+GO
+--================================================================
+	--Creacion de Usuarios -- a nivel base de datos
+--=================================================================
 use Com5600G12
 GO
 
---================================================================
-	--Creacion de Logins
---=================================================================
-CREATE LOGIN usuarioAdminGeneral 
-	WITH PASSWORD = 'grupo12_AG';
+CREATE USER AdminGeneral FOR LOGIN AdminGeneral
 
-CREATE LOGIN usuarioAdminBancario
-	WITH PASSWORD = 'grupo12_AB';
+CREATE USER AdminBancario FOR LOGIN AdminBancario
 
-CREATE LOGIN usuarioAdminOperativo 
-	WITH PASSWORD = 'grupo12_AO';
+CREATE USER AdminOperativo FOR LOGIN AdminOperativo
 
-CREATE LOGIN usuarioSistema
-	WITH PASSWORD = 'grupo12_S';
+CREATE USER AdminSistemas FOR LOGIN AdminSistemas
 
+GO
 --================================================================
 	--Creacion de Roles
 --=================================================================
 
-CREATE ROLE administrativo_general;
+CREATE ROLE Rol_administrativo_general;
 GO
 
-CREATE ROLE administrativo_bancario;
+CREATE ROLE Rol_administrativo_bancario;
 GO
 
-CREATE ROLE administrativo_operativo;
+CREATE ROLE Rol_administrativo_operativo;
 GO
 
-CREATE ROLE rol_sistemas;
+CREATE ROLE Rol_administrativo_sistemas;
 GO
 
+--================================================================
+	--Agregado de usuarios a Roles
+--=================================================================
+GO
+ALTER ROLE Rol_administrativo_general ADD MEMBER AdminGeneral
+GO
+
+ALTER ROLE Rol_administrativo_bancario ADD MEMBER AdminBancario
+GO
+
+ALTER ROLE Rol_administrativo_operativo ADD MEMBER AdminOperativo
+GO
+
+ALTER ROLE Rol_administrativo_sistemas ADD MEMBER AdminSistemas
+GO
 
 --================================================================
 	--Asignacion de Permisos a Roles
 --=================================================================
 
-GRANT SELECT, INSERT, UPDATE, DELETE
+GRANT SELECT, INSERT, UPDATE, DELETE, EXEC
 ON SCHEMA::actualizacionDeDatosUF
-TO administrativo_general, administrativo_operativo;
+TO Rol_administrativo_general, Rol_administrativo_operativo;
 GO
+
+GRANT SELECT, INSERT, UPDATE, DELETE, EXEC
+ON SCHEMA::generacionDeReportes
+TO Rol_administrativo_general, Rol_administrativo_operativo, 
+	Rol_administrativo_sistemas, Rol_administrativo_bancario;
+GO
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+ON SCHEMA::importacionDeInformacionBancaria
+TO Rol_administrativo_bancario;
+GO
+
+--================================================================
+	--TEST
+--=================================================================
+
+--ejemplo adminGeneral
+--deberia poder ver esta
+select * from actualizacionDeDatosUF.UnidadFuncional
+--esta no
+select * from importacionDeInformacionBancaria.EstadoDeCuenta
+
+--ejemplo adminOperativo
+select * from actualizacionDeDatosUF.UnidadFuncional
+--esta no
+select * from importacionDeInformacionBancaria.EstadoDeCuenta
+
+--ejemplo adminSist
+--estas si
+EXEC generacionDeReportes.ObtenerTopMorosos
+--esta no
+select * from actualizacionDeDatosUF.UnidadFuncional
+select * from importacionDeInformacionBancaria.EstadoDeCuenta
+
+--ejemplo adminBancario
+--esta no
+select * from actualizacionDeDatosUF.UnidadFuncional
+--esta si
+select * from importacionDeInformacionBancaria.EstadoDeCuenta
