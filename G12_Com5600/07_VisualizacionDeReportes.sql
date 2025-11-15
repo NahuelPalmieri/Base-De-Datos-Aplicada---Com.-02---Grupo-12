@@ -32,6 +32,7 @@ SET LANGUAGE Spanish;
 		-- @MesFin: parametro opcional de enviar
 		-- @IDConsorcio: parametro opcional de enviar
 --=======================================================================================
+go
 EXEC generacionDeReportes.ReporteFlujoDeCajaSemanal 
     @Anio = 2025,        --parametro obligatorio de enviar
     @MesInicio = 3,      --parametro opcional de enviar
@@ -47,16 +48,20 @@ GO
 		-- Anio:
 		-- Mes:
 --=======================================================================================
+go
 
-EXEC generacionDeReportes.Reporte_Total_Recaudacion_Mes_Departamento
+EXEC generacionDeReportes.Reporte_Total_Recaudacion_Mes_Departamento @Anio = 2025
 
+go
 --=======================================================================================
         -- REPORTE 3: Recaudacion total desagregada segun su  procedencia (ordinario, 
         --            extraordinario, etc). segun el periodo.
 --=======================================================================================
+go
 
 EXEC generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto @Año = 2025, @MesDesde = 1, @MesHasta = 12;
 
+go
 --===========================================================================================--
         -- REPORTE 4: Los 5 (cinco) meses de mayores gastos y los 5 (cinco) de mayores ingresos.
 		-- Parametros:
@@ -64,9 +69,11 @@ EXEC generacionDeReportes.Reporte_total_recaudacion_tipo_de_gasto @Año = 2025, @
 			-- Consorcio: Entero para filtrar gastos e ingresos de determinado consorcio por su ID.
 			-- Detalle: Digito entero para filtrar gastos por numero de detalle
 --===========================================================================================--
+go
 
 EXEC generacionDeReportes.Reporte_De_Cinco_Meses 2025, 1, 2
 
+go
 --===========================================================================================
     -- REPORTE 5: Obtenga los 3 (tres) propietarios con mayor morosidad. Presente información de contacto y
 	--DNI de los propietarios para que la administración los pueda contactar o remitir el trámite al
@@ -76,9 +83,11 @@ EXEC generacionDeReportes.Reporte_De_Cinco_Meses 2025, 1, 2
 		--IdConsorcio: Filtrar por consorcio, si es NULL, se hace la comparacion entre todos los reportes.
 		--MinimoDeuda: Extra, agregar un minimo de deuda para mostrarlo.
 --===========================================================================================
+go
 
 EXEC generacionDeReportes.ObtenerTopMorosos
 
+go
 --===========================================================================================
         -- REPORTE 6: Fechas de pagos de expensas ordinarias de cada UF y la cantidad de 
         --            dias que pasan entre un pago y el siguiente, para el conjunto examinado.
@@ -88,5 +97,8 @@ EXEC generacionDeReportes.ObtenerTopMorosos
 			-- AnioDesde (OPCIONAL)
 			--Si se ingresa NroUnidad se debe ingresar AnioDede y viceversa. De caso contrario se tomara solo IdConsorcio
 --===========================================================================================
+go
 
-EXEC generacionDeReportes.ReporteDiasEntrePa
+EXEC generacionDeReportes.ReporteDiasEntrePagosOrdinarios @IdConsorcio=1
+
+go
