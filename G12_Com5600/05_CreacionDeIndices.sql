@@ -55,7 +55,7 @@ CREATE INDEX IX_UnidadFuncional_DNIPropietario
 ON actualizacionDeDatosUF.UnidadFuncional(DNIPropietario);
 
 --================================================================
-	--INDICES PARA REPORTE 6:
+	--INDICES PARA REPORTE 6 y REPORTE 2:
 --================================================================
 CREATE NONCLUSTERED INDEX IDX_PagoAConsorcio
 ON importacionDeInformacionBancaria.PagoAConsorcio(IdConsorcio, NumeroDeUnidad, Fecha)

@@ -200,7 +200,7 @@ END
 GO
 
 EXEC importacionDeInformacionBancaria.InsertarEstadoDeCuentaFrecuente
-        @DiaActual = 16;
+        @DiaActual = 12;
 GO
 
 --DELETE FROM importacionDeInformacionBancaria.EstadoDeCuenta
