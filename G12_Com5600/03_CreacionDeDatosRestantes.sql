@@ -147,19 +147,39 @@ AS
 GO
 
 CREATE OR ALTER PROCEDURE importacionDeInformacionBancaria.InsertarEstadoDeCuentaFrecuente
+    @DiaActual TINYINT = null, 
+    @PrimerVencimiento TINYINT = 10,
+    @SegundoVencimiento TINYINT = 15
 AS
 BEGIN
-    UPDATE importacionDeInformacionBancaria.EstadoDeCuenta
-    SET SaldoAnteriorAbonado = (InteresPorMora + ExpensaOrdinaria + ExpensaExtraordinaria + Bauleras + Cocheras)
+    
+    IF(@DiaActual IS NULL)
+        SET @DiaActual = Day(getDate());
 
-    UPDATE estCuenta
-    SET Cocheras = ((cast(vist.M2Cochera as decimal(10,2)))/(vist.M2Totales)*vist.ImporteGOrdinario),
-        Bauleras = ((cast(vist.M2Baulera as decimal(10,2)))/(vist.M2Totales)*vist.ImporteGOrdinario),
-        ExpensaOrdinaria = ((cast(vist.ImporteGOrdinario as decimal(10,2)))*estCuenta.PorcentajeMetrosCuadrados/100),
-        ExpensaExtraordinaria = ((cast(vist.ImporteGExtOrdinario as decimal(10,2))*estCuenta.PorcentajeMetrosCuadrados)/(vist.M2Totales)) 
-    FROM importacionDeInformacionBancaria.EstadoDeCuenta estCuenta
-    JOIN importacionDeInformacionBancaria.VistaEstadoDeCuenta vist
-    ON estCuenta.IDConsorcio = vist.IDConsorcio AND estCuenta.NumeroDeUnidad = vist.NumeroDeUnidad
+    DECLARE @interes decimal(3,2) = 0;
+
+    IF(@DiaActual = 1)
+    BEGIN
+         UPDATE importacionDeInformacionBancaria.EstadoDeCuenta
+         SET SaldoAnteriorAbonado = (InteresPorMora + ExpensaOrdinaria + ExpensaExtraordinaria + Bauleras + Cocheras),
+             InteresPorMora = 0;
+    END
+
+    IF(@DiaActual = 28) -- ULTIMO DEL MES    DAY(GETDATE()) = 28
+    BEGIN
+        UPDATE estCuenta
+        SET Cocheras = ((cast(vist.M2Cochera as decimal(10,2)))/(vist.M2Totales)*vist.ImporteGOrdinario),
+            Bauleras = ((cast(vist.M2Baulera as decimal(10,2)))/(vist.M2Totales)*vist.ImporteGOrdinario),
+            ExpensaOrdinaria = ((cast(vist.ImporteGOrdinario as decimal(10,2)))*estCuenta.PorcentajeMetrosCuadrados/100),
+            ExpensaExtraordinaria = ((cast(vist.ImporteGExtOrdinario as decimal(10,2))*estCuenta.PorcentajeMetrosCuadrados)/(vist.M2Totales)) 
+        FROM importacionDeInformacionBancaria.EstadoDeCuenta estCuenta
+        JOIN importacionDeInformacionBancaria.VistaEstadoDeCuenta vist
+        ON estCuenta.IDConsorcio = vist.IDConsorcio AND estCuenta.NumeroDeUnidad = vist.NumeroDeUnidad
+
+        UPDATE importacionDeInformacionBancaria.EstadoDeCuenta
+        SET Deuda = Deuda + (SaldoAnteriorAbonado - PagoRecibido)
+    END
+    
 
     UPDATE estCuenta
     SET estCuenta.PagoRecibido = vist.Total
@@ -167,15 +187,20 @@ BEGIN
     JOIN importacionDeInformacionBancaria.VistaPagosRecibidos vist
     ON estCuenta.IDConsorcio = vist.IDConsorcio AND estCuenta.NumeroDeUnidad = vist.NumeroDeUnidad
 
-    UPDATE importacionDeInformacionBancaria.EstadoDeCuenta
-    SET Deuda = Deuda + (SaldoAnteriorAbonado - PagoRecibido)
+    IF(@DiaActual > @PrimerVencimiento AND @DiaActual <= @SegundoVencimiento)
+        set @interes = 0.02; -- CALCULAMOS CON EL 2%
+    ELSE IF(@DiaActual > @SegundoVencimiento)
+        set @interes = 0.05; -- CALCULAMOS CON EL 5%
 
-    --FALTA INTERES POR MORA
+    update estCuenta
+    set estCuenta.InteresPorMora = @interes * estCuenta.SaldoAnteriorAbonado
+    from importacionDeInformacionBancaria.EstadoDeCuenta estCuenta
+    where estCuenta.PagoRecibido = 0
 END
 GO
 
 EXEC importacionDeInformacionBancaria.InsertarEstadoDeCuentaFrecuente
+        @DiaActual = 16;
 GO
-
 
 --DELETE FROM importacionDeInformacionBancaria.EstadoDeCuenta
