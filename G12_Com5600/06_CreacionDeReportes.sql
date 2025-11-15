@@ -19,8 +19,10 @@ GO
 
 --=======================================================================================
                       -- REPORTE 1: Flujo de caja semanal
+                            -- Se Genera En XML
 --=======================================================================================
 
+/*
 CREATE OR ALTER PROCEDURE generacionDeReportes.ReporteFlujoDeCajaSemanal
     @Anio INT,                   --parametro obligatorio de enviar
     @MesInicio INT = NULL,       --parametro opcional de enviar
@@ -75,6 +77,66 @@ BEGIN
     DROP TABLE #FlujoSemanal;
 END;
 GO
+*/
+
+CREATE OR ALTER PROCEDURE generacionDeReportes.ReporteFlujoDeCajaSemanal
+    @Anio INT,                   --parametro obligatorio de enviar
+    @MesInicio INT = NULL,       --parametro opcional de enviar
+    @MesFin INT = NULL,          --parametro opcional de enviar
+    @IDConsorcio INT = NULL      --parametro opcional de enviar
+AS
+BEGIN
+    SET DATEFIRST 1; -- Seteo al lunes como primer dia de la semana
+
+    DECLARE @FechaInicio DATE;
+    DECLARE @FechaFin DATE;
+
+    -- Si no se especifican meses de inicio y fin, se toma todo el año
+    IF @MesInicio IS NULL OR @MesFin IS NULL
+    BEGIN
+        SET @FechaInicio = DATEFROMPARTS(@Anio, 1, 1);
+        SET @FechaFin = DATEFROMPARTS(@Anio + 1, 1, 1);
+    END
+    ELSE
+    BEGIN
+        SET @FechaInicio = DATEFROMPARTS(@Anio, @MesInicio, 1);
+        SET @FechaFin = DATEADD(MONTH, 1, DATEFROMPARTS(@Anio, @MesFin, 1));
+    END
+
+    -- Tabla temporal con pagos semanales
+    SELECT 
+        DATEPART(WEEK, Fecha) AS Semana,
+        DATEADD(DAY, 1 - DATEPART(WEEKDAY, Fecha), CAST(Fecha AS DATE)) AS InicioSemana,
+        DATEADD(DAY, 7 - DATEPART(WEEKDAY, Fecha), CAST(Fecha AS DATE)) AS FinSemana,
+        SUM(CASE WHEN Ordinario = 1 THEN Importe ELSE 0 END) AS TotalOrdinario,
+        SUM(CASE WHEN Ordinario = 0 THEN Importe ELSE 0 END) AS TotalExtraordinario,
+        SUM(Importe) AS TotalSemanal
+    INTO #FlujoSemanal
+    FROM importacionDeInformacionBancaria.PagoAConsorcio
+    WHERE Fecha >= @FechaInicio AND Fecha < @FechaFin
+      AND (@IDConsorcio IS NULL OR IDConsorcio = @IDConsorcio)
+    GROUP BY DATEPART(WEEK, Fecha), DATEADD(DAY, 1 - DATEPART(WEEKDAY, Fecha), CAST(Fecha AS DATE)), DATEADD(DAY, 7 - DATEPART(WEEKDAY, Fecha), CAST(Fecha AS DATE));
+
+    -- Muestro la tabla temporal, agregando el acumulado progresivo y el promedio semanal
+    SELECT (
+        SELECT  
+            Semana,
+            InicioSemana,
+            FinSemana,
+            TotalOrdinario,
+            TotalExtraordinario,
+            TotalSemanal,
+            SUM(TotalSemanal) OVER (ORDER BY InicioSemana ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS AcumuladoProgresivo,
+            AVG(TotalSemanal) OVER () AS PromedioSemanal
+        FROM #FlujoSemanal
+        ORDER BY InicioSemana
+        FOR XML PATH('Semana'), ROOT('FlujoDeCajaSemanal'), TYPE
+    ) AS 'FLUJO-DE-CAJA-SEMANAL'
+    
+    DROP TABLE #FlujoSemanal;
+END;
+GO
+
 
 --=======================================================================================
       -- REPORTE 2: Total de recaudacion por mes y departamento
@@ -240,8 +302,11 @@ END;
 go
 
 --===========================================================================================--
-        -- REPORTE 4: Los 5 (cinco) meses de mayores gastos y los 5 (cinco) de mayores ingresos. 
+        -- REPORTE 4: Los 5 (cinco) meses de mayores gastos y los 5 (cinco) de mayores ingresos.
+                                 -- Se Genera En XML
 --===========================================================================================--
+
+/*
 CREATE OR ALTER PROCEDURE generacionDeReportes.Reporte_De_Cinco_Meses
 	@año INT = NULL, --Para filtrar gastos e ingresos por año
 	@consorcio INT = NULL, --Para filtrar gastos e ingresos de determinado consorcio por su ID.
@@ -295,6 +360,72 @@ BEGIN
 	GROUP BY YEAR(Fecha), DATENAME(MONTH, Fecha), MONTH(Fecha);
 END;
 go
+*/
+
+CREATE OR ALTER PROCEDURE generacionDeReportes.Reporte_De_Cinco_Meses
+ 	@año INT = NULL,
+ 	@consorcio INT = NULL,
+ 	@detalle CHAR(1) = NULL
+AS
+BEGIN
+ 	DECLARE @strDetalle VARCHAR(10) = NULL;
+ 	IF @detalle IS NOT NULL
+ 		SET @strDetalle = CONCAT('Detalle ', @detalle);
+
+ 	;WITH ext AS (
+ 		SELECT
+ 			año,
+ 			mes,
+ 			SUM(importe) AS total_ext
+ 		FROM actualizacionDeDatosUF.GastoExtraordinario
+ 		WHERE (@año IS NULL OR Año = @año)
+ 		  AND (@consorcio IS NULL OR IDConsorcio = @consorcio)
+ 		  AND (@strDetalle IS NULL OR Detalle = @strDetalle)
+ 		GROUP BY Año, mes
+ 	),
+ 	ord AS (
+ 		SELECT
+ 			año,
+ 			mes,
+ 			SUM(importe) AS total_ord
+ 		FROM actualizacionDeDatosUF.GastoOrdinario
+ 		WHERE (@año IS NULL OR año = @año)
+ 		  AND (@consorcio IS NULL OR IDConsorcio = @consorcio)
+ 		GROUP BY año, mes
+ 	)
+
+ 	-- GASTOS
+ 	SELECT (
+        SELECT TOP 5
+ 		COALESCE(ext.año, ord.año) AS año,
+ 		COALESCE(ext.mes, ord.mes) AS mes,
+ 		DATENAME(MONTH, DATEFROMPARTS(COALESCE(ext.año, ord.año), COALESCE(ext.mes, ord.mes), 1)) AS nombre_mes,
+ 		COALESCE(total_ext, 0) + COALESCE(total_ord, 0) AS total_gastos
+ 	FROM ext
+ 	FULL JOIN ord ON ext.año = ord.año AND ext.mes = ord.mes
+ 	ORDER BY total_gastos DESC
+ 	FOR XML PATH('MesGasto'), ROOT('Top5Gastos')
+    ) AS 'TOP-GASTOS'
+
+ 	-- INGRESOS
+    SELECT (
+        SELECT TOP 5
+ 		YEAR(Fecha) AS año,
+ 		MONTH(Fecha) AS mes,
+ 		DATENAME(MONTH, DATEFROMPARTS(YEAR(Fecha), MONTH(Fecha), 1)) AS nombre_mes,
+ 		SUM(importe) AS total_ingresos
+ 	FROM importacionDeInformacionBancaria.PagoAConsorcio
+ 	WHERE (@año IS NULL OR YEAR(Fecha) = @año)
+ 	  AND (@consorcio IS NULL OR @consorcio = IDConsorcio)
+ 	GROUP BY YEAR(Fecha), MONTH(Fecha)
+ 	ORDER BY total_ingresos DESC
+ 	FOR XML PATH('MesIngreso'), ROOT('Top5Ingresos')
+    ) AS 'TOP-INGRESOS'
+
+END;
+GO
+
+
 
 --===========================================================================================
     -- REPORTE 5: Obtenga los 3 (tres) propietarios con mayor morosidad. Presente informaci?n de contacto y

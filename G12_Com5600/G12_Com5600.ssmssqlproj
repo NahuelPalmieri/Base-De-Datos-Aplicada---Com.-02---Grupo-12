@@ -3,7 +3,7 @@
   <Items>
     <LogicalFolder Name="Conexiones" Type="2" Sorted="true">
       <Items>
-        <ConnectionNode Name="DESKTOP-0DHNFFG\SQLEXPRESS:DESKTOP-C8R5SK8\CIRCO STUDIO">
+        <ConnectionNode Name="DESKTOP-0DHNFFG\SQLEXPRESS:NAHUEL2003\nahue">
           <Created>2025-11-14T18:59:27.2055333-03:00</Created>
           <Type>SQL</Type>
           <Server>DESKTOP-0DHNFFG\SQLEXPRESS</Server>
@@ -17,7 +17,7 @@
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Consulta</ApplicationName>
         </ConnectionNode>
-        <ConnectionNode Name="DESKTOP-C8R5SK8\SQLEXPRESS:DESKTOP-C8R5SK8\CIRCO STUDIO">
+        <ConnectionNode Name="DESKTOP-C8R5SK8\SQLEXPRESS:NAHUEL2003\nahue">
           <Created>2025-11-15T01:29:40.6109516-03:00</Created>
           <Type>SQL</Type>
           <Server>DESKTOP-C8R5SK8\SQLEXPRESS</Server>
@@ -32,7 +32,7 @@
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Consulta</ApplicationName>
         </ConnectionNode>
-        <ConnectionNode Name="Nahuel2003:DESKTOP-C8R5SK8\CIRCO STUDIO">
+        <ConnectionNode Name="Nahuel2003:NAHUEL2003\nahue">
           <Created>2025-11-14T20:32:43.0273447-03:00</Created>
           <Type>SQL</Type>
           <Server>Nahuel2003</Server>
@@ -51,20 +51,20 @@
     <LogicalFolder Name="Consultas" Type="0" Sorted="true">
       <Items>
         <FileNode Name="00_CreacionBaseYTablas.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>00_CreacionBaseYTablas.sql</FullPath>
         </FileNode>
         <FileNode Name="01_CreacionSpsImportacionesIniciales.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>01_CreacionSpsImportacionesIniciales.sql</FullPath>
         </FileNode>
         <FileNode Name="02_CreacionSpsImportacionesFrecuentes.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>02_CreacionSpsImportacionesFrecuentes.sql</FullPath>
         </FileNode>
@@ -87,8 +87,8 @@
           <FullPath>05_CreacionDeIndices.sql</FullPath>
         </FileNode>
         <FileNode Name="06_CreacionDeReportes.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>06_CreacionDeReportes.sql</FullPath>
         </FileNode>
