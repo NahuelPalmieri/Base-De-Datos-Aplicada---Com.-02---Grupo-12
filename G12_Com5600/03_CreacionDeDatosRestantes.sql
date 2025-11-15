@@ -67,7 +67,7 @@ BEGIN
         SET @Mes = 1 + ABS(CHECKSUM(NEWID())) % 12;
 
          -- Importe aleatorio con decimales
-        SET @Importe = ROUND(15000 + (RAND(CHECKSUM(NEWID())) * 85000), 2);
+        SET @Importe = (ABS(CHECKSUM(NEWID()))%65000000 + 15000000)/100;
 
         -- Inserta el registro en la tabla GastoExtraordinario con año 2025 (el a?o lo puse fijo para que sea igual al de los archivos de importacion)
         INSERT INTO actualizacionDeDatosUF.GastoExtraordinario (IDConsorcio, Mes, Año, Detalle, Importe)
@@ -125,8 +125,8 @@ GO
 CREATE OR ALTER VIEW importacionDeInformacionBancaria.VistaEstadoDeCuenta
 AS
     SELECT DISTINCT uf.IDConsorcio, uf.NumeroDeUnidad, ISNULL(b.M2Baulera, 0) AS M2Baulera, ISNULL(c.M2Cochera, 0) AS M2Cochera,
-    ISNULL(sum(gextord.Importe) over(partition by gextord.IDConsorcio), 0) as ImporteGExtOrdinario,
-    sum(gord.Importe) over(partition by gord.IDConsorcio) as ImporteGOrdinario, cons.M2Totales
+    ISNULL(gextord.Importe, 0) as ImporteGExtOrdinario,
+    ISNULL(gord.Importe, 0) as importeGOrdinario, cons.M2Totales
     FROM actualizacionDeDatosUF.UnidadFuncional uf
     JOIN actualizacionDeDatosUF.Consorcio cons ON uf.IDConsorcio = cons.IDConsorcio
     LEFT JOIN actualizacionDeDatosUF.GastoOrdinario gord ON uf.IDConsorcio = gord.IDConsorcio
@@ -172,8 +172,8 @@ BEGIN
         UPDATE estCuenta
         SET Cocheras = ((cast(vist.M2Cochera as decimal(10,2)))/(vist.M2Totales)*vist.ImporteGOrdinario),
             Bauleras = ((cast(vist.M2Baulera as decimal(10,2)))/(vist.M2Totales)*vist.ImporteGOrdinario),
-            ExpensaOrdinaria = ((cast(vist.ImporteGOrdinario as decimal(10,2)))*estCuenta.PorcentajeMetrosCuadrados/100),
-            ExpensaExtraordinaria = ((cast(vist.ImporteGExtOrdinario as decimal(10,2))*estCuenta.PorcentajeMetrosCuadrados)/(vist.M2Totales)) 
+            ExpensaOrdinaria = ((cast(vist.ImporteGOrdinario as decimal(10,2)))*((estCuenta.PorcentajeMetrosCuadrados-((vist.M2Cochera+vist.M2Baulera)*100)/vist.M2Totales))/100),
+            ExpensaExtraordinaria = ((cast(vist.ImporteGExtOrdinario as decimal(10,2))*estCuenta.PorcentajeMetrosCuadrados)/100) 
         FROM importacionDeInformacionBancaria.EstadoDeCuenta estCuenta
         JOIN importacionDeInformacionBancaria.VistaEstadoDeCuenta vist
         ON estCuenta.IDConsorcio = vist.IDConsorcio AND estCuenta.NumeroDeUnidad = vist.NumeroDeUnidad

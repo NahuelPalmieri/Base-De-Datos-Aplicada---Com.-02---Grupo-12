@@ -91,7 +91,8 @@ GO
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'GASTO EXTRAORDINARIO'
 SELECT IDGastoExtraordinario, IDConsorcio, Mes, Año, Detalle, Importe
-FROM actualizacionDeDatosUF.GastoExtraordinario
+FROM actualizacionDeDatosUF.GastoExtraordinario g
+ORDER BY g.IDConsorcio
 GO
 
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'PAGO A CONSORCIO'
