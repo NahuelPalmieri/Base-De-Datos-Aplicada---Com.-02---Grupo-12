@@ -353,7 +353,7 @@ BEGIN
     WHERE 
         --dejo el filtro para el parametro de minimo
         (@IDConsorcio IS NULL OR ec.IDConsorcio = @IDConsorcio)
-        AND ec.Deuda < @MinDeuda
+        AND ec.Deuda > @MinDeuda
         
     GROUP BY 
         -- agrupamos por persona (por si hay alguna persona con mas de una UF con deudas)
@@ -365,7 +365,7 @@ BEGIN
         
     ORDER BY 
         -- ordenamos por la deuda total (es asc, porque contamos la deuda en negatibo)
-        TotalDeuda ASC;
+        TotalDeuda DESC;
 
 END
 GO

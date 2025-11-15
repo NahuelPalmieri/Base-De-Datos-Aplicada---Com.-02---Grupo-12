@@ -290,7 +290,7 @@ BEGIN
 
     -- proceso ETL para insertar los datos en la tabla temporal limpia
     -- Limpiamos y convertimos los datos
-    INSERT INTO #tempServicios_Limpia (
+   INSERT INTO #tempServicios_Limpia (
         NombreConsorcio, Mes, Bancarios, Limpieza, Administracion,
         Seguros, Gastos_Generales, Servicios_Publicos_Agua, Servicios_Publicos_Luz
     )
@@ -298,44 +298,86 @@ BEGIN
     SELECT                          
         NombreConsorcio,
         Mes,
-        COALESCE(                       
-            TRY_CONVERT(DECIMAL(18, 2), REPLACE(Bancarios, ',', '')), -- Intento Formato Americano: "1,234.56"
-            TRY_CONVERT(DECIMAL(18, 2), REPLACE(REPLACE(Bancarios, '.', ''), ',', '.')) -- Intento Formato Europeo: "1.234,56"
-        ) AS Bancarios,
+        TRY_CONVERT(DECIMAL(18, 2), CASE -- segun la posicion de la ',' y '.' realizamos los reemplazos correctos
+            WHEN CHARINDEX(',', Bancarios) > 0 AND
+                 CHARINDEX('.', Bancarios) > 0
+            THEN REPLACE(REPLACE(Bancarios, ',', ''),'.', '')
+            WHEN CHARINDEX('.', Bancarios) > 0 AND NOT
+                 CHARINDEX('.', Bancarios) > 0
+            THEN REPLACE(Bancarios, '.', '')
+            WHEN CHARINDEX(',', Bancarios) > 0 AND NOT
+                 CHARINDEX('.', Bancarios) > 0
+            THEN REPLACE(Bancarios, ',', '')
+        END)/100,
+        TRY_CONVERT(DECIMAL(18, 2), CASE -- segun la posicion de la ',' y '.' realizamos los reemplazos correctos
+            WHEN CHARINDEX(',', Limpieza) > 0 AND
+                 CHARINDEX('.', Limpieza) > 0
+            THEN REPLACE(REPLACE(Limpieza, ',', ''), '.', '')
+            WHEN CHARINDEX('.', Limpieza) > 0 AND NOT
+                 CHARINDEX('.', Limpieza) > 0
+            THEN REPLACE(Limpieza, '.', '')
+            WHEN CHARINDEX(',', Limpieza) > 0 AND NOT
+                 CHARINDEX('.', Limpieza) > 0
+            THEN REPLACE(Limpieza, ',', '')
+        END)/100,
+        TRY_CONVERT(DECIMAL(18, 2), CASE -- segun la posicion de la ',' y '.' realizamos los reemplazos correctos
+            WHEN CHARINDEX(',', Administracion) > 0 AND
+                 CHARINDEX('.', Administracion) > 0
+            THEN REPLACE(REPLACE(Administracion, ',', ''), '.', '')
+            WHEN CHARINDEX('.', Administracion) > 0 AND NOT
+                 CHARINDEX('.', Administracion) > 0
+            THEN REPLACE(Administracion, '.', '')
+            WHEN CHARINDEX(',', Administracion) > 0 AND NOT
+                 CHARINDEX('.', Administracion) > 0
+            THEN REPLACE(Administracion, ',', '')
+        END)/100,
+        TRY_CONVERT(DECIMAL(18, 2), CASE -- segun la posicion de la ',' y '.' realizamos los reemplazos correctos
+            WHEN CHARINDEX(',', Seguros) > 0 AND
+                 CHARINDEX('.', Seguros) > 0
+            THEN REPLACE(REPLACE(Seguros, ',', ''), '.', '')
+            WHEN CHARINDEX('.', Seguros) > 0 AND NOT
+                 CHARINDEX('.', Seguros) > 0
+            THEN REPLACE(Seguros, '.', '')
+            WHEN CHARINDEX(',', Seguros) > 0 AND NOT
+                 CHARINDEX('.', Seguros) > 0
+            THEN REPLACE(Seguros, ',', '')
+        END)/100,
+        TRY_CONVERT(DECIMAL(18, 2), CASE -- segun la posicion de la ',' y '.' realizamos los reemplazos correctos
+            WHEN CHARINDEX(',', Gastos_Generales) > 0 AND
+                 CHARINDEX('.', Gastos_Generales) > 0
+            THEN REPLACE(REPLACE(Gastos_Generales, ',', ''), '.', '')
+            WHEN CHARINDEX('.', Gastos_Generales) > 0 AND NOT
+                 CHARINDEX('.', Gastos_Generales) > 0
+            THEN REPLACE(Gastos_Generales, '.', '')
+            WHEN CHARINDEX(',', Gastos_Generales) > 0 AND NOT
+                 CHARINDEX('.', Gastos_Generales) > 0
+            THEN REPLACE(Gastos_Generales, ',', '')
+        END)/100,
+        TRY_CONVERT(DECIMAL(18, 2), CASE -- segun la posicion de la ',' y '.' realizamos los reemplazos correctos
+            WHEN CHARINDEX(',', Servicios_Publicos_Agua) > 0 AND
+                 CHARINDEX('.', Servicios_Publicos_Agua) > 0
+            THEN REPLACE(REPLACE(Servicios_Publicos_Agua, ',', ''), '.', '')
+            WHEN CHARINDEX('.', Servicios_Publicos_Agua) > 0 AND NOT
+                 CHARINDEX('.', Servicios_Publicos_Agua) > 0
+            THEN REPLACE(Servicios_Publicos_Agua, '.', '')
+            WHEN CHARINDEX(',', Servicios_Publicos_Agua) > 0 AND NOT
+                 CHARINDEX('.', Servicios_Publicos_Agua) > 0
+            THEN REPLACE(Servicios_Publicos_Agua, ',', '')
+        END)/100,
+        TRY_CONVERT(DECIMAL(18, 2), CASE -- segun la posicion de la ',' y '.' realizamos los reemplazos correctos
+            WHEN CHARINDEX(',', Servicios_Publicos_Luz) > 0 AND
+                 CHARINDEX('.', Servicios_Publicos_Luz) > 0
+            THEN REPLACE(REPLACE(Servicios_Publicos_Luz, ',', ''), '.', '')
+            WHEN CHARINDEX('.', Servicios_Publicos_Luz) > 0 AND NOT
+                 CHARINDEX('.', Servicios_Publicos_Luz) > 0
+            THEN REPLACE(Servicios_Publicos_Luz, '.', '')
+            WHEN CHARINDEX(',', Servicios_Publicos_Luz) > 0 AND NOT
+                 CHARINDEX('.', Servicios_Publicos_Luz) > 0
+            THEN REPLACE(Servicios_Publicos_Luz, ',', '')
+        END)/100
+        FROM #tempServicios;
         
-        COALESCE(
-            TRY_CONVERT(DECIMAL(18, 2), REPLACE(Limpieza, ',', '')),
-            TRY_CONVERT(DECIMAL(18, 2), REPLACE(REPLACE(Limpieza, '.', ''), ',', '.'))
-        ) AS Limpieza,
         
-        COALESCE(
-            TRY_CONVERT(DECIMAL(18, 2), REPLACE(Administracion, ',', '')),
-            TRY_CONVERT(DECIMAL(18, 2), REPLACE(REPLACE(Administracion, '.', ''), ',', '.'))
-        ) AS Administracion,
-        
-        COALESCE(
-            TRY_CONVERT(DECIMAL(18, 2), REPLACE(Seguros, ',', '')),
-            TRY_CONVERT(DECIMAL(18, 2), REPLACE(REPLACE(Seguros, '.', ''), ',', '.'))
-        ) AS Seguros,
-        
-        COALESCE(
-            TRY_CONVERT(DECIMAL(18, 2), REPLACE(Gastos_Generales, ',', '')),
-            TRY_CONVERT(DECIMAL(18, 2), REPLACE(REPLACE(Gastos_Generales, '.', ''), ',', '.'))
-        ) AS Gastos_Generales,
-        
-        COALESCE(
-            TRY_CONVERT(DECIMAL(18, 2), REPLACE(Servicios_Publicos_Agua, ',', '')),
-            TRY_CONVERT(DECIMAL(18, 2), REPLACE(REPLACE(Servicios_Publicos_Agua, '.', ''), ',', '.'))
-        ) AS Servicios_Publicos_Agua,
-        
-        COALESCE(
-            TRY_CONVERT(DECIMAL(18, 2), REPLACE(Servicios_Publicos_Luz, ',', '')),
-            TRY_CONVERT(DECIMAL(18, 2), REPLACE(REPLACE(Servicios_Publicos_Luz, '.', ''), ',', '.'))
-        ) AS Servicios_Publicos_Luz
-        
-    FROM #tempServicios;
-
-
     --carga de las tablas GastoServicio y GastosOrdinarios
 
     --inserto en gasto servicio
@@ -462,7 +504,7 @@ BEGIN
         uf.NumeroDeUnidad,
         TRY_CONVERT(smalldatetime, pt.Fecha),
         pt.CVU_CBU,
-        TRY_CAST(pt.Importe AS DECIMAL(10,2)),
+        TRY_CAST(pt.Importe AS DECIMAL(10,2))*100,
         ( select ABS(CHECKSUM(NEWID())) % 2 )
     FROM #PagoTemp AS pt
     INNER JOIN actualizacionDeDatosUF.UnidadFuncional AS uf
