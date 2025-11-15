@@ -33,7 +33,6 @@ SELECT IDConsorcio, NombreDeConsorcio, Domicilio,
 FROM actualizacionDeDatosUF.Consorcio
 GO
 
-
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'GASTO ORDINARIO'
 SELECT IDGastoOrdinario, IDConsorcio, Mes, Año, Importe 
 FROM actualizacionDeDatosUF.GastoOrdinario

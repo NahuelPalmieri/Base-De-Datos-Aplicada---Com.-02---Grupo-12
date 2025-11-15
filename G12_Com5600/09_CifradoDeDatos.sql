@@ -20,7 +20,6 @@ ALTER TABLE actualizacionDeDatosUF.Persona
 	Email_Cifrado VARBINARY(256),
 	NumeroDeTelefono_Cifrado VARBINARY(256);
 GO
-
 ---
 DECLARE @FraseClaveCVU NVARCHAR(128) = 'Clave1234!';
 DECLARE @FraseClaveEmail NVARCHAR(128) = 'Clave1234!';

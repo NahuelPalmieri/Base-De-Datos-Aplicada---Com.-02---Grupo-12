@@ -69,7 +69,7 @@ BEGIN
          -- Importe aleatorio con decimales
         SET @Importe = ROUND(15000 + (RAND(CHECKSUM(NEWID())) * 85000), 2);
 
-        -- Inserta el registro en la tabla GastoExtraordinario con a?o 2025 (el a?o lo puse fijo para que sea igual al de los archivos de importacion)
+        -- Inserta el registro en la tabla GastoExtraordinario con año 2025 (el a?o lo puse fijo para que sea igual al de los archivos de importacion)
         INSERT INTO actualizacionDeDatosUF.GastoExtraordinario (IDConsorcio, Mes, Año, Detalle, Importe)
         VALUES (@IDConsorcio, @Mes, 2025, @Detalle, @Importe);
 
@@ -86,7 +86,7 @@ GO
                       -- INSERTAR DATOS: Estado De Cuenta
 --=======================================================================================
 
--- Declaraci?n De Vistas Y Stored Procedures Para InsertarEstadoDeCuentaInicial + Ejecuci?n:
+-- Declaracion De Vistas Y Stored Procedures Para InsertarEstadoDeCuentaInicial + Ejecucion:
 
 CREATE OR ALTER VIEW importacionDeInformacionBancaria.VistaEstadoDeCuenta
 AS
@@ -120,7 +120,7 @@ GO
 EXEC importacionDeInformacionBancaria.InsertarEstadoDeCuentaInicial
 GO
 
--- Declaraci?n De Vistas Y Stored Procedures Para InsertarEstadoDeCuentaFrecuente + Ejecuci?n:
+-- Declaracion De Vistas Y Stored Procedures Para InsertarEstadoDeCuentaFrecuente + Ejecucion:
 
 CREATE OR ALTER VIEW importacionDeInformacionBancaria.VistaEstadoDeCuenta
 AS
@@ -133,7 +133,8 @@ AS
     FULL JOIN actualizacionDeDatosUF.GastoExtraordinario gextord ON uf.IDConsorcio = gextord.IDConsorcio AND gextord.Mes = 4
     LEFT JOIN actualizacionDeDatosUF.Baulera b ON b.IDConsorcio = uf.IDConsorcio AND b.NumeroUnidad = uf.NumeroDeUnidad
     LEFT JOIN actualizacionDeDatosUF.Cochera c ON c.IDConsorcio = uf.IDConsorcio AND c.NumeroUnidad = uf.NumeroDeUnidad
-    WHERE gord.Mes = 4 -- cambiar
+    WHERE gord.Mes = 4 -- LO HARDCODEAMOS PARA PODER HACER USO DE LOS DATOS DE MUESTRA QUE NOSOTROS CARGAMOS
+                       -- PERO EN REALIDAD DEBERIA IR "WHERE gord.Mes = MONTH(GETDATE())"
 GO
 
 CREATE OR ALTER VIEW importacionDeInformacionBancaria.VistaPagosRecibidos
@@ -142,7 +143,8 @@ AS
     FROM actualizacionDeDatosUF.UnidadFuncional uf
     LEFT JOIN importacionDeInformacionBancaria.PagoAConsorcio pg ON  uf.IDConsorcio = pg.IDConsorcio
     AND uf.NumeroDeUnidad = pg.NumeroDeUnidad
-    AND MONTH(Fecha) = 4 -- cambiar
+    AND MONTH(Fecha) = 4 -- LO HARDCODEAMOS PARA PODER HACER USO DE LOS DATOS DE MUESTRA QUE NOSOTROS CARGAMOS
+                         -- PERO EN REALIDAD DEBERIA IR "WHERE gord.Mes = MONTH(GETDATE())"
     GROUP BY uf.IDConsorcio, uf.NumeroDeUnidad, YEAR(pg.Fecha), MONTH(pg.Fecha)
 GO
 
@@ -200,7 +202,5 @@ END
 GO
 
 EXEC importacionDeInformacionBancaria.InsertarEstadoDeCuentaFrecuente
-        @DiaActual = 12;
+        @DiaActual = 28;
 GO
-
---DELETE FROM importacionDeInformacionBancaria.EstadoDeCuenta

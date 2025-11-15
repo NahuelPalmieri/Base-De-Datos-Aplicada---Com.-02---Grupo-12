@@ -104,7 +104,7 @@ CREATE TABLE actualizacionDeDatosUF.UnidadFuncional
 	DNIPropietario int,
 	Piso char(2) NOT NULL,
 	Departamento char(1) NOT NULL,
-	M2Unidad int CHECK(m2Unidad > 0) NOT NULL,  --es M2Unidad NO m2Unidad
+	M2Unidad int CHECK(m2Unidad > 0) NOT NULL,
 	CVU_CBU char(22),
 
 	CONSTRAINT PK_UnidadFuncional PRIMARY KEY CLUSTERED (IDConsorcio,NumeroDeUnidad),
@@ -178,13 +178,13 @@ CREATE TABLE actualizacionDeDatosUF.GastoExtraordinario
 (
 	IDGastoExtraordinario int identity(1,1) primary key,
 	IDConsorcio int, 
-	Mes int CHECK(Mes > 0 AND Mes <= 12),  --le agregue Mes y A?o ya que son necesarios para el informe
+	Mes int CHECK(Mes > 0 AND Mes <= 12), 
 	Año int CHECK(Año > 1999 AND Año <= year(getdate())),
 	Detalle varchar(80),
 	Importe decimal(10,2),
 
 	CONSTRAINT FK_Consorcio FOREIGN KEY (IDConsorcio) REFERENCES actualizacionDeDatosUF.Consorcio (IDConsorcio)
-); --Le agrege el FOREIGN KEY porque no se le coloco
+); 
 END
 GO
 
@@ -197,11 +197,11 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'actualiza
 BEGIN
 CREATE TABLE actualizacionDeDatosUF.CuotasGastoExtraordinario
 (
-	IDGastoExtraordinario int identity(1,1) primary key,  --no se esta usando el PK de la tabla GastoExtraordinario, 
-	TotalDeCuotas int CHECK(TotalDeCuotas >= 0),		  --si es PK+FK como se muestra deberia ser IDGastoExtraordinario y NO IdGastoExtraordinario
+	IDGastoExtraordinario int identity(1,1) primary key,   
+	TotalDeCuotas int CHECK(TotalDeCuotas >= 0),
 	NumeroDeCuota int
 	CONSTRAINT FK_CuotasGastoExtraordinario FOREIGN KEY (IDGastoExtraordinario) REFERENCES actualizacionDeDatosUF.GastoExtraordinario (IDGastoExtraordinario)
-); --Le agrege el FOREIGN KEY porque no se le coloco
+); 
 END 
 GO
 
@@ -220,8 +220,8 @@ CREATE TABLE actualizacionDeDatosUF.GastoOrdinario
 	Importe decimal(10,2),
 
 	CONSTRAINT FK_Consorcio2 FOREIGN KEY (IDConsorcio) REFERENCES actualizacionDeDatosUF.Consorcio (IDConsorcio)
-); --Le agrege el FOREIGN KEY porque no se le coloco, le cambio nombre del FK ya que existe el
-END --nombre FK_Consorcio en la tabla dbo.GastoExtraordinario
+); 
+END 
 GO
 
 --==============================
@@ -252,13 +252,13 @@ CREATE TABLE actualizacionDeDatosUF.GastoServicio
 	Importe decimal(10,2) CHECK(Importe > 0),
 	Mes int CHECK(Mes > 0 AND Mes <= 12),
 	Año int CHECK(Año > 1999 AND Año <= year(getdate())),
-	--NroFactura int UNIQUE,-- la saque porque daba problemas con la importacion del JSON, en el sp mas explicado.
+	
 
 	CONSTRAINT FK_Consorcio3 FOREIGN KEY (IDConsorcio) REFERENCES actualizacionDeDatosUF.Consorcio (IDConsorcio),
 	CONSTRAINT FK_Proveedor FOREIGN KEY (IDProveedor) REFERENCES actualizacionDeDatosUF.Proveedor (IDProveedor)
-); --Le agrege el FOREIGN KEY porque no se le coloco
-END --Le agrege el FOREIGN KEY porque no se le coloco, le cambio nombre del FK ya que existe el
-GO --nombre FK_Consorcio en la tabla dbo.GastoExtraordinario
+); 
+END 
+GO 
 
 --==============================
 -- TABLA: PagoAConsorcio
@@ -271,7 +271,7 @@ CREATE TABLE importacionDeInformacionBancaria.PagoAConsorcio
 	IDPAGO int identity(1,1) primary key,
 	IDConsorcio int,
 	NumeroDeUnidad int,
-	Fecha smalldatetime, --pasar a date?
+	Fecha smalldatetime, 
 	CVU_CBU char(22),
 	Importe decimal(10,2) CHECK(Importe > 0),
 	Ordinario bit not null,
@@ -306,7 +306,7 @@ CREATE TABLE importacionDeInformacionBancaria.EstadoDeCuenta
 
 	CONSTRAINT FK_UnidadFuncional FOREIGN KEY (IDConsorcio, NumeroDeUnidad) REFERENCES actualizacionDeDatosUF.UnidadFuncional (IDConsorcio, NumeroDeUnidad),
 	CONSTRAINT PK_EstadoDeCuenta primary key clustered (IDConsorcio, NumeroDeUnidad, IDEstadoDeCuenta)
-); --Le agrege el FOREIGN KEY porque no se le coloco
+); 
 END
 GO
 

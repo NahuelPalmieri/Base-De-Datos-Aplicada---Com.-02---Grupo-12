@@ -46,6 +46,7 @@ GO
     -- Darle permisos de lectura
     -- Aplicar los cambios y guardar
     -- Seguir los pasos que figuran debajo
+-- EN CASO DE QUE LO ANTERIOR NO FUNCIONE, INICIAR EN MODO ADMINISTRADOR
 
 --ESTABLECER CONFIGURACION PARA USAR Ad Hoc Distributed Queries:
 EXEC sp_configure 'show advanced options', 1;
@@ -103,9 +104,9 @@ BEGIN
         WHERE c.NombreDeConsorcio = tc.NombreDeConsorcio AND c.Domicilio = tc.Domicilio
     );
 
-    DROP TABLE #TempConsorcio; --NO ES 100% NECESARIO PERO ME PARECE QUE ESTA BUENO TENERLO POR LAS DUDAS
+    DROP TABLE #TempConsorcio;
 END;
-GO --HASTA ACA
+GO
 
 --PARA EJECUTAR EL STORED PROCEDURE:
 EXEC actualizacionDeDatosUF.ImportarConsorciosDesdeExcel '$(Ruta)/$(ArchDatosVarios)'
@@ -146,9 +147,9 @@ BEGIN
     SELECT DISTINCT tP.TipoDeServicio
     FROM #TempProveedores tP;
 
-    DROP TABLE #TempProveedores; --NO ES 100% NECESARIO PERO ME PARECE QUE ESTA BUENO TENERLO POR LAS DUDAS
+    DROP TABLE #TempProveedores; 
 END;
-GO --HASTA ACA
+GO 
 
 --PARA EJECUTAR EL STORED PROCEDURE:
 EXEC actualizacionDeDatosUF.ImportarProveedoresDesdeExcel '$(Ruta)/$(ArchDatosVarios)'
@@ -211,7 +212,7 @@ AS BEGIN
     WHERE UF.tieneCocheras = 'SI';
 
     DROP TABLE #UFxConsorcioTemp;
-END --HASTA ACA
+END 
 GO
 
 --EJECUCION DEL STORED PROCEDURE

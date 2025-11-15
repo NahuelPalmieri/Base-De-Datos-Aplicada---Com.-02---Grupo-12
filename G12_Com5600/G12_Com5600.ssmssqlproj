@@ -69,20 +69,20 @@
           <FullPath>02_CreacionSpsImportacionesFrecuentes.sql</FullPath>
         </FileNode>
         <FileNode Name="03_CreacionDeDatosRestantes.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>03_CreacionDeDatosRestantes.sql</FullPath>
         </FileNode>
         <FileNode Name="04_VisualizacionDeDatosEnTablas.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>04_VisualizacionDeDatosEnTablas.sql</FullPath>
         </FileNode>
         <FileNode Name="05_CreacionDeIndices.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>05_CreacionDeIndices.sql</FullPath>
         </FileNode>
@@ -93,20 +93,20 @@
           <FullPath>06_CreacionDeReportes.sql</FullPath>
         </FileNode>
         <FileNode Name="07_VisualizacionDeReportes.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>07_VisualizacionDeReportes.sql</FullPath>
         </FileNode>
         <FileNode Name="08_AsignacionDeRoles.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>08_AsignacionDeRoles.sql</FullPath>
         </FileNode>
         <FileNode Name="09_CifradoDeDatos.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>09_CifradoDeDatos.sql</FullPath>
         </FileNode>

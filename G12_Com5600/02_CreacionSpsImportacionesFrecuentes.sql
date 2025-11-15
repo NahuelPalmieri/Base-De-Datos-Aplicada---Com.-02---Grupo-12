@@ -62,7 +62,7 @@ begin
 	WHEN NOT MATCHED THEN
 		INSERT (DNI, Nombres, Apellidos, Email, NumeroDeTelefono, CVU_CBU, Inquilino)
 		VALUES (origen.DNI, origen.Nombres, origen.Apellidos, origen.Email, origen.NumeroDeTelefono, origen.CVU_CBU, origen.Inquilino);
-end --HASTA ACA 
+end 
 go
 
 create or alter procedure actualizacionDeDatosUF.importarDatosPersonas --DE ACA
@@ -80,7 +80,7 @@ begin
 		Inquilino char(1)
 	)
 
-	declare @CadenaSQL nvarchar(MAX) --necesito que sea NVARCHAR para poder usar el sp_executesql
+	declare @CadenaSQL nvarchar(MAX) 
 
 	select @CadenaSQL = '
 
@@ -94,11 +94,6 @@ begin
 	)'
 
 	EXEC sp_executesql @CadenaSQL
-
-	--select * from #personasCrudoTemp
-    --ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
-    --LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
-    --DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
 
 
 	update #personasCrudoTemp --LIMPIEZA DE DATOS
@@ -146,7 +141,7 @@ begin
 	where Inquilino = 1
 	and not exists(select 1 from actualizacionDeDatosUF.Inquilino inq where inq.DNI = per.DNI)
 
-end --HASTA ACA
+end 
 
 GO
 
@@ -155,10 +150,10 @@ EXEC actualizacionDeDatosUF.importarDatosPersonas '$(Ruta)/$(ArchInquilinoPropie
 GO
 
 --===============================================================================
-                -- IMPORTACION DE ARCHIVO: Inquilino-propietarios-UF.csv            --PONERLE UN TRIGGER
+                -- IMPORTACION DE ARCHIVO: Inquilino-propietarios-UF.csv           
 --===============================================================================
 go
-CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF -- DE ACA
+CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.Importar_Inquilino_Propietarios_UF 
 
 		@ruta_archivo varchar(MAX)
 AS 
@@ -213,14 +208,14 @@ BEGIN
 			IQ.NroDeUnidad	  = T.NumeroDeUnidad
 		FROM actualizacionDeDatosUF.Inquilino AS IQ
 		INNER JOIN actualizacionDeDatosUF.Persona AS PE
-			ON IQ.DNI = PE.DNI			--si hacemos clave compuesta dni+cvu el join con persona no hace falta (creo)				
+			ON IQ.DNI = PE.DNI							
 		INNER JOIN #TempInqPropUF as T					
 			ON PE.CVU_CBU = T.CVU_CBU
 		INNER JOIN actualizacionDeDatosUF.Consorcio AS C
 			ON T.NombreDeConsorcio = C.NombreDeConsorcio;
  
-		DROP TABLE #TempInqPropUF; --5. Elimino la tabla temporal
-END; --HASTA ACA
+		DROP TABLE #TempInqPropUF; 
+END; 
 GO
 
 --EJECUCION DEL STORED PROCEDURE
@@ -277,8 +272,7 @@ BEGIN
     Servicios_Publicos_Luz NVARCHAR(100) ''$."SERVICIOS PUBLICOS-Luz"''
     )'
 	exec (@ImportarDinamico)
-    --SELECT * 
-    --FROM #tempServicios
+    
 
     --creo tabla temporal limpia
     CREATE TABLE #tempServicios_Limpia
@@ -341,7 +335,6 @@ BEGIN
         
     FROM #tempServicios;
 
-    --SELECT * FROM #tempServicios_Limpia;
 
     --carga de las tablas GastoServicio y GastosOrdinarios
 
@@ -400,7 +393,7 @@ BEGIN
     JOIN actualizacionDeDatosUF.Consorcio c ON c.NombreDeConsorcio = tsl.NombreConsorcio;
 
 END
-GO --HASTA ACA
+GO 
 
 --EJECUCION DEL STORED PROCEDURE
 EXEC actualizacionDeDatosUF.ImportarServiciosServicios '$(Ruta)/$(ArchServiciosServicios)'
@@ -410,7 +403,7 @@ GO
 --===============================================================================
  GO
 --SPs de Importacion
-CREATE OR ALTER PROCEDURE importacionDeInformacionBancaria.ImportarPagosConsorcio --DE ACA
+CREATE OR ALTER PROCEDURE importacionDeInformacionBancaria.ImportarPagosConsorcio
     @RutaArchivo NVARCHAR(MAX)
 AS
 BEGIN
@@ -450,7 +443,7 @@ BEGIN
         RETURN;
     END CATCH
 
-    -- Limpio s?mbolo $ del importe 
+    -- Limpio simbolo $ del importe 
     UPDATE #PagoTemp
     SET Importe = REPLACE(Importe, '$', '');
 
@@ -476,26 +469,20 @@ BEGIN
         ON pt.CVU_CBU = uf.CVU_CBU
     WHERE TRY_CAST(pt.Importe AS DECIMAL(10,2)) > 0
       AND NOT EXISTS (
-          -- Validaci?n para evitar duplicados: si el IdPago ya existe, no se inserta
+          -- Validacion para evitar duplicados: si el IdPago ya existe, no se inserta
           SELECT 1
           FROM importacionDeInformacionBancaria.PagoAConsorcio AS pa
           WHERE pa.IdPago = pt.IdPago --el IdPago es de la tabla temporal
       );
 
-    -- Mensaje de confirmaci?n
+    -- Mensaje de confirmacion
     PRINT 'Importacion finalizada correctamente';
-
-    --Verifico que los datos del Csv se cargaron en la tabla temporal
-    --SELECT * FROM #PagoTemp;
-    --ESTA PARTE DEL CODIGO NO HACE FALTA YA QUE PODEMOS VISUALIZAR
-    --LOS DATOS CARGADOS EN TODAS LAS TABLAS MEDIANTE LA EJECUCION
-    --DEL CONTENIDO DEL ARCHIVO '02_VisualizacionDeDatosEnTablas'
 
 
     -- Limpio tabla temporal
     DROP TABLE #PagoTemp;
 END;
-GO --HASTA ACA
+GO 
 
 --Ejecucion del SP
 EXEC importacionDeInformacionBancaria.ImportarPagosConsorcio '$(Ruta)\$(ArchPagosConsorcio)'

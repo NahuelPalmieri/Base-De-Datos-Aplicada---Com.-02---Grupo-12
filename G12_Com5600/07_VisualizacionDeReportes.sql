@@ -81,6 +81,8 @@ GO
 		--TopN: Cantidad de puestos que desea mostrar.
 		--IdConsorcio: Filtrar por consorcio, si es NULL, se hace la comparacion entre todos los reportes.
 		--MinimoDeuda: Extra, agregar un minimo de deuda para mostrarlo.
+
+	-- SI EN LA TABLA ESTADODECUENTA NO HAY DEUDAS EL REPORTE SE MUESTRA VACIO
 --===========================================================================================
 
 EXEC generacionDeReportes.ObtenerTopMorosos

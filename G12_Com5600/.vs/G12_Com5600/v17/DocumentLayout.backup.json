@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:09_CifradoDeDatos.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\00_CreacionBaseYTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:00_CreacionBaseYTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\08_AsignacionDeRoles.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
       "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:08_AsignacionDeRoles.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
     },
@@ -15,20 +19,20 @@
       "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:07_VisualizacionDeReportes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\05_CreacionDeIndices.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:05_CreacionDeIndices.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\03_CreacionDeDatosRestantes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:03_CreacionDeDatosRestantes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\04_VisualizacionDeDatosEnTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
       "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:04_VisualizacionDeDatosEnTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\03_CreacionDeDatosRestantes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:03_CreacionDeDatosRestantes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\06_CreacionDeReportes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
       "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:06_CreacionDeReportes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\05_CreacionDeIndices.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:05_CreacionDeIndices.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\02_CreacionSpsImportacionesFrecuentes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
@@ -37,10 +41,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\01_CreacionSpsImportacionesIniciales.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
       "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:01_CreacionSpsImportacionesIniciales.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\00_CreacionBaseYTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:00_CreacionBaseYTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\10_SP_DatosCifrados.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
@@ -58,113 +58,113 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "00_CreacionBaseYTablas.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (65))",
+              "DocumentIndex": 1,
+              "Title": "00_CreacionBaseYTablas.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (51))",
               "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\00_CreacionBaseYTablas.sql",
               "RelativeDocumentMoniker": "00_CreacionBaseYTablas.sql",
-              "ToolTip": "00_CreacionBaseYTablas.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (65))",
+              "ToolTip": "00_CreacionBaseYTablas.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (51))",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
               "WhenOpened": "2025-11-14T21:58:52.451Z",
+              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (51))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "01_CreacionSpsImportacionesIniciales.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (65))",
+              "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\01_CreacionSpsImportacionesIniciales.sql",
+              "RelativeDocumentMoniker": "01_CreacionSpsImportacionesIniciales.sql",
+              "ToolTip": "01_CreacionSpsImportacionesIniciales.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (65))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-14T21:59:26.914Z",
               "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (65))"
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "01_CreacionSpsImportacionesIniciales.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (68))",
-              "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\01_CreacionSpsImportacionesIniciales.sql",
-              "RelativeDocumentMoniker": "01_CreacionSpsImportacionesIniciales.sql",
-              "ToolTip": "01_CreacionSpsImportacionesIniciales.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (68))",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T21:59:26.914Z",
-              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (68))"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "02_CreacionSpsImportacionesFrecuentes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (67))",
+              "Title": "02_CreacionSpsImportacionesFrecuentes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (52))",
               "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\02_CreacionSpsImportacionesFrecuentes.sql",
               "RelativeDocumentMoniker": "02_CreacionSpsImportacionesFrecuentes.sql",
-              "ToolTip": "02_CreacionSpsImportacionesFrecuentes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (67))",
+              "ToolTip": "02_CreacionSpsImportacionesFrecuentes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (52))",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
               "WhenOpened": "2025-11-14T22:00:05.381Z",
-              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (67))"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "03_CreacionDeDatosRestantes.sql - no conectado",
-              "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\03_CreacionDeDatosRestantes.sql",
-              "RelativeDocumentMoniker": "03_CreacionDeDatosRestantes.sql",
-              "ToolTip": "03_CreacionDeDatosRestantes.sql - no conectado",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T22:00:41.852Z",
-              "EditorCaption": " - no conectado"
+              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (52))"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "04_VisualizacionDeDatosEnTablas.sql - no conectado",
-              "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\04_VisualizacionDeDatosEnTablas.sql",
-              "RelativeDocumentMoniker": "04_VisualizacionDeDatosEnTablas.sql",
-              "ToolTip": "04_VisualizacionDeDatosEnTablas.sql - no conectado",
+              "Title": "03_CreacionDeDatosRestantes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (55))",
+              "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\03_CreacionDeDatosRestantes.sql",
+              "RelativeDocumentMoniker": "03_CreacionDeDatosRestantes.sql",
+              "ToolTip": "03_CreacionDeDatosRestantes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (55))",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T22:01:50.218Z",
-              "EditorCaption": " - no conectado"
+              "WhenOpened": "2025-11-14T22:00:41.852Z",
+              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (55))"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "05_CreacionDeIndices.sql - no conectado",
+              "DocumentIndex": 5,
+              "Title": "04_VisualizacionDeDatosEnTablas.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (74))",
+              "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\04_VisualizacionDeDatosEnTablas.sql",
+              "RelativeDocumentMoniker": "04_VisualizacionDeDatosEnTablas.sql",
+              "ToolTip": "04_VisualizacionDeDatosEnTablas.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (74))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-14T22:01:50.218Z",
+              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (74))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "05_CreacionDeIndices.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (75))",
               "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\05_CreacionDeIndices.sql",
               "RelativeDocumentMoniker": "05_CreacionDeIndices.sql",
-              "ToolTip": "05_CreacionDeIndices.sql - no conectado",
+              "ToolTip": "05_CreacionDeIndices.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (75))",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
               "WhenOpened": "2025-11-14T22:02:15.992Z",
-              "EditorCaption": " - no conectado"
+              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (75))"
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "06_CreacionDeReportes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (58))",
+              "Title": "06_CreacionDeReportes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (76))",
               "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\06_CreacionDeReportes.sql",
               "RelativeDocumentMoniker": "06_CreacionDeReportes.sql",
-              "ToolTip": "06_CreacionDeReportes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (58))",
+              "ToolTip": "06_CreacionDeReportes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (76))",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
               "WhenOpened": "2025-11-14T22:02:40.03Z",
-              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (58))"
+              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (76))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "07_VisualizacionDeReportes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (79))",
+              "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\07_VisualizacionDeReportes.sql",
+              "RelativeDocumentMoniker": "07_VisualizacionDeReportes.sql",
+              "ToolTip": "07_VisualizacionDeReportes.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (79))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-14T22:03:16.108Z",
+              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (79))"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "07_VisualizacionDeReportes.sql - no conectado",
-              "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\07_VisualizacionDeReportes.sql",
-              "RelativeDocumentMoniker": "07_VisualizacionDeReportes.sql",
-              "ToolTip": "07_VisualizacionDeReportes.sql - no conectado",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T22:03:16.108Z",
-              "EditorCaption": " - no conectado"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "08_AsignacionDeRoles.sql - no conectado",
+              "Title": "08_AsignacionDeRoles.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (66))",
               "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\08_AsignacionDeRoles.sql",
               "RelativeDocumentMoniker": "08_AsignacionDeRoles.sql",
-              "ToolTip": "08_AsignacionDeRoles.sql - no conectado",
+              "ToolTip": "08_AsignacionDeRoles.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (66))",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
               "WhenOpened": "2025-11-14T22:03:42.897Z",
-              "EditorCaption": " - no conectado"
+              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (66))"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "09_CifradoDeDatos.sql - no conectado",
+              "Title": "09_CifradoDeDatos.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (73))",
               "DocumentMoniker": "C:\\Users\\nahue\\OneDrive\\Documentos\\Base-De-Datos-Aplicada - Grupo-12\\G12_Com5600\\09_CifradoDeDatos.sql",
               "RelativeDocumentMoniker": "09_CifradoDeDatos.sql",
-              "ToolTip": "09_CifradoDeDatos.sql - no conectado",
+              "ToolTip": "09_CifradoDeDatos.sql - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (73))",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
               "WhenOpened": "2025-11-15T04:30:01.995Z",
-              "EditorCaption": " - no conectado"
+              "EditorCaption": " - Nahuel2003.Com5600G12 (NAHUEL2003\\nahue (73))"
             },
             {
               "$type": "Document",
@@ -174,8 +174,7 @@
               "RelativeDocumentMoniker": "10_SP_DatosCifrados.sql",
               "ToolTip": "10_SP_DatosCifrados.sql - no conectado",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-15T04:42:25.433Z",
-              "EditorCaption": " - no conectado"
+              "WhenOpened": "2025-11-15T04:42:25.433Z"
             }
           ]
         }
