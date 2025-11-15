@@ -3,7 +3,7 @@
   <Items>
     <LogicalFolder Name="Conexiones" Type="2" Sorted="true">
       <Items>
-        <ConnectionNode Name="DESKTOP-0DHNFFG\SQLEXPRESS:DESKTOP-C8R5SK8\CIRCO STUDIO">
+        <ConnectionNode Name="DESKTOP-0DHNFFG\SQLEXPRESS:NAHUEL2003\nahue">
           <Created>2025-11-14T18:59:27.2055333-03:00</Created>
           <Type>SQL</Type>
           <Server>DESKTOP-0DHNFFG\SQLEXPRESS</Server>
@@ -17,62 +17,16 @@
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Consulta</ApplicationName>
         </ConnectionNode>
-        <ConnectionNode Name="DESKTOP-C8R5SK8\SQLEXPRESS:AdminGeneral">
-          <Created>2025-11-14T21:21:33.4346911-03:00</Created>
+        <ConnectionNode Name="Nahuel2003:NAHUEL2003\nahue">
+          <Created>2025-11-14T20:32:43.0273447-03:00</Created>
           <Type>SQL</Type>
-          <Server>DESKTOP-C8R5SK8\SQLEXPRESS</Server>
-          <UserName>AdminGeneral</UserName>
-          <Authentication>SQL</Authentication>
-          <InitialDB />
-          <LoginTimeout>30</LoginTimeout>
-          <TrustServerCertificate>False</TrustServerCertificate>
-          <HostNameInServerCertificate />
-          <EncryptionOption>False</EncryptionOption>
-          <ExecutionTimeout>0</ExecutionTimeout>
-          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
-          <ApplicationName>Microsoft SQL Server Management Studio - Consulta</ApplicationName>
-        </ConnectionNode>
-        <ConnectionNode Name="DESKTOP-C8R5SK8\SQLEXPRESS:AdminOperativo">
-          <Created>2025-11-14T21:30:48.8459759-03:00</Created>
-          <Type>SQL</Type>
-          <Server>DESKTOP-C8R5SK8\SQLEXPRESS</Server>
-          <UserName>AdminOperativo</UserName>
-          <Authentication>SQL</Authentication>
-          <InitialDB />
-          <LoginTimeout>30</LoginTimeout>
-          <TrustServerCertificate>False</TrustServerCertificate>
-          <HostNameInServerCertificate />
-          <EncryptionOption>False</EncryptionOption>
-          <ExecutionTimeout>0</ExecutionTimeout>
-          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
-          <ApplicationName>Microsoft SQL Server Management Studio - Consulta</ApplicationName>
-        </ConnectionNode>
-        <ConnectionNode Name="DESKTOP-C8R5SK8\SQLEXPRESS:AdminSistemas">
-          <Created>2025-11-14T21:35:06.4977414-03:00</Created>
-          <Type>SQL</Type>
-          <Server>DESKTOP-C8R5SK8\SQLEXPRESS</Server>
-          <UserName>AdminSistemas</UserName>
-          <Authentication>SQL</Authentication>
-          <InitialDB />
-          <LoginTimeout>30</LoginTimeout>
-          <TrustServerCertificate>False</TrustServerCertificate>
-          <HostNameInServerCertificate />
-          <EncryptionOption>False</EncryptionOption>
-          <ExecutionTimeout>0</ExecutionTimeout>
-          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
-          <ApplicationName>Microsoft SQL Server Management Studio - Consulta</ApplicationName>
-        </ConnectionNode>
-        <ConnectionNode Name="DESKTOP-C8R5SK8\SQLEXPRESS:DESKTOP-C8R5SK8\CIRCO STUDIO">
-          <Created>2025-11-14T20:08:11.5756843-03:00</Created>
-          <Type>SQL</Type>
-          <Server>DESKTOP-C8R5SK8\SQLEXPRESS</Server>
+          <Server>Nahuel2003</Server>
           <UserName />
           <Authentication>Autenticación de Windows</Authentication>
-          <InitialDB>modelo1</InitialDB>
-          <LoginTimeout>30</LoginTimeout>
-          <TrustServerCertificate>False</TrustServerCertificate>
-          <HostNameInServerCertificate />
-          <EncryptionOption>False</EncryptionOption>
+          <InitialDB />
+          <LoginTimeout>15</LoginTimeout>
+          <TrustServerCertificate>True</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
           <ExecutionTimeout>0</ExecutionTimeout>
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Consulta</ApplicationName>
@@ -82,64 +36,58 @@
     <LogicalFolder Name="Consultas" Type="0" Sorted="true">
       <Items>
         <FileNode Name="00_CreacionBaseYTablas.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>00_CreacionBaseYTablas.sql</FullPath>
         </FileNode>
         <FileNode Name="01_CreacionSpsImportacionesIniciales.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>01_CreacionSpsImportacionesIniciales.sql</FullPath>
         </FileNode>
         <FileNode Name="02_CreacionSpsImportacionesFrecuentes.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>02_CreacionSpsImportacionesFrecuentes.sql</FullPath>
         </FileNode>
         <FileNode Name="03_CreacionDeDatosRestantes.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>03_CreacionDeDatosRestantes.sql</FullPath>
         </FileNode>
         <FileNode Name="04_VisualizacionDeDatosEnTablas.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>04_VisualizacionDeDatosEnTablas.sql</FullPath>
         </FileNode>
         <FileNode Name="05_CreacionDeIndices.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>05_CreacionDeIndices.sql</FullPath>
         </FileNode>
         <FileNode Name="06_CreacionDeReportes.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>06_CreacionDeReportes.sql</FullPath>
         </FileNode>
         <FileNode Name="07_VisualizacionDeReportes.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>07_VisualizacionDeReportes.sql</FullPath>
         </FileNode>
         <FileNode Name="08_AsignacionDeRoles.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:Nahuel2003:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>Nahuel2003</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>08_AsignacionDeRoles.sql</FullPath>
-        </FileNode>
-        <FileNode Name="09_CifradoDeDatos.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-C8R5SK8\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>DESKTOP-C8R5SK8\SQLEXPRESS</AssociatedConnSrvName>
-          <AssociatedConnUserName />
-          <FullPath>09_CifradoDeDatos.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>
