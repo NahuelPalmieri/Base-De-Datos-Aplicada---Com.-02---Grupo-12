@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\04_VisualizacionDeDatosEnTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:04_VisualizacionDeDatosEnTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\03_CreacionDeDatosRestantes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:03_CreacionDeDatosRestantes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\02_CreacionSpsImportacionesFrecuentes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:02_CreacionSpsImportacionesFrecuentes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\01_CreacionSpsImportacionesIniciales.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:01_CreacionSpsImportacionesIniciales.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\00_CreacionBaseYTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
       "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:00_CreacionBaseYTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
     },
@@ -17,22 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\05_CreacionDeIndices.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
       "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:05_CreacionDeIndices.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\03_CreacionDeDatosRestantes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:03_CreacionDeDatosRestantes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\04_VisualizacionDeDatosEnTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:04_VisualizacionDeDatosEnTablas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\02_CreacionSpsImportacionesFrecuentes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:02_CreacionSpsImportacionesFrecuentes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\01_CreacionSpsImportacionesIniciales.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|solutionrelative:01_CreacionSpsImportacionesIniciales.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3C7D7CD3-F649-E0BB-F9EA-2B92E75D6E73}|G12_Com5600.ssmssqlproj|C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\10_SP_DatosCifrados.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
@@ -54,95 +54,92 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "00_CreacionBaseYTablas.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (58))",
+              "DocumentIndex": 4,
+              "Title": "00_CreacionBaseYTablas.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (59))",
               "DocumentMoniker": "C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\00_CreacionBaseYTablas.sql",
               "RelativeDocumentMoniker": "00_CreacionBaseYTablas.sql",
-              "ToolTip": "00_CreacionBaseYTablas.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (58))",
+              "ToolTip": "00_CreacionBaseYTablas.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (59))",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
               "WhenOpened": "2025-11-14T21:58:52.451Z",
-              "EditorCaption": " - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (58))"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "01_CreacionSpsImportacionesIniciales.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (83))",
-              "DocumentMoniker": "C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\01_CreacionSpsImportacionesIniciales.sql",
-              "RelativeDocumentMoniker": "01_CreacionSpsImportacionesIniciales.sql",
-              "ToolTip": "01_CreacionSpsImportacionesIniciales.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (83))",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T21:59:26.914Z",
-              "EditorCaption": " - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (83))"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "02_CreacionSpsImportacionesFrecuentes.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (53))",
-              "DocumentMoniker": "C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\02_CreacionSpsImportacionesFrecuentes.sql",
-              "RelativeDocumentMoniker": "02_CreacionSpsImportacionesFrecuentes.sql",
-              "ToolTip": "02_CreacionSpsImportacionesFrecuentes.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (53))",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T22:00:05.381Z",
-              "EditorCaption": " - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (53))"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "03_CreacionDeDatosRestantes.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (54))",
-              "DocumentMoniker": "C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\03_CreacionDeDatosRestantes.sql",
-              "RelativeDocumentMoniker": "03_CreacionDeDatosRestantes.sql",
-              "ToolTip": "03_CreacionDeDatosRestantes.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (54))",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T22:00:41.852Z",
-              "EditorCaption": " - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (54))"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "04_VisualizacionDeDatosEnTablas.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (55))",
-              "DocumentMoniker": "C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\04_VisualizacionDeDatosEnTablas.sql",
-              "RelativeDocumentMoniker": "04_VisualizacionDeDatosEnTablas.sql",
-              "ToolTip": "04_VisualizacionDeDatosEnTablas.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (55))",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T22:01:50.218Z",
-              "EditorCaption": " - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (55))"
+              "EditorCaption": " - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (59))"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "01_CreacionSpsImportacionesIniciales.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (64))",
+              "DocumentMoniker": "C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\01_CreacionSpsImportacionesIniciales.sql",
+              "RelativeDocumentMoniker": "01_CreacionSpsImportacionesIniciales.sql",
+              "ToolTip": "01_CreacionSpsImportacionesIniciales.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (64))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-14T21:59:26.914Z",
+              "EditorCaption": " - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (64))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "02_CreacionSpsImportacionesFrecuentes.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (66))",
+              "DocumentMoniker": "C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\02_CreacionSpsImportacionesFrecuentes.sql",
+              "RelativeDocumentMoniker": "02_CreacionSpsImportacionesFrecuentes.sql",
+              "ToolTip": "02_CreacionSpsImportacionesFrecuentes.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (66))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-14T22:00:05.381Z",
+              "EditorCaption": " - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (66))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "03_CreacionDeDatosRestantes.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (60))",
+              "DocumentMoniker": "C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\03_CreacionDeDatosRestantes.sql",
+              "RelativeDocumentMoniker": "03_CreacionDeDatosRestantes.sql",
+              "ToolTip": "03_CreacionDeDatosRestantes.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (60))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-14T22:00:41.852Z",
+              "EditorCaption": " - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (60))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "04_VisualizacionDeDatosEnTablas.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (73))",
+              "DocumentMoniker": "C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\04_VisualizacionDeDatosEnTablas.sql",
+              "RelativeDocumentMoniker": "04_VisualizacionDeDatosEnTablas.sql",
+              "ToolTip": "04_VisualizacionDeDatosEnTablas.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (73))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-14T22:01:50.218Z",
+              "EditorCaption": " - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (73))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "05_CreacionDeIndices.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (66))",
               "DocumentMoniker": "C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\05_CreacionDeIndices.sql",
               "RelativeDocumentMoniker": "05_CreacionDeIndices.sql",
               "ToolTip": "05_CreacionDeIndices.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (66))",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T22:02:15.992Z",
-              "EditorCaption": " - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (66))"
+              "WhenOpened": "2025-11-14T22:02:15.992Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "06_CreacionDeReportes.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (68))",
               "DocumentMoniker": "C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\06_CreacionDeReportes.sql",
               "RelativeDocumentMoniker": "06_CreacionDeReportes.sql",
               "ToolTip": "06_CreacionDeReportes.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (68))",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T22:02:40.03Z",
-              "EditorCaption": " - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (68))"
+              "WhenOpened": "2025-11-14T22:02:40.03Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "07_VisualizacionDeReportes.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (69))",
               "DocumentMoniker": "C:\\Users\\tobia\\OneDrive\\Documentos\\GitHub\\Base-De-Datos-Aplicada---Com.-02---Grupo-12\\G12_Com5600\\07_VisualizacionDeReportes.sql",
               "RelativeDocumentMoniker": "07_VisualizacionDeReportes.sql",
               "ToolTip": "07_VisualizacionDeReportes.sql - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (69))",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-14T22:03:16.108Z",
-              "EditorCaption": " - DESKTOP-0DHNFFG\\SQLEXPRESS.Com5600G12 (DESKTOP-0DHNFFG\\tobia (69))"
+              "WhenOpened": "2025-11-14T22:03:16.108Z"
             },
             {
               "$type": "Document",
