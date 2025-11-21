@@ -4,10 +4,10 @@
 
 /*
 El sistema de consorcios gestiona informacion sensible como pagos, intereses, deudas y cálculos
-mensuales de expensas, por lo que se requiere uno politica de respaldo que garantice disponibi
+mensuales de expensas, por lo que se requiere una politica de respaldo que garantice disponibi
 lidad, integridad y recuperabilidad ante cualquier incidente.
 
-El modelo de recuperació que se adoptará sera el Modelo de recuperación FULL, que permite regis
+El modelo de recuperación que se adoptará sera el Modelo de recuperación FULL, que permite regis
 trar todas las transacciones realizadas en la base de datos y restaurarla en un punto especifico
 del tiempo. Este modelo es el más adecuado para entornos donde la perdida de datos es inaceptable.
 
@@ -38,7 +38,7 @@ prueba para garantizar que el procedimiento sea efectivo y seguro.
 Conclusión: 
 Esta politica permite proteger los datos criticos del sistema de consorcios, asegurando que 
 los calculos de expensas, pagos registrados y reportes generados esten siempre disponibles y 
-recuperables. Además se alinea con los principios de protección visto en clases como el uso 
+recuperables. Además se alinea con los principios de protección vistos en clase como el uso del
 Modelo FULL, la gestión del Log de transacciones y la aplicación de buenas practicas como la
 estrategia 3-2-1. 
 

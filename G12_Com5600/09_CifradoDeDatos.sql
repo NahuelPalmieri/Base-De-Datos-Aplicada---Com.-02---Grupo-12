@@ -66,6 +66,8 @@ EXEC sp_rename 'actualizacionDeDatosUF.Persona.NumeroDeTelefono_Cifrado', 'Numer
 
 GO
 
+select * from actualizacionDeDatosUF.Persona
+
 --descrifrar
 CREATE OR ALTER PROCEDURE actualizacionDeDatosUF.VerDatosDesencriptados
 AS

@@ -386,7 +386,7 @@ create or alter procedure generacionDeReportes.ReporteDiasEntrePagosOrdinarios
     @AnioDesde int = NULL --PARAMETRO OPCIONAL
 as
 begin
-    
+    --API
     declare @url nvarchar(45) = 'https://dolarapi.com/v1/dolares/oficial'
 
     DECLARE @Object INT

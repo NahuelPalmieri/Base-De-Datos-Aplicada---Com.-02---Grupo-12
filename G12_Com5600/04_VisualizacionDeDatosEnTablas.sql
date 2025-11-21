@@ -76,11 +76,11 @@ SELECT IDConsorcio, NumeroDeUnidad, DNIPropietario,
 FROM actualizacionDeDatosUF.UnidadFuncional
 GO
 
--- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'CUOTAS GASTO EXTRAORDINARIO'
+/*-- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'CUOTAS GASTO EXTRAORDINARIO'
 SELECT  IDGastoExtraordinario, TotalDeCuotas, NumeroDeCuota
 FROM actualizacionDeDatosUF.CuotasGastoExtraordinario
 GO
-
+*/
 -- PARA PODER VER TODA LA INFORMACION QUE CONTIENE LA TABLA 'ESTADO DE CUENTA'
 SELECT IDConsorcio, NumeroDeUnidad, IDEstadoDeCuenta,
 	   PorcentajeMetrosCuadrados, PisoDepto, Cocheras,

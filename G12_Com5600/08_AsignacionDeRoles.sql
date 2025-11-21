@@ -19,6 +19,18 @@
 use master
 GO
 
+DROP LOGIN AdminGeneral
+
+DROP LOGIN AdminBancario
+
+DROP LOGIN AdminOperativo
+
+DROP LOGIN AdminSistemas
+
+GO
+
+GO
+
 CREATE LOGIN AdminGeneral
 WITH PASSWORD = '<1234>';
 
@@ -108,7 +120,7 @@ TO Rol_administrativo_general, Rol_administrativo_operativo,
 	Rol_administrativo_sistemas, Rol_administrativo_bancario;
 GO
 
-GRANT SELECT, INSERT, UPDATE, DELETE
+GRANT SELECT, INSERT, UPDATE, DELETE, EXEC
 ON SCHEMA::importacionDeInformacionBancaria
 TO Rol_administrativo_bancario;
 GO
@@ -117,25 +129,25 @@ GO
 	--TEST
 --=================================================================
 
---ejemplo adminGeneral
+--ejemplo AdminGeneral
 --deberia poder ver esta
 select * from actualizacionDeDatosUF.UnidadFuncional
 --esta no
 select * from importacionDeInformacionBancaria.EstadoDeCuenta
 
---ejemplo adminOperativo
+--ejemplo AdminOperativo
 select * from actualizacionDeDatosUF.UnidadFuncional
 --esta no
 select * from importacionDeInformacionBancaria.EstadoDeCuenta
 
---ejemplo adminSist
+--ejemplo AdminSistemas
 --estas si
 EXEC generacionDeReportes.ObtenerTopMorosos
 --esta no
 select * from actualizacionDeDatosUF.UnidadFuncional
 select * from importacionDeInformacionBancaria.EstadoDeCuenta
 
---ejemplo adminBancario
+--ejemplo AdminBancario
 --esta no
 select * from actualizacionDeDatosUF.UnidadFuncional
 --esta si
