@@ -335,7 +335,8 @@ BEGIN
         per.Apellidos,
         per.NumeroDeTelefono,
         per.Email,    
-        SUM(ec.Deuda) AS TotalDeuda
+        --SUM(ec.Deuda) AS TotalDeuda
+        ec.Deuda AS TotalDeuda
     FROM 
     
 	importacionDeInformacionBancaria.EstadoDeCuenta AS ec
@@ -361,11 +362,13 @@ BEGIN
         per.Nombres,
         per.Apellidos,
         per.NumeroDeTelefono, 
-        per.Email
+        per.Email,
+        ec.Deuda
         
     ORDER BY 
         -- ordenamos por la deuda total (es asc, porque contamos la deuda en negatibo)
-        TotalDeuda DESC;
+        --TotalDeuda ASC;
+        ec.Deuda desc;
 
 END
 GO

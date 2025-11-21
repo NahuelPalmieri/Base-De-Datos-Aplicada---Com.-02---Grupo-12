@@ -88,7 +88,7 @@ GO
 EXEC generacionDeReportes.ObtenerTopMorosos
 	@TopN = 3,			--parametro opcional de enviar
     @IDConsorcio = 1,	--parametro opcional de enviar
-    @MinDeuda = 0		--parametro opcional de enviar
+    @MinDeuda = 0	--parametro opcional de enviar
 GO
 
 --===========================================================================================
